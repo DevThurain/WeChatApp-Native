@@ -1,9 +1,293 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/based_white"
     tools:context=".activities.RegisterActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivRegisterBack"
+        android:layout_width="@dimen/margin_large"
+        android:layout_height="@dimen/margin_large"
+        android:layout_marginHorizontal="@dimen/margin_medium_2"
+        android:layout_marginTop="@dimen/margin_medium_2"
+        app:srcCompat="@drawable/ic_back_arrow"/>
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvRegisterGreeting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivRegisterBack"
+        android:layout_marginHorizontal="@dimen/margin_medium_2"
+        android:layout_marginTop="@dimen/margin_xlarge"
+        android:text="@string/lbl_hi"
+        android:textColor="@color/primary_color"
+        android:textSize="@dimen/text_heading_1x"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvRegisterCreateAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvRegisterGreeting"
+        android:layout_marginHorizontal="@dimen/margin_medium_2"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:text="@string/lbl_create_a_new_account"
+        android:textColor="@color/grey99"
+        android:textSize="@dimen/text_regular_2x" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textFieldLoginPhoneNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_xxlarge"
+        android:layout_below="@id/tvRegisterCreateAccount"
+        android:layout_marginHorizontal="@dimen/margin_medium_2"
+        android:textColorHint="@color/grey99"
+        android:hint="@string/lbl_name">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/based_white"
+            android:paddingStart="0dp"
+            android:paddingTop="@dimen/margin_xlarge"
+            android:paddingEnd="0dp"
+            android:paddingBottom="@dimen/margin_small"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvRegisterDob"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textFieldLoginPhoneNumber"
+        android:layout_marginHorizontal="@dimen/margin_medium_2"
+        android:layout_marginTop="@dimen/margin_xlarge"
+        android:text="@string/lbl_date_of_birth"
+        android:textColor="@color/grey88"
+        android:textSize="@dimen/text_regular" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/SpDay"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/tvRegisterDob"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:background="@drawable/shadow_month"
+        android:entries="@array/day"
+        android:paddingStart="@dimen/margin_medium_2"
+        android:textAlignment="textStart" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/SpDay"
+        android:layout_alignEnd="@id/SpDay"
+        android:layout_alignBottom="@id/SpDay"
+        android:layout_marginEnd="@dimen/margin_medium_2"
+        app:srcCompat="@drawable/ic_dropdown_icon" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/SpMonth"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@id/tvRegisterDob"
+        android:layout_marginHorizontal="@dimen/margin_medium_2"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_toStartOf="@id/SpYear"
+        android:layout_toEndOf="@id/SpDay"
+        android:background="@drawable/shadow_month"
+        android:entries="@array/day"
+        android:paddingStart="@dimen/margin_medium_2"
+        android:textAlignment="textStart" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/SpMonth"
+        android:layout_alignEnd="@id/SpMonth"
+        android:layout_alignBottom="@id/SpMonth"
+        android:layout_marginEnd="@dimen/margin_medium_2"
+        app:srcCompat="@drawable/ic_dropdown_icon" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/SpYear"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/tvRegisterDob"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium_2"
+        android:background="@drawable/shadow_month"
+        android:entries="@array/day"
+        android:paddingStart="@dimen/margin_medium_2"
+        android:textAlignment="textStart" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/SpYear"
+        android:layout_alignEnd="@id/SpYear"
+        android:layout_alignBottom="@id/SpYear"
+        android:layout_marginEnd="@dimen/margin_medium_2"
+        app:srcCompat="@drawable/ic_dropdown_icon" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvRegisterGender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/SpDay"
+        android:layout_marginHorizontal="@dimen/margin_medium_2"
+        android:layout_marginTop="@dimen/margin_xlarge"
+        android:text="@string/lbl_gender"
+        android:textColor="@color/grey88"
+        android:textSize="@dimen/text_regular" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupGender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvRegisterGender"
+        android:layout_marginHorizontal="@dimen/margin_medium_2"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:orientation="horizontal">
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Male"
+            app:buttonTint="@color/primary_color"
+
+            />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium_3"
+            android:text="Female"
+            app:buttonTint="@color/primary_color" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium_3"
+            android:text="Other"
+            app:buttonTint="@color/primary_color" />
+    </RadioGroup>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textFieldRegisterPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_below="@id/radioGroupGender"
+        android:layout_marginHorizontal="@dimen/margin_medium_2"
+        android:textColorHint="@color/grey99"
+        android:hint="@string/lbl_password">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:background="@color/based_white"
+            android:paddingTop="@dimen/margin_xlarge"
+            android:paddingBottom="@dimen/margin_small"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/cbTermAndCondition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textFieldRegisterPassword"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="@dimen/margin_large"
+        android:buttonTint="@color/primary_color" />
+
+    <LinearLayout
+        android:id="@+id/layoutTermAndCondition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/cbTermAndCondition"
+        android:layout_alignBottom="@id/cbTermAndCondition"
+        android:layout_toEndOf="@id/cbTermAndCondition"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_agree_to"
+            android:textColor="@color/grey99"
+            android:textSize="@dimen/text_regular" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvLoginContinue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_small"
+            android:text="@string/lbl_term_and_service"
+            android:textColor="@color/primary_color"
+            android:textSize="@dimen/text_regular" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="120dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/layoutTermAndCondition"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_xxlarge"
+        android:background="@drawable/background_filled_button"
+        android:text="@string/lbl_sign_up"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/margin_medium_2"
+        app:srcCompat="@drawable/decoration_circle" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/layoutTermAndCondition"
+        app:srcCompat="@drawable/decoration_circle_2" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="@dimen/margin_medium_2"
+        android:layout_below="@id/btnRegister"
+        app:srcCompat="@drawable/decoration_triangle" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/margin_medium_2"
+        android:layout_marginEnd="@dimen/margin_medium_2"
+        android:layout_below="@id/btnRegister"
+        app:srcCompat="@drawable/decoration_line" />
+
+
+</RelativeLayout>
