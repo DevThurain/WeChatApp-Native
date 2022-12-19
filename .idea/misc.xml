@@ -13,9 +13,15 @@
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/activity_greeting.xml" value="0.25" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/activity_main.xml" value="0.2359375" />
+        <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/activity_navigation.xml" value="0.25" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/activity_otp.xml" value="0.25" />
-        <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/activity_register.xml" value="0.4036312849162011" />
+        <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/activity_register.xml" value="0.176" />
+        <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/fragment_chat.xml" value="0.25" />
+        <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/fragment_contact.xml" value="0.2359375" />
+        <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/fragment_moment.xml" value="0.2359375" />
+        <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/view_pod_filled_button.xml" value="0.24895833333333334" />
+        <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.25" />
       </map>
     </option>
   </component>
