@@ -40,7 +40,7 @@
         android:textSize="@dimen/text_regular_2x" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textFieldLoginPhoneNumber"
+        android:id="@+id/textFieldRegisterName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_xxlarge"
@@ -50,6 +50,30 @@
         android:hint="@string/lbl_name">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtRegisterName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/based_white"
+            android:paddingStart="0dp"
+            android:paddingTop="@dimen/margin_xlarge"
+            android:paddingEnd="0dp"
+            android:paddingBottom="@dimen/margin_small"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textFieldRegisterEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_below="@id/textFieldRegisterName"
+        android:layout_marginHorizontal="@dimen/margin_medium_2"
+        android:textColorHint="@color/grey99"
+        android:hint="@string/lbl_email">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtRegisterEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/based_white"
@@ -65,7 +89,7 @@
         android:id="@+id/tvRegisterDob"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textFieldLoginPhoneNumber"
+        android:layout_below="@id/textFieldRegisterEmail"
         android:layout_marginHorizontal="@dimen/margin_medium_2"
         android:layout_marginTop="@dimen/margin_xlarge"
         android:text="@string/lbl_date_of_birth"
@@ -73,7 +97,7 @@
         android:textSize="@dimen/text_regular" />
 
     <androidx.appcompat.widget.AppCompatSpinner
-        android:id="@+id/SpDay"
+        android:id="@+id/spDay"
         style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
         android:layout_width="100dp"
         android:layout_height="50dp"
@@ -83,27 +107,28 @@
         android:background="@drawable/shadow_month"
         android:entries="@array/day"
         android:paddingStart="@dimen/margin_medium_2"
+        android:dropDownHeight="100dp"
         android:textAlignment="textStart" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/SpDay"
-        android:layout_alignEnd="@id/SpDay"
-        android:layout_alignBottom="@id/SpDay"
+        android:layout_alignTop="@id/spDay"
+        android:layout_alignEnd="@id/spDay"
+        android:layout_alignBottom="@id/spDay"
         android:layout_marginEnd="@dimen/margin_medium_2"
         app:srcCompat="@drawable/ic_dropdown_icon" />
 
     <androidx.appcompat.widget.AppCompatSpinner
-        android:id="@+id/SpMonth"
+        android:id="@+id/spMonth"
         style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_below="@id/tvRegisterDob"
         android:layout_marginHorizontal="@dimen/margin_medium_2"
         android:layout_marginTop="@dimen/margin_medium"
-        android:layout_toStartOf="@id/SpYear"
-        android:layout_toEndOf="@id/SpDay"
+        android:layout_toStartOf="@id/spYear"
+        android:layout_toEndOf="@id/spDay"
         android:background="@drawable/shadow_month"
         android:entries="@array/day"
         android:paddingStart="@dimen/margin_medium_2"
@@ -112,14 +137,14 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/SpMonth"
-        android:layout_alignEnd="@id/SpMonth"
-        android:layout_alignBottom="@id/SpMonth"
+        android:layout_alignTop="@id/spMonth"
+        android:layout_alignEnd="@id/spMonth"
+        android:layout_alignBottom="@id/spMonth"
         android:layout_marginEnd="@dimen/margin_medium_2"
         app:srcCompat="@drawable/ic_dropdown_icon" />
 
     <androidx.appcompat.widget.AppCompatSpinner
-        android:id="@+id/SpYear"
+        android:id="@+id/spYear"
         style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
         android:layout_width="100dp"
         android:layout_height="50dp"
@@ -135,9 +160,9 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/SpYear"
-        android:layout_alignEnd="@id/SpYear"
-        android:layout_alignBottom="@id/SpYear"
+        android:layout_alignTop="@id/spYear"
+        android:layout_alignEnd="@id/spYear"
+        android:layout_alignBottom="@id/spYear"
         android:layout_marginEnd="@dimen/margin_medium_2"
         app:srcCompat="@drawable/ic_dropdown_icon" />
 
@@ -145,7 +170,7 @@
         android:id="@+id/tvRegisterGender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/SpDay"
+        android:layout_below="@id/spDay"
         android:layout_marginHorizontal="@dimen/margin_medium_2"
         android:layout_marginTop="@dimen/margin_xlarge"
         android:text="@string/lbl_gender"
@@ -162,6 +187,7 @@
         android:orientation="horizontal">
 
         <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/rbMale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Male"
@@ -170,6 +196,7 @@
             />
 
         <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/rbFemale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium_3"
@@ -177,6 +204,7 @@
             app:buttonTint="@color/primary_color" />
 
         <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/rbOther"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium_3"
@@ -195,6 +223,7 @@
         android:hint="@string/lbl_password">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtRegisterPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
@@ -253,6 +282,7 @@
         android:layout_marginTop="@dimen/margin_xxlarge"
         android:background="@drawable/background_filled_button"
         android:text="@string/lbl_sign_up"
+        android:alpha="0.5"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textStyle="bold" />

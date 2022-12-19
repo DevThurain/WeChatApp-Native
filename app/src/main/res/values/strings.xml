@@ -20,6 +20,7 @@
     <string name="lbl_password">Password</string>
     <string name="lbl_agree_to">Agree To</string>
     <string name="lbl_term_and_service">Term And Service</string>
+    <string name="lbl_email">Email</string>
 
     <string-array name="day">
         <item>1</item>
