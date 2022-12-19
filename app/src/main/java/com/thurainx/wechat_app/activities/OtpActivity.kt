@@ -6,13 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.thurainx.wechat_app.R
 
-class MainActivity : AppCompatActivity() {
+class OtpActivity : AppCompatActivity() {
     fun getIntent(context: Context): Intent {
-        val intent = Intent(context, MainActivity::class.java)
+        val intent = Intent(context, OtpActivity::class.java)
         return intent
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_otp)
     }
 }
