@@ -1,5 +1,6 @@
 package com.thurainx.wechat_app.data.models
 
+import android.graphics.Bitmap
 import com.thurainx.wechat_app.network.cloud_firestore.CloudFireStoreApi
 import com.thurainx.wechat_app.network.cloud_firestore.CloudFireStoreApiImpl
 import com.thurainx.wechat_app.network.realtime_database.RealTimeDatabaseApi
@@ -29,6 +30,15 @@ object WeChatModelImpl : WeChatModel{
         onFailure: (String) -> Unit
     ) {
         mCloudFireStoreApi.loginUser(phone, password, onSuccess, onFailure)
+    }
+
+    override fun updateProfile(
+        phone: String,
+        bitmap: Bitmap?,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mCloudFireStoreApi.uploadProfilePicture(phone,bitmap,onSuccess,onFailure)
     }
 
 }

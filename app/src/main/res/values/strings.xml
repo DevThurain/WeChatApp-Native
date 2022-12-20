@@ -35,4 +35,7 @@
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="bl_setup_profile_picture">Setup Profile Picture</string>
+    <string name="lbl_tap_to_change_profile_picture">Tap to Change Profile Picture</string>
+    <string name="bl_continue">Continue</string>
 </resources>

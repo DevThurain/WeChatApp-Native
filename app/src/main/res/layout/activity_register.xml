@@ -13,7 +13,7 @@
         android:layout_height="@dimen/margin_large"
         android:layout_marginHorizontal="@dimen/margin_medium_2"
         android:layout_marginTop="@dimen/margin_medium_2"
-        app:srcCompat="@drawable/ic_back_arrow"/>
+        app:srcCompat="@drawable/ic_back_arrow" />
 
 
     <androidx.appcompat.widget.AppCompatTextView

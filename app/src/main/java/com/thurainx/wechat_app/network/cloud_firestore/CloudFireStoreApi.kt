@@ -1,5 +1,7 @@
 package com.thurainx.wechat_app.network.cloud_firestore
 
+import android.graphics.Bitmap
+
 interface CloudFireStoreApi {
     fun registerUser(
         name: String,
@@ -15,6 +17,12 @@ interface CloudFireStoreApi {
         phone: String,
         password: String,
         onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    )
+
+    fun uploadProfilePicture(
+        phone: String,
+        bitmap: Bitmap?, onSuccess: () -> Unit,
         onFailure: (String) -> Unit
     )
 

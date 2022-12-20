@@ -24,7 +24,7 @@ class OtpPresenterImpl : OtpPresenter, AbstractBasedPresenter<OtpView>() {
             dob = dob,
             gender = gender,
             onSuccess = {
-                mView.navigateToNavigationScreen()
+                mView.navigateToSetUpProfileScreen()
             },
             onFailure = { message ->
                 mView.showErrorMessage(message)

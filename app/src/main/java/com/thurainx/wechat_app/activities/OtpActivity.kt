@@ -12,6 +12,7 @@ import com.thurainx.wechat_app.R
 import com.thurainx.wechat_app.mvp.presenters.OtpPresenter
 import com.thurainx.wechat_app.mvp.presenters.OtpPresenterImpl
 import com.thurainx.wechat_app.mvp.views.OtpView
+import com.thurainx.wechat_app.utils.SharedPreferenceUtils
 import com.thurainx.wechat_app.utils.afterTextChanged
 import kotlinx.android.synthetic.main.activity_otp.*
 import kotlinx.android.synthetic.main.activity_register.*
@@ -96,10 +97,9 @@ class OtpActivity : AppCompatActivity(), OtpView {
         }
     }
 
-    override fun navigateToNavigationScreen() {
-        val intent = NavigationActivity.getIntent(this)
+    override fun navigateToSetUpProfileScreen() {
+        val intent = SetUpProfileActivity.getIntent(this, edtOtpPhone.text.toString())
         startActivity(intent)
-        finishAffinity()
     }
 
     override fun showErrorMessage(message: String) {
