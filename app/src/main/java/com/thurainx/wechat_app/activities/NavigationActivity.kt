@@ -10,9 +10,11 @@ import com.thurainx.wechat_app.fragments.*
 import kotlinx.android.synthetic.main.activity_navigation.*
 
 class NavigationActivity : AppCompatActivity() {
-    fun getIntent(context: Context): Intent {
-        val intent = Intent(context, NavigationActivity::class.java)
-        return intent
+    companion object{
+        fun getIntent(context: Context): Intent {
+            val intent = Intent(context, NavigationActivity::class.java)
+            return intent
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,6 +22,11 @@ class NavigationActivity : AppCompatActivity() {
         setContentView(R.layout.activity_navigation)
 
         setupBottomNavigationView()
+        setUpListeners()
+    }
+
+    private fun setUpListeners() {
+
     }
 
     private fun setupBottomNavigationView() {

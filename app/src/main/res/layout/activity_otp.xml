@@ -64,6 +64,7 @@
             android:textColorHint="@color/grey99">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtOtpPhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/based_white"
@@ -152,6 +153,7 @@
         android:layout_marginTop="@dimen/margin_large"
         android:background="@drawable/background_filled_button"
         android:text="@string/lbl_verify"
+        android:alpha="0.5"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textStyle="bold" />

@@ -19,13 +19,16 @@ class RegisterActivity : AppCompatActivity() {
     private var selectedMonth: String = "1"
     private var selectedYear: String = "1995"
     private var selectedGender: String = ""
-    private var checkedTermAndCondition : Boolean = false
+    private var checkedTermAndCondition: Boolean = false
 
 
-    fun getIntent(context: Context): Intent {
-        val intent = Intent(context, RegisterActivity::class.java)
-        return intent
+    companion object {
+        fun getIntent(context: Context): Intent {
+            val intent = Intent(context, RegisterActivity::class.java)
+            return intent
+        }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -37,10 +40,17 @@ class RegisterActivity : AppCompatActivity() {
         setUpListeners()
     }
 
-    private fun setUpListeners(){
+    private fun setUpListeners() {
         btnRegister.setOnClickListener {
-            if(checkButtonAvailable()){
-
+            if (checkButtonAvailable()) {
+                val intent = OtpActivity.getIntent(
+                    this,
+                    name = edtRegisterName.text.toString(),
+                    password = edtRegisterPassword.text.toString(),
+                    dob = selectedDay.plus("/").plus(selectedMonth).plus("/").plus(selectedYear),
+                    gender = selectedGender
+                )
+                startActivity(intent)
             }
         }
     }
@@ -49,31 +59,48 @@ class RegisterActivity : AppCompatActivity() {
         cbTermAndCondition.setOnClickListener {
             checkedTermAndCondition = cbTermAndCondition.isChecked
             checkButtonAvailable()
-            Log.d("term",checkedTermAndCondition.toString())
+            Log.d("term", checkedTermAndCondition.toString())
         }
     }
 
-    private fun setUpDateOfBirth(){
+    private fun setUpDateOfBirth() {
         val dayArray = IntArray(30) { it + 1 }
-        val dayAdapter = ArrayAdapter(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,dayArray.toTypedArray())
+        val dayAdapter = ArrayAdapter(
+            this,
+            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+            dayArray.toTypedArray()
+        )
         spDay.adapter = dayAdapter
-        spDay.onItemSelectedListener =object :AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(parent: AdapterView<*>?, p1: View?, position: Int, id: Long) {
-                    Log.d("day",parent?.getItemAtPosition(position).toString())
-                    selectedDay = parent?.getItemAtPosition(position).toString()
+        spDay.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                p1: View?,
+                position: Int,
+                id: Long
+            ) {
+                Log.d("day", parent?.getItemAtPosition(position).toString())
+                selectedDay = parent?.getItemAtPosition(position).toString()
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
 
 
-
         val monthArray = IntArray(11) { it + 1 }
-        val monthAdapter = ArrayAdapter(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,monthArray.toTypedArray())
+        val monthAdapter = ArrayAdapter(
+            this,
+            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+            monthArray.toTypedArray()
+        )
         spMonth.adapter = monthAdapter
-        spMonth.onItemSelectedListener =object :AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(parent: AdapterView<*>?, p1: View?, position: Int, id: Long) {
-                Log.d("month",parent?.getItemAtPosition(position).toString())
+        spMonth.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                p1: View?,
+                position: Int,
+                id: Long
+            ) {
+                Log.d("month", parent?.getItemAtPosition(position).toString())
                 selectedMonth = parent?.getItemAtPosition(position).toString()
 
             }
@@ -82,11 +109,20 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         val yearArray = IntArray(20) { it + 1995 }
-        val yearAdapter = ArrayAdapter(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,yearArray.toTypedArray())
+        val yearAdapter = ArrayAdapter(
+            this,
+            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+            yearArray.toTypedArray()
+        )
         spYear.adapter = yearAdapter
-        spYear.onItemSelectedListener =object :AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(parent: AdapterView<*>?, p1: View?, position: Int, id: Long) {
-                Log.d("year",parent?.getItemAtPosition(position).toString())
+        spYear.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                p1: View?,
+                position: Int,
+                id: Long
+            ) {
+                Log.d("year", parent?.getItemAtPosition(position).toString())
                 selectedYear = parent?.getItemAtPosition(position).toString()
 
             }
@@ -95,24 +131,24 @@ class RegisterActivity : AppCompatActivity() {
         }
 
     }
-    
-    private fun setUpGender(){
+
+    private fun setUpGender() {
         radioGroupGender.setOnCheckedChangeListener { radioGroup, id ->
 
-            when(id){
+            when (id) {
                 R.id.rbMale -> {
                     selectedGender = rbMale.text.toString()
-                    Log.d("gender",selectedGender)
+                    Log.d("gender", selectedGender)
 
                 }
                 R.id.rbFemale -> {
                     selectedGender = rbFemale.text.toString()
-                    Log.d("gender",selectedGender)
+                    Log.d("gender", selectedGender)
 
                 }
                 R.id.rbOther -> {
                     selectedGender = rbOther.text.toString()
-                    Log.d("gender",selectedGender)
+                    Log.d("gender", selectedGender)
 
                 }
 
@@ -121,44 +157,44 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpEditText(){
+    private fun setUpEditText() {
         edtRegisterName.afterTextChanged { text ->
-            if(text.isEmpty()){
+            if (text.isEmpty()) {
                 edtRegisterName.error = "Name cannot be empty."
             }
             checkButtonAvailable()
         }
 
         edtRegisterPassword.afterTextChanged { text ->
-            if(text.isEmpty()){
+            if (text.isEmpty()) {
                 edtRegisterPassword.error = "Password cannot be empty."
             }
-            if(text.length < 6){
+            if (text.length < 6) {
                 edtRegisterPassword.error = "Password need at least 6 characters."
             }
             checkButtonAvailable()
         }
 
-        edtRegisterEmail.afterTextChanged { text ->
-            edtRegisterEmail.validateEmail()
-            checkButtonAvailable()
-        }
+//        edtRegisterEmail.afterTextChanged { text ->
+//            edtRegisterEmail.validateEmail()
+//            checkButtonAvailable()
+//        }
     }
 
-    private fun validate() : Boolean{
+    private fun validate(): Boolean {
         return edtRegisterName.text?.isNotEmpty() == true &&
                 edtRegisterPassword.text?.isNotEmpty() == true &&
                 edtRegisterPassword.text!!.length > 5 &&
-                edtRegisterEmail.validateEmail() &&
+//                edtRegisterEmail.validateEmail() &&
                 selectedGender.isNotEmpty() &&
                 checkedTermAndCondition
     }
 
-    private fun checkButtonAvailable() : Boolean{
-        if(validate()){
+    private fun checkButtonAvailable(): Boolean {
+        if (validate()) {
             btnRegister.alpha = 1F
             return true
-        }else{
+        } else {
             btnRegister.alpha = 0.5f
             return false
         }

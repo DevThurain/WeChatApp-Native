@@ -7,4 +7,21 @@ interface WeChatModel {
     var mCloudFireStoreApi: CloudFireStoreApi
     var mRealTimeDatabaseApi: RealTimeDatabaseApi
 
+    fun registerUser(
+        name: String,
+        phone: String,
+        password: String,
+        dob: String,
+        gender: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    )
+
+    fun loginUser(
+        phone: String,
+        password: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    )
+
 }
