@@ -26,7 +26,7 @@ object WeChatModelImpl : WeChatModel{
     override fun loginUser(
         phone: String,
         password: String,
-        onSuccess: () -> Unit,
+        onSuccess: (name: String,phone: String, dob: String, gender: String, profileImage: String) -> Unit,
         onFailure: (String) -> Unit
     ) {
         mCloudFireStoreApi.loginUser(phone, password, onSuccess, onFailure)
@@ -35,7 +35,7 @@ object WeChatModelImpl : WeChatModel{
     override fun updateProfile(
         phone: String,
         bitmap: Bitmap?,
-        onSuccess: () -> Unit,
+        onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit
     ) {
         mCloudFireStoreApi.uploadProfilePicture(phone,bitmap,onSuccess,onFailure)

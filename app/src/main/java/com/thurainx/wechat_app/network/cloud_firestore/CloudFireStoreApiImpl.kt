@@ -6,7 +6,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.thurainx.wechat_app.utils.DEFAULT_PROFILE_IMAGE
+import com.thurainx.wechat_app.utils.*
 import java.io.ByteArrayOutputStream
 import java.util.*
 
@@ -44,7 +44,7 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
     override fun loginUser(
         phone: String,
         password: String,
-        onSuccess: () -> Unit,
+        onSuccess: (name: String, phone: String, dob: String, gender: String, profileImage: String) -> Unit,
         onFailure: (String) -> Unit
     ) {
         db.collection("users")
@@ -53,7 +53,13 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
             .addOnSuccessListener { result ->
                 if (result.exists()) {
                     if (password == result.get("password")) {
-                        onSuccess()
+                        onSuccess(
+                            result.get(FIRE_STORE_REF_NAME).toString(),
+                            result.get(FIRE_STORE_REF_PHONE).toString(),
+                            result.get(FIRE_STORE_REF_DOB).toString(),
+                            result.get(FIRE_STORE_REF_GENDER).toString(),
+                            result.get(FIRE_STORE_REF_PROFILE_IMAGE).toString()
+                            )
                         Log.d("Success", "Login Success")
                     } else {
                         onFailure("Incorrect password.")
@@ -70,7 +76,7 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
     override fun uploadProfilePicture(
         phone: String,
         bitmap: Bitmap?,
-        onSuccess: () -> Unit,
+        onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit
     ) {
         bitmap?.let {
@@ -90,10 +96,10 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
                 return@continueWithTask imageRef.downloadUrl
             }.addOnCompleteListener { task ->
                 val imageUrl = task.result?.toString()
-                updateProfile(phone,imageUrl.toString(),onSuccess, onFailure)
+                updateProfile(phone, imageUrl.toString(), onSuccess, onFailure)
             }
         }.run {
-            updateProfile(phone, DEFAULT_PROFILE_IMAGE,onSuccess, onFailure)
+            updateProfile(phone, DEFAULT_PROFILE_IMAGE, onSuccess, onFailure)
         }
     }
 
@@ -108,12 +114,12 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
         onFailure: (String) -> Unit
     ) {
         val userMap = hashMapOf(
-            "name" to name,
-            "phone" to phone,
-            "password" to password,
-            "dob" to dob,
-            "gender" to gender,
-            "profileImage" to ""
+            FIRE_STORE_REF_NAME to name,
+            FIRE_STORE_REF_PHONE to phone,
+            FIRE_STORE_REF_PASSWORD to password,
+            FIRE_STORE_REF_DOB to dob,
+            FIRE_STORE_REF_GENDER to gender,
+            FIRE_STORE_REF_PROFILE_IMAGE to ""
         )
 
         db.collection("users")
@@ -132,14 +138,14 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
     private fun updateProfile(
         phone: String,
         profileImage: String,
-        onSuccess: () -> Unit,
+        onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit
     ) {
         db.collection("users")
             .document(phone)
             .update("profileImage", profileImage)
             .addOnSuccessListener {
-                onSuccess()
+                onSuccess(profileImage)
             }.addOnFailureListener {
                 onFailure(it.message ?: "Update to fire store failed.")
             }

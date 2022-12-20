@@ -12,6 +12,7 @@ import com.thurainx.wechat_app.R
 import com.thurainx.wechat_app.mvp.presenters.SetUpProfilePresenter
 import com.thurainx.wechat_app.mvp.presenters.SetUpProfilePresenterImpl
 import com.thurainx.wechat_app.mvp.views.SetUpProfileView
+import com.thurainx.wechat_app.utils.EXTRA_PHONE
 import com.thurainx.wechat_app.utils.loadBitmapFromUri
 import com.thurainx.wechat_app.utils.scaleToRatio
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -19,7 +20,6 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_set_up_profile.*
 
-const val EXTRA_PHONE = "EXTRA_PHONE"
 
 class SetUpProfileActivity : BaseActivity(), SetUpProfileView {
 

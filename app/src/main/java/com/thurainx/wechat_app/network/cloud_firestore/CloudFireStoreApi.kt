@@ -16,13 +16,13 @@ interface CloudFireStoreApi {
     fun loginUser(
         phone: String,
         password: String,
-        onSuccess: () -> Unit,
+        onSuccess: (name: String,phone: String, dob: String, gender: String, profileImage: String) -> Unit,
         onFailure: (String) -> Unit
     )
 
     fun uploadProfilePicture(
         phone: String,
-        bitmap: Bitmap?, onSuccess: () -> Unit,
+        bitmap: Bitmap?, onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit
     )
 

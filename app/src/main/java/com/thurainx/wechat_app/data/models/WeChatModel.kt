@@ -21,14 +21,14 @@ interface WeChatModel {
     fun loginUser(
         phone: String,
         password: String,
-        onSuccess: () -> Unit,
+        onSuccess: (name: String,phone: String, dob: String, gender: String, profileImage: String) -> Unit,
         onFailure: (String) -> Unit
     )
 
     fun updateProfile(
         phone: String,
         bitmap: Bitmap?,
-        onSuccess: () -> Unit,
+        onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit
     )
 

@@ -12,15 +12,11 @@ import com.thurainx.wechat_app.R
 import com.thurainx.wechat_app.mvp.presenters.OtpPresenter
 import com.thurainx.wechat_app.mvp.presenters.OtpPresenterImpl
 import com.thurainx.wechat_app.mvp.views.OtpView
-import com.thurainx.wechat_app.utils.SharedPreferenceUtils
-import com.thurainx.wechat_app.utils.afterTextChanged
+import com.thurainx.wechat_app.utils.*
 import kotlinx.android.synthetic.main.activity_otp.*
 import kotlinx.android.synthetic.main.activity_register.*
 
-const val EXTRA_NAME = "EXTRA_NAME"
-const val EXTRA_PASSWORD = "EXTRA_PASSWORD"
-const val EXTRA_DOB = "EXTRA_DOB"
-const val EXTRA_GENDER = "EXTRA_GENDER"
+
 class OtpActivity : AppCompatActivity(), OtpView {
     lateinit var mPresenter: OtpPresenter
 
