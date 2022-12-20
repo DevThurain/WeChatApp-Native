@@ -1,5 +1,6 @@
 package com.thurainx.wechat_app.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,9 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.thurainx.wechat_app.R
+import com.thurainx.wechat_app.activities.AddMomentActivity
 import com.thurainx.wechat_app.mvp.presenters.MomentPresenter
 import com.thurainx.wechat_app.mvp.presenters.MomentPresenterImpl
 import com.thurainx.wechat_app.mvp.views.MomentView
+import kotlinx.android.synthetic.main.fragment_moment.*
 
 class MomentFragment : Fragment(), MomentView {
 
@@ -26,6 +29,7 @@ class MomentFragment : Fragment(), MomentView {
         super.onViewCreated(view, savedInstanceState)
 
         setUpPresenter()
+        setUpListeners()
 
         mPresenter.onUiReady(view.context, this)
     }
@@ -35,8 +39,15 @@ class MomentFragment : Fragment(), MomentView {
         mPresenter.initView(this)
     }
 
-    override fun navigateToAddMomentScreen() {
+    private fun setUpListeners(){
+        btnAddMoment.setOnClickListener {
+            mPresenter.onTapAddMoment()
+        }
+    }
 
+    override fun navigateToAddMomentScreen() {
+        val intent = Intent(requireContext(), AddMomentActivity::class.java)
+        startActivity(intent)
     }
 
     override fun showErrorMessage(message: String) {

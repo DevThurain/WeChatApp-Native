@@ -3,13 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/drawable/background_add_item.xml" value="0.1675" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/drawable/background_filled_button.xml" value="0.1675" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/drawable/background_outline_button.xml" value="0.1675" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/drawable/background_pin.xml" value="0.1675" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/drawable/decoration_triangle.xml" value="0.1675" />
+        <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/drawable/ic_add_large.xml" value="0.1675" />
+        <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/drawable/ic_add_moment.xml" value="0.1675" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/drawable/ic_login_illustration.xml" value="0.1675" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/drawable/ic_otp_frame.xml" value="0.1675" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/drawable/ic_otp_illustration.xml" value="0.1675" />
+        <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/activity_add_moment.xml" value="0.25" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/activity_greeting.xml" value="0.25" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/activity_main.xml" value="0.2359375" />
@@ -22,6 +26,7 @@
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/fragment_contact.xml" value="0.2359375" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/fragment_moment.xml" value="0.2359375" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
+        <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/view_holder_file.xml" value="0.264" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/view_pod_filled_button.xml" value="0.24895833333333334" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.25" />
       </map>

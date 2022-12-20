@@ -120,9 +120,9 @@
         android:layout_below="@id/tvLoginForgerPassword"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/margin_xxlarge"
+        android:alpha="0.5"
         android:background="@drawable/background_filled_button"
         android:text="@string/lbl_login"
-        android:alpha="0.5"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textStyle="bold" />

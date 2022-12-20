@@ -38,4 +38,7 @@
     <string name="bl_setup_profile_picture">Setup Profile Picture</string>
     <string name="lbl_tap_to_change_profile_picture">Tap to Change Profile Picture</string>
     <string name="bl_continue">Continue</string>
+    <string name="lbl_new_moment">New Moment</string>
+    <string name="lbl_create">Create</string>
+    <string name="lbl_what_is_on_your_mind">What\'s on your mind?</string>
 </resources>

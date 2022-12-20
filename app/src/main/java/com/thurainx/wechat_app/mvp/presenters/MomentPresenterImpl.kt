@@ -25,7 +25,7 @@ class MomentPresenterImpl : MomentPresenter, AbstractBasedPresenter<MomentView>(
 
 
     override fun onTapAddMoment() {
-
+        mView.navigateToAddMomentScreen()
     }
 
 

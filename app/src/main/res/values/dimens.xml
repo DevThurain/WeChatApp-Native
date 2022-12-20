@@ -31,6 +31,8 @@
     <dimen name="text_big">40sp</dimen>
     <dimen name="text_big_2x">60sp</dimen>
     <dimen name="text_big_3x">80sp</dimen>
+    <dimen name="width_add_moment">35dp</dimen>
+    <dimen name="height_moment_create_button">38dp</dimen>
 
     <!--    App Specific -->
 
