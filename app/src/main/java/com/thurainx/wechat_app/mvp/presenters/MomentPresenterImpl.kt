@@ -32,23 +32,30 @@ class MomentPresenterImpl : MomentPresenter, AbstractBasedPresenter<MomentView>(
     override fun onUiReady(context: Context, owner: LifecycleOwner) {
         dataStore = context.userDataStore
 
-        dataStore?.readQuick(FIRE_STORE_REF_NAME){
-            Log.d("rx_read", it)
-        }
-        dataStore?.readQuick(FIRE_STORE_REF_PHONE){
-            Log.d("rx_read", it)
-        }
-        dataStore?.readQuick(FIRE_STORE_REF_DOB){
-            Log.d("rx_read", it)
-        }
-        dataStore?.readQuick(FIRE_STORE_REF_GENDER){
-            Log.d("rx_read", it)
-        }
-        dataStore?.readQuick(FIRE_STORE_REF_PROFILE_IMAGE){
-            Log.d("rx_read", it)
-        }
+//        dataStore?.readQuick(FIRE_STORE_REF_NAME){
+//            Log.d("rx_read", it)
+//        }
+//        dataStore?.readQuick(FIRE_STORE_REF_PHONE){
+//            Log.d("rx_read", it)
+//        }
+//        dataStore?.readQuick(FIRE_STORE_REF_DOB){
+//            Log.d("rx_read", it)
+//        }
+//        dataStore?.readQuick(FIRE_STORE_REF_GENDER){
+//            Log.d("rx_read", it)
+//        }
+//        dataStore?.readQuick(FIRE_STORE_REF_PROFILE_IMAGE){
+//            Log.d("rx_read", it)
+//        }
 
-
+        mWeChatModel.getMoments(
+            onSuccess = {
+                mView.bindMoments(it)
+            },
+            onFailure = {
+                mView.showErrorMessage(it)
+            }
+        )
 
     }
 

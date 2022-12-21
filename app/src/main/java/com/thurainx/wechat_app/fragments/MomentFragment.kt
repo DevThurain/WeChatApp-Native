@@ -7,8 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import com.thurainx.wechat_app.R
 import com.thurainx.wechat_app.activities.AddMomentActivity
+import com.thurainx.wechat_app.adapters.MomentAdapter
+import com.thurainx.wechat_app.data.vos.MomentVO
 import com.thurainx.wechat_app.mvp.presenters.MomentPresenter
 import com.thurainx.wechat_app.mvp.presenters.MomentPresenterImpl
 import com.thurainx.wechat_app.mvp.views.MomentView
@@ -17,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_moment.*
 class MomentFragment : Fragment(), MomentView {
 
     lateinit var mPresenter: MomentPresenter
+    lateinit var mMomentAdapter: MomentAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,6 +34,7 @@ class MomentFragment : Fragment(), MomentView {
 
         setUpPresenter()
         setUpListeners()
+        setUpRecyclerView()
 
         mPresenter.onUiReady(view.context, this)
     }
@@ -45,13 +50,22 @@ class MomentFragment : Fragment(), MomentView {
         }
     }
 
+    private fun setUpRecyclerView(){
+        mMomentAdapter = MomentAdapter()
+        rvMoment.adapter = mMomentAdapter
+    }
+
     override fun navigateToAddMomentScreen() {
         val intent = Intent(requireContext(), AddMomentActivity::class.java)
         startActivity(intent)
     }
 
-    override fun showErrorMessage(message: String) {
+    override fun bindMoments(momentList: List<MomentVO>) {
+        mMomentAdapter.setNewData(momentList)
+    }
 
+    override fun showErrorMessage(message: String) {
+        Snackbar.make(requireView(),message,Snackbar.LENGTH_SHORT).show()
     }
 
 

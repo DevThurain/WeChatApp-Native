@@ -10,6 +10,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.type.DateTime
 import com.thurainx.wechat_app.data.vos.FileVO
+import com.thurainx.wechat_app.data.vos.MomentVO
 import com.thurainx.wechat_app.utils.*
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -150,6 +151,35 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
         }
 
 
+    }
+
+    override fun getMoments(onSuccess: (List<MomentVO>) -> Unit, onFailure: (String) -> Unit) {
+        db.collection("moments")
+            .addSnapshotListener { value, error ->
+                error?.let {
+                    onFailure(it.message ?: "Please check connection")
+                } ?: run{
+                    val momentList: MutableList<MomentVO> = arrayListOf()
+
+                    val result = value?.documents ?: arrayListOf()
+
+                    for (document in result) {
+                        val data = document.data
+                        val moment = MomentVO(
+                            text = data?.get(FIRE_STORE_REF_TEXT) as String,
+                            millis = data[FIRE_STORE_REF_MILLIS] as Long,
+                            name = data[FIRE_STORE_REF_NAME] as String,
+                            profileImage = data[FIRE_STORE_REF_PROFILE_IMAGE] as String,
+                            phone = data[FIRE_STORE_REF_PHONE] as String,
+                            photoList = data[FIRE_STORE_REF_PHOTO_LIST] as List<String>,
+                            videoLink = data[FIRE_STORE_REF_VIDEO_LINK] as String,
+                        )
+
+                        momentList.add(moment)
+                    }
+                    onSuccess(momentList)
+                }
+            }
     }
 
 

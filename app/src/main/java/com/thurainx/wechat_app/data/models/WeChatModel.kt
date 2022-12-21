@@ -2,6 +2,7 @@ package com.thurainx.wechat_app.data.models
 
 import android.graphics.Bitmap
 import com.thurainx.wechat_app.data.vos.FileVO
+import com.thurainx.wechat_app.data.vos.MomentVO
 import com.thurainx.wechat_app.network.cloud_firestore.CloudFireStoreApi
 import com.thurainx.wechat_app.network.realtime_database.RealTimeDatabaseApi
 
@@ -40,6 +41,11 @@ interface WeChatModel {
         name: String,
         profileImage: String,
         onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    )
+
+    fun getMoments(
+        onSuccess: (List<MomentVO>) -> Unit,
         onFailure: (String) -> Unit
     )
 

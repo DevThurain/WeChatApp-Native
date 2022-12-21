@@ -2,6 +2,7 @@ package com.thurainx.wechat_app.network.cloud_firestore
 
 import android.graphics.Bitmap
 import com.thurainx.wechat_app.data.vos.FileVO
+import com.thurainx.wechat_app.data.vos.MomentVO
 
 interface CloudFireStoreApi {
     fun registerUser(
@@ -34,6 +35,11 @@ interface CloudFireStoreApi {
         name: String,
         profileImage: String,
         onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    )
+
+    fun getMoments(
+        onSuccess: (List<MomentVO>) -> Unit,
         onFailure: (String) -> Unit
     )
 

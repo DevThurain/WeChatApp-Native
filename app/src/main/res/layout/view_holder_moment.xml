@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivMomentProfile"
@@ -58,20 +59,45 @@
         android:textColor="@color/primary_color"
         />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvMomentPhoto"
+
+    <LinearLayout
+        android:id="@+id/layoutUserContent"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_below="@id/tvMomentText"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_medium_2"
-        />
+        android:layout_below="@id/tvMomentText"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMomentPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:paddingEnd="@dimen/margin_medium_2"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/view_holder_smart_image" />
+
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/playerMoment"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:layout_below="@id/tvMomentText"
+            android:layout_marginTop="@dimen/margin_medium_2"
+            app:resize_mode="fixed_height" />
+
+
+    </LinearLayout>
+
+
 
     <LinearLayout
         android:id="@+id/layoutReaction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_medium_2"
-        android:layout_below="@id/rvMomentPhoto"
+        android:layout_below="@id/layoutUserContent"
         android:layout_marginTop="@dimen/margin_medium_2"
         android:orientation="horizontal">
 
@@ -84,6 +110,7 @@
                 android:id="@+id/ivMomentHeart"
                 android:layout_width="@dimen/margin_large"
                 android:layout_height="@dimen/margin_large"
+                android:layout_marginTop="3dp"
                 app:srcCompat="@drawable/ic_heart_outline"/>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -92,6 +119,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
                 android:text="15"
+                android:layout_marginTop="1dp"
                 android:layout_gravity="center"
                 android:textColor="@color/primary_color"
                 android:textSize="@dimen/text_small" />
@@ -108,8 +136,8 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivMomentComment"
-                android:layout_width="@dimen/margin_large"
-                android:layout_height="@dimen/margin_large"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 app:srcCompat="@drawable/ic_comment"/>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -133,6 +161,7 @@
                 android:id="@+id/ivMomentBookmark"
                 android:layout_width="@dimen/margin_large"
                 android:layout_height="@dimen/margin_large"
+                android:layout_marginTop="3dp"
                 app:srcCompat="@drawable/ic_bookmark_outline"/>
 
         </LinearLayout>
@@ -145,6 +174,6 @@
         android:layout_height="1dp"
         android:layout_below="@id/layoutReaction"
         android:layout_marginVertical="@dimen/margin_medium_2"
-        android:background="@color/grey99"/>
+        android:background="#33888888"/>
 
 </RelativeLayout>
