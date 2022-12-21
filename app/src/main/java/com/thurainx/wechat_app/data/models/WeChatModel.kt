@@ -1,6 +1,7 @@
 package com.thurainx.wechat_app.data.models
 
 import android.graphics.Bitmap
+import com.thurainx.wechat_app.data.vos.FileVO
 import com.thurainx.wechat_app.network.cloud_firestore.CloudFireStoreApi
 import com.thurainx.wechat_app.network.realtime_database.RealTimeDatabaseApi
 
@@ -29,6 +30,16 @@ interface WeChatModel {
         phone: String,
         bitmap: Bitmap?,
         onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit
+    )
+
+    fun uploadMoment(
+        text : String,
+        fileList: List<FileVO>,
+        phone: String,
+        name: String,
+        profileImage: String,
+        onSuccess: () -> Unit,
         onFailure: (String) -> Unit
     )
 

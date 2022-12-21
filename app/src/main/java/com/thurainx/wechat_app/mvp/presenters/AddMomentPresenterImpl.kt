@@ -7,6 +7,7 @@ import androidx.datastore.preferences.rxjava3.RxPreferenceDataStoreBuilder
 import androidx.datastore.rxjava3.RxDataStore
 import androidx.lifecycle.LifecycleOwner
 import com.thurainx.wechat_app.data.models.WeChatModelImpl
+import com.thurainx.wechat_app.data.vos.FileVO
 import com.thurainx.wechat_app.mvp.views.AddMomentView
 import com.thurainx.wechat_app.mvp.views.LoginView
 import com.thurainx.wechat_app.mvp.views.MomentView
@@ -24,54 +25,56 @@ class AddMomentPresenterImpl : AddMomentPresenter, AbstractBasedPresenter<AddMom
 
     var mWeChatModel = WeChatModelImpl
     var dataStore: RxDataStore<Preferences>? = null
-    var userName: String = ""
-    var userProfileImage: String = ""
+    var mPhone: String = ""
+    var mName: String = ""
+    var mProfileImage: String = ""
+
+
+    override fun onTapBack() {
+        mView.navigateBack()
+    }
 
 
     override fun onTapPickFile() {
         mView.pickFiles()
     }
 
+    override fun uploadMoment(text: String, fileList: List<FileVO>) {
+        mView.showLoadingDialog()
+        mWeChatModel.uploadMoment(text, fileList, mPhone, mName, mProfileImage, onSuccess = {
+            mView.dismissLoadingDialog()
+            Log.d("multi_file", "moment create success")
+        }, onFailure = {
+            mView.showErrorMessage(it)
+            mView.dismissLoadingDialog()
+        })
+    }
 
 
     override fun onUiReady(context: Context, owner: LifecycleOwner) {
         dataStore = context.userDataStore
 
-//        dataStore?.readQuick(FIRE_STORE_REF_NAME){
-//            Log.d("rx_read", it)
-//        }
-//        dataStore?.readQuick(FIRE_STORE_REF_PHONE){
-//            Log.d("rx_read", it)
-//        }
-//        dataStore?.readQuick(FIRE_STORE_REF_DOB){
-//            Log.d("rx_read", it)
-//        }
-//        dataStore?.readQuick(FIRE_STORE_REF_GENDER){
-//            Log.d("rx_read", it)
-//        }
-//        dataStore?.readQuick(FIRE_STORE_REF_PROFILE_IMAGE){
-//            Log.d("rx_read", it)
-//        }
-
         Observable.zip(
+            dataStore?.readFromRxDatastore(FIRE_STORE_REF_PHONE) ?: Observable.just("-"),
             dataStore?.readFromRxDatastore(FIRE_STORE_REF_NAME) ?: Observable.just("-"),
             dataStore?.readFromRxDatastore(FIRE_STORE_REF_PROFILE_IMAGE) ?: Observable.just("-")
-        ) {name, profile ->
+        ) { phone, name, profile ->
             Log.d("rx_read", "$name - $profile")
-            userName = name
-            userProfileImage = profile
+            return@zip mapOf(
+                FIRE_STORE_REF_PHONE to phone,
+                FIRE_STORE_REF_NAME to name,
+                FIRE_STORE_REF_PROFILE_IMAGE to profile
+            )
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                Log.d("rx","$it")
-                mView.onBindUserData(userName,userProfileImage)
-            },{
-                Log.d("rx",it.message.toString())
+                mName = it[FIRE_STORE_REF_NAME].toString()
+                mPhone = it[FIRE_STORE_REF_PHONE].toString()
+                mProfileImage = it[FIRE_STORE_REF_PROFILE_IMAGE].toString()
+//                mView.onBindUserData(it.first, it.second)
+            }, {
+                Log.d("rx", it.message.toString())
             })
-
-
-
-
 
 
     }

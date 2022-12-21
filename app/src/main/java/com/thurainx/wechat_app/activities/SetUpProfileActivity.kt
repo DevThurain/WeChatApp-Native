@@ -73,7 +73,7 @@ class SetUpProfileActivity : BaseActivity(), SetUpProfileView {
     }
 
     override fun pickImageFromGallery() {
-        selectImageFromGallery()
+        selectImageFromGallery(INTENT_TYPE_IMAGE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

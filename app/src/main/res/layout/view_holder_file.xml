@@ -13,4 +13,13 @@
         app:srcCompat="@drawable/avatar1"
         android:scaleType="centerCrop" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivPlayArrow"
+        android:layout_width="@dimen/margin_xlarge"
+        android:layout_height="@dimen/margin_xlarge"
+        app:srcCompat="@drawable/ic_play"
+        android:tint="@color/based_white"
+        android:visibility="gone"
+        android:layout_centerInParent="true"/>
+
 </RelativeLayout>

@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/drawable/background_add_item.xml" value="0.1675" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/drawable/background_filled_button.xml" value="0.1675" />
+        <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/drawable/background_loading_dialog.xml" value="0.1675" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/drawable/background_outline_button.xml" value="0.1675" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/drawable/background_pin.xml" value="0.1675" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/drawable/decoration_triangle.xml" value="0.1675" />
@@ -22,6 +23,7 @@
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/activity_register.xml" value="0.176" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/activity_set_up_profile.xml" value="0.25" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/activity_splash.xml" value="0.25" />
+        <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/dialog_upload_moment.xml" value="0.25" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/fragment_chat.xml" value="0.25" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/fragment_contact.xml" value="0.2359375" />
         <entry key="..\:/Users/thura/AndroidStudioProjects/WeChatApp/app/src/main/res/layout/fragment_moment.xml" value="0.2359375" />

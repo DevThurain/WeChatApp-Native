@@ -10,13 +10,16 @@ import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseActivity : AppCompatActivity() {
 
+    var SELECTED_INTENT_TYPE = INTENT_TYPE_IMAGE
     companion object {
         const val PERMISSION_REQUEST_CODE_READ_EXTERNAL_STORAGE = 1111
         const val INTENT_TYPE_IMAGE = "image/*"
+        const val INTENT_TYPE_FILE = "*/*"
         const val INTENT_REQUEST_CODE_SELECT_IMAGE_FROM_GALLERY = 2222
     }
 
-    protected fun selectImageFromGallery() {
+    protected fun selectImageFromGallery(type: String) {
+        SELECTED_INTENT_TYPE = type
         if (isOSLaterThanAndroidM())
             if (isReadStoragePermissionGiven()) pickImageFromGallery() else requestReadExternalStoragePermission()
         else
@@ -67,7 +70,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     private fun pickImageFromGallery() {
         val intent = Intent(Intent.ACTION_PICK)
-        intent.type = INTENT_TYPE_IMAGE
+        intent.type = SELECTED_INTENT_TYPE
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
         intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(intent, INTENT_REQUEST_CODE_SELECT_IMAGE_FROM_GALLERY)
