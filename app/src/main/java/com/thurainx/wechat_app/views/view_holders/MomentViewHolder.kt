@@ -49,6 +49,7 @@ class MomentViewHolder(itemView: View, delegate: MomentDelegate) :
     }
 
     fun bind(momentVO: MomentVO) {
+        ready = false
         mMoment = momentVO
         itemView.tvMomentName.text = momentVO.name
 
@@ -81,6 +82,8 @@ class MomentViewHolder(itemView: View, delegate: MomentDelegate) :
                 )
             )
         }
+
+
         itemView.cbMomentHeart.isChecked = momentVO.isLike
         ready = true
 
@@ -127,6 +130,7 @@ class MomentViewHolder(itemView: View, delegate: MomentDelegate) :
     private fun updateLikeCount(isIncrease: Boolean, totalCount: Int) {
         if (isIncrease) {
             mMoment!!.totalLike++
+            mMoment!!.isLike = true
             itemView.tvMomentHeartCount.text = (mMoment!!.totalLike).toString()
             itemView.tvMomentHeartCount.setTextColor(
                 ContextCompat.getColor(
@@ -136,6 +140,7 @@ class MomentViewHolder(itemView: View, delegate: MomentDelegate) :
             )
         } else {
             mMoment!!.totalLike--
+            mMoment!!.isLike = false
             if (mMoment!!.totalLike == 0) {
                 itemView.tvMomentHeartCount.text = ""
             } else {

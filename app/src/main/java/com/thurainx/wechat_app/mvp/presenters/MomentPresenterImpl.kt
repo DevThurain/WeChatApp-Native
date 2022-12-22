@@ -46,9 +46,9 @@ class MomentPresenterImpl : MomentPresenter, AbstractBasedPresenter<MomentView>(
     override fun onUiReady(context: Context, owner: LifecycleOwner) {
         dataStore = context.userDataStore
 
-//        dataStore?.readQuick(FIRE_STORE_REF_NAME){
-//            Log.d("rx_read", it)
-//        }
+        dataStore?.readQuick(FIRE_STORE_REF_NAME){
+            Log.d("rx_read", it)
+        }
         dataStore?.readQuick(FIRE_STORE_REF_PHONE) {
             mPhone = it
             mWeChatModel.getMoments(
@@ -61,15 +61,17 @@ class MomentPresenterImpl : MomentPresenter, AbstractBasedPresenter<MomentView>(
                 }
             )
         }
-//        dataStore?.readQuick(FIRE_STORE_REF_DOB){
-//            Log.d("rx_read", it)
-//        }
-//        dataStore?.readQuick(FIRE_STORE_REF_GENDER){
-//            Log.d("rx_read", it)
-//        }
-//        dataStore?.readQuick(FIRE_STORE_REF_PROFILE_IMAGE){
-//            Log.d("rx_read", it)
-//        }
+        dataStore?.readQuick(FIRE_STORE_REF_DOB){
+            Log.d("rx_read", it)
+        }
+        dataStore?.readQuick(FIRE_STORE_REF_GENDER){
+            Log.d("rx_read", it)
+        }
+        dataStore?.readQuick(FIRE_STORE_REF_PROFILE_IMAGE){
+            Log.d("rx_read", it)
+        }
+
+
 
 
 
