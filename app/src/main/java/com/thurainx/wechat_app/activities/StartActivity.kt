@@ -18,9 +18,11 @@ class StartActivity : AppCompatActivity() {
         checkUserExist { isUserExist ->
             if(isUserExist){
                 val intent = NavigationActivity.getIntent(this)
+                finish()
                 startActivity(intent)
             }else{
                 val intent = GreetingActivity.getIntent(this)
+                finish()
                 startActivity(intent)
             }
         }

@@ -45,7 +45,6 @@ class OtpPresenterImpl : OtpPresenter, AbstractBasedPresenter<OtpView>() {
     override fun onUiReady(context: Context, owner: LifecycleOwner) {
         dataStore = context.userDataStore
 
-
     }
 
 

@@ -71,7 +71,7 @@ class AddMomentPresenterImpl : AddMomentPresenter, AbstractBasedPresenter<AddMom
                 mName = it[FIRE_STORE_REF_NAME].toString()
                 mPhone = it[FIRE_STORE_REF_PHONE].toString()
                 mProfileImage = it[FIRE_STORE_REF_PROFILE_IMAGE].toString()
-//                mView.onBindUserData(it.first, it.second)
+                mView.onBindUserData(mName, mProfileImage)
             }, {
                 Log.d("rx", it.message.toString())
             })
