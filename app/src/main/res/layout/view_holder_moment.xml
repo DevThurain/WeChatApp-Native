@@ -84,8 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="280dp"
             android:layout_below="@id/tvMomentText"
-            android:layout_marginTop="@dimen/margin_medium_2"
-            app:resize_mode="fixed_height" />
+            app:resize_mode="fixed_width" />
 
 
     </LinearLayout>
@@ -102,16 +101,19 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/layoutHeart"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivMomentHeart"
-                android:layout_width="@dimen/margin_large"
-                android:layout_height="@dimen/margin_large"
-                android:layout_marginTop="3dp"
-                app:srcCompat="@drawable/ic_heart_outline"/>
+            <CheckBox
+                android:id="@+id/cbMomentHeart"
+                android:theme="@style/MyCheckBox"
+                android:layout_width="24dp"
+                android:layout_height="22dp"
+                android:layout_marginTop="5dp"
+                android:button="@drawable/background_heart"
+               />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvMomentHeartCount"
@@ -157,12 +159,14 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivMomentBookmark"
-                android:layout_width="@dimen/margin_large"
-                android:layout_height="@dimen/margin_large"
+            <CheckBox
+                android:id="@+id/cbMomentBookmark"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:gravity="center"
                 android:layout_marginTop="3dp"
-                app:srcCompat="@drawable/ic_bookmark_outline"/>
+                android:button="@drawable/background_bookmark"
+                />
 
         </LinearLayout>
 

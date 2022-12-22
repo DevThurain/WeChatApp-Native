@@ -1,11 +1,14 @@
 package com.thurainx.wechat_app.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.thurainx.wechat_app.R
@@ -51,13 +54,13 @@ class MomentFragment : Fragment(), MomentView {
     }
 
     private fun setUpRecyclerView(){
-        mMomentAdapter = MomentAdapter()
+        mMomentAdapter = MomentAdapter(mPresenter)
         rvMoment.adapter = mMomentAdapter
     }
 
     override fun navigateToAddMomentScreen() {
         val intent = Intent(requireContext(), AddMomentActivity::class.java)
-        startActivity(intent)
+        intentLauncher.launch(intent)
     }
 
     override fun bindMoments(momentList: List<MomentVO>) {
@@ -67,6 +70,14 @@ class MomentFragment : Fragment(), MomentView {
     override fun showErrorMessage(message: String) {
         Snackbar.make(requireView(),message,Snackbar.LENGTH_SHORT).show()
     }
+
+
+    private val intentLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                mPresenter.onRefreshMoment()
+            }
+        }
 
 
 }

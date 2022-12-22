@@ -104,6 +104,7 @@ class AddMomentActivity : BaseActivity(), AddMomentView {
     }
 
     override fun dismissLoadingDialog() {
+        setResult(Activity.RESULT_OK)
         loadingDialog.dismiss()
         mPresenter.onTapBack()
     }

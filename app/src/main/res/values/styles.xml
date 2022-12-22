@@ -8,4 +8,12 @@
         <item name="cornerSize">@dimen/margin_medium_2</item>
     </style>
 
+
+    <style name="MyCheckBox" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/grey99</item>
+        <item name="colorControlActivated">@color/red</item>
+    </style>
+
+
+
 </resources>

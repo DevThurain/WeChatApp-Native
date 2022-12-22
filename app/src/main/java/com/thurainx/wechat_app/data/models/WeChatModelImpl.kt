@@ -55,8 +55,19 @@ object WeChatModelImpl : WeChatModel{
         mCloudFireStoreApi.uploadMoment(text,fileList,phone, name, profileImage, onSuccess, onFailure)
     }
 
-    override fun getMoments(onSuccess: (List<MomentVO>) -> Unit, onFailure: (String) -> Unit) {
-        mCloudFireStoreApi.getMoments(onSuccess, onFailure)
+    override fun getMoments(phone: String,onSuccess: (List<MomentVO>) -> Unit, onFailure: (String) -> Unit) {
+        mCloudFireStoreApi.getMoments(phone,onSuccess, onFailure)
+    }
+
+    override fun likeMoment(
+        like: Boolean,
+        momentMillis: String,
+        phone: String,
+        totalLike: Int,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mCloudFireStoreApi.likeMoment(like,momentMillis, phone, totalLike,onSuccess, onFailure)
     }
 
 }

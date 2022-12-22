@@ -23,9 +23,23 @@ class MomentPresenterImpl : MomentPresenter, AbstractBasedPresenter<MomentView>(
     var mWeChatModel = WeChatModelImpl
     var dataStore: RxDataStore<Preferences>? = null
 
+    var mPhone: String = ""
+
 
     override fun onTapAddMoment() {
         mView.navigateToAddMomentScreen()
+    }
+
+    override fun onRefreshMoment() {
+        mWeChatModel.getMoments(
+            phone = mPhone,
+            onSuccess = {
+                mView.bindMoments(it)
+            },
+            onFailure = {
+                mView.showErrorMessage(it)
+            }
+        )
     }
 
 
@@ -35,9 +49,18 @@ class MomentPresenterImpl : MomentPresenter, AbstractBasedPresenter<MomentView>(
 //        dataStore?.readQuick(FIRE_STORE_REF_NAME){
 //            Log.d("rx_read", it)
 //        }
-//        dataStore?.readQuick(FIRE_STORE_REF_PHONE){
-//            Log.d("rx_read", it)
-//        }
+        dataStore?.readQuick(FIRE_STORE_REF_PHONE) {
+            mPhone = it
+            mWeChatModel.getMoments(
+                phone = mPhone,
+                onSuccess = {
+                    mView.bindMoments(it)
+                },
+                onFailure = {
+                    mView.showErrorMessage(it)
+                }
+            )
+        }
 //        dataStore?.readQuick(FIRE_STORE_REF_DOB){
 //            Log.d("rx_read", it)
 //        }
@@ -48,14 +71,28 @@ class MomentPresenterImpl : MomentPresenter, AbstractBasedPresenter<MomentView>(
 //            Log.d("rx_read", it)
 //        }
 
-        mWeChatModel.getMoments(
+
+
+    }
+
+    override fun onTapLike(momentMillis: String, totalLike: Int,isLike: Boolean,onSuccess: () -> Unit) {
+        mWeChatModel.likeMoment(
+            like = isLike,
+            phone = mPhone,
+            totalLike = totalLike,
+            momentMillis = momentMillis,
             onSuccess = {
-                mView.bindMoments(it)
+                Log.d("reaction", "reaction success")
+                onSuccess()
             },
             onFailure = {
                 mView.showErrorMessage(it)
-            }
+            },
         )
+
+    }
+
+    override fun onTapBookmark(momentMillis: String, isBookmark: Boolean) {
 
     }
 

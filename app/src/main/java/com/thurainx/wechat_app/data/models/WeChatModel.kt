@@ -45,7 +45,17 @@ interface WeChatModel {
     )
 
     fun getMoments(
+        phone: String,
         onSuccess: (List<MomentVO>) -> Unit,
+        onFailure: (String) -> Unit
+    )
+
+    fun likeMoment(
+        like: Boolean,
+        momentMillis: String,
+        phone: String,
+        totalLike: Int,
+        onSuccess: () -> Unit,
         onFailure: (String) -> Unit
     )
 
