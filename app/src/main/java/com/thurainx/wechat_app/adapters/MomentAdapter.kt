@@ -9,7 +9,7 @@ import com.thurainx.wechat_app.delegate.MomentDelegate
 import com.thurainx.wechat_app.views.view_holders.MomentViewHolder
 
 class MomentAdapter(val momentDelegate: MomentDelegate) : RecyclerView.Adapter<MomentViewHolder>() {
-    var mDataList = listOf<MomentVO>()
+    private var mDataList = listOf<MomentVO>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MomentViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_moment, parent,false)
         return MomentViewHolder(view,momentDelegate)

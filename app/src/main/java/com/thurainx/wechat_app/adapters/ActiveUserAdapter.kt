@@ -4,13 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.thurainx.wechat_app.R
+import com.thurainx.wechat_app.delegate.ChatDelegate
 import com.thurainx.wechat_app.views.view_holders.ActiveUserViewHolder
 
-class ActiveUserAdapter() : RecyclerView.Adapter<ActiveUserViewHolder>() {
-    var mDataList = listOf<String>()
+class ActiveUserAdapter(val chatDelegate: ChatDelegate) : RecyclerView.Adapter<ActiveUserViewHolder>() {
+    private var mDataList = listOf<String>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActiveUserViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_active_user, parent,false)
-        return ActiveUserViewHolder(view)
+        return ActiveUserViewHolder(view, chatDelegate)
     }
 
     override fun onBindViewHolder(holder: ActiveUserViewHolder, position: Int) {
