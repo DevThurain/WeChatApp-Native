@@ -41,4 +41,7 @@
     <string name="lbl_new_moment">New Moment</string>
     <string name="lbl_create">Create</string>
     <string name="lbl_what_is_on_your_mind">What\'s on your mind?</string>
+    <string name="lbl_moments">Moments</string>
+    <string name="lbl_chats">Chats</string>
+    <string name="lbl_active_now">Active Now</string>
 </resources>

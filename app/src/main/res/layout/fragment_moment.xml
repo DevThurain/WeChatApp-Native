@@ -24,7 +24,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="Moment"
+                    android:text="@string/lbl_moments"
                     android:textColor="@color/primary_color"
                     android:textSize="@dimen/text_heading_1x"
                     android:textStyle="bold" />
