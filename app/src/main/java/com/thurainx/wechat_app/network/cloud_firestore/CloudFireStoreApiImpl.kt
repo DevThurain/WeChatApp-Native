@@ -104,10 +104,16 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
             val urlTask = uploadTask.continueWithTask {
                 return@continueWithTask imageRef.downloadUrl
             }.addOnCompleteListener { task ->
+                Log.d("navigation","upload user choice profile")
+
                 val imageUrl = task.result?.toString()
                 updateProfile(phone, imageUrl.toString(), onSuccess, onFailure)
             }
-        }.run {
+        }
+
+        if(bitmap == null){
+            Log.d("navigation","upload default profile")
+
             updateProfile(phone, DEFAULT_PROFILE_IMAGE, onSuccess, onFailure)
         }
     }
@@ -332,6 +338,7 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
             .document(phone)
             .update("profileImage", profileImage)
             .addOnSuccessListener {
+                Log.d("navigation","profile updated")
                 onSuccess(profileImage)
             }.addOnFailureListener {
                 onFailure(it.message ?: "Update to fire store failed.")

@@ -2,6 +2,7 @@ package com.thurainx.wechat_app.mvp.presenters
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.rxjava3.RxPreferenceDataStoreBuilder
 import androidx.datastore.rxjava3.RxDataStore
@@ -25,6 +26,7 @@ class SetUpProfilePresenterImpl : SetUpProfilePresenter, AbstractBasedPresenter<
     override fun uploadPicture(phone: String, bitmap: Bitmap?) {
         mWeChatModel.updateProfile(phone,bitmap, onSuccess = {
             dataStore?.writeToRxDatastore(FIRE_STORE_REF_PROFILE_IMAGE,it)
+            Log.d("navigate","navigate to main screen")
             mView.navigateToNavigationScreen()
         }, onFailure = {
             mView.showErrorMessage(it)
