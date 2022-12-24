@@ -59,7 +59,8 @@ class ProfilePresenterImpl: AbstractBasedPresenter<ProfileView>(), ProfilePresen
                     it[FIRE_STORE_REF_NAME].toString(),
                     it[FIRE_STORE_REF_PHONE].toString(),
                     it[FIRE_STORE_REF_DOB].toString(),
-                    it[FIRE_STORE_REF_GENDER].toString()
+                    it[FIRE_STORE_REF_GENDER].toString(),
+                    it[FIRE_STORE_REF_PROFILE_IMAGE].toString()
                 )
             }, {
                 Log.d("rx", it.message.toString())
