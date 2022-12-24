@@ -23,7 +23,7 @@ class MomentPresenterImpl : MomentPresenter, AbstractBasedPresenter<MomentView>(
     var mWeChatModel = WeChatModelImpl
     var dataStore: RxDataStore<Preferences>? = null
 
-    var mPhone: String = ""
+    var mId: String = ""
 
 
     override fun onTapAddMoment() {
@@ -32,7 +32,7 @@ class MomentPresenterImpl : MomentPresenter, AbstractBasedPresenter<MomentView>(
 
     override fun onRefreshMoment() {
         mWeChatModel.getMoments(
-            phone = mPhone,
+            id = mId,
             onSuccess = {
                 mView.bindMoments(it)
             },
@@ -49,17 +49,17 @@ class MomentPresenterImpl : MomentPresenter, AbstractBasedPresenter<MomentView>(
         dataStore?.readQuick(FIRE_STORE_REF_NAME){
             Log.d("rx_read", it)
         }
-        dataStore?.readQuick(FIRE_STORE_REF_PHONE) {
-            mPhone = it
-//            mWeChatModel.getMoments(
-//                phone = mPhone,
-//                onSuccess = {
-//                    mView.bindMoments(it)
-//                },
-//                onFailure = {
-//                    mView.showErrorMessage(it)
-//                }
-//            )
+        dataStore?.readQuick(FIRE_STORE_REF_ID) {
+            mId = it
+            mWeChatModel.getMoments(
+                id = mId,
+                onSuccess = {
+                    mView.bindMoments(it)
+                },
+                onFailure = { error ->
+                    mView.showErrorMessage(error)
+                }
+            )
         }
         dataStore?.readQuick(FIRE_STORE_REF_DOB){
             Log.d("rx_read", it)
@@ -80,7 +80,7 @@ class MomentPresenterImpl : MomentPresenter, AbstractBasedPresenter<MomentView>(
     override fun onTapLike(momentMillis: String, totalLike: Int,isLike: Boolean,onSuccess: () -> Unit) {
         mWeChatModel.likeMoment(
             like = isLike,
-            phone = mPhone,
+            id = mId,
             totalLike = totalLike,
             momentMillis = momentMillis,
             onSuccess = {

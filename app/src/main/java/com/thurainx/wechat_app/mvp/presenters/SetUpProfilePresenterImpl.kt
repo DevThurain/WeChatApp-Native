@@ -11,6 +11,7 @@ import com.thurainx.wechat_app.data.models.WeChatModelImpl
 import com.thurainx.wechat_app.mvp.views.LoginView
 import com.thurainx.wechat_app.mvp.views.SetUpProfileView
 import com.thurainx.wechat_app.utils.*
+import com.thurainx.wechat_app.utils.DataStoreUtils.readQuick
 import com.thurainx.wechat_app.utils.DataStoreUtils.userDataStore
 import com.thurainx.wechat_app.utils.DataStoreUtils.writeToRxDatastore
 
@@ -18,13 +19,14 @@ class SetUpProfilePresenterImpl : SetUpProfilePresenter, AbstractBasedPresenter<
 
     var mWeChatModel = WeChatModelImpl
     var dataStore: RxDataStore<Preferences>? = null
+    var mId: String = ""
 
     override fun onTapPicture() {
         mView.pickImageFromGallery()
     }
 
-    override fun uploadPicture(phone: String, bitmap: Bitmap?) {
-        mWeChatModel.updateProfile(phone,bitmap, onSuccess = {
+    override fun uploadPicture(bitmap: Bitmap?) {
+        mWeChatModel.updateProfile(mId,bitmap, onSuccess = {
             dataStore?.writeToRxDatastore(FIRE_STORE_REF_PROFILE_IMAGE,it)
             Log.d("navigate","navigate to main screen")
             mView.navigateToNavigationScreen()
@@ -36,6 +38,11 @@ class SetUpProfilePresenterImpl : SetUpProfilePresenter, AbstractBasedPresenter<
 
     override fun onUiReady(context: Context, owner: LifecycleOwner) {
         dataStore = context.userDataStore
+
+        dataStore?.readQuick(FIRE_STORE_REF_ID){
+            Log.d("rx_read", it)
+            mId = it
+        }
     }
 
 }

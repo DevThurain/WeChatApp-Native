@@ -94,7 +94,7 @@ class OtpActivity : AppCompatActivity(), OtpView {
     }
 
     override fun navigateToSetUpProfileScreen() {
-        val intent = SetUpProfileActivity.getIntent(this, edtOtpPhone.text.toString())
+        val intent = SetUpProfileActivity.getIntent(this)
         startActivity(intent)
     }
 

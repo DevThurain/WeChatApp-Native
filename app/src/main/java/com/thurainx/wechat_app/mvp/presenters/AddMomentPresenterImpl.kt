@@ -25,7 +25,7 @@ class AddMomentPresenterImpl : AddMomentPresenter, AbstractBasedPresenter<AddMom
 
     var mWeChatModel = WeChatModelImpl
     var dataStore: RxDataStore<Preferences>? = null
-    var mPhone: String = ""
+    var mId: String = ""
     var mName: String = ""
     var mProfileImage: String = ""
 
@@ -41,7 +41,7 @@ class AddMomentPresenterImpl : AddMomentPresenter, AbstractBasedPresenter<AddMom
 
     override fun uploadMoment(text: String, fileList: List<FileVO>) {
         mView.showLoadingDialog()
-        mWeChatModel.uploadMoment(text, fileList, mPhone, mName, mProfileImage, onSuccess = {
+        mWeChatModel.uploadMoment(text, fileList, mId, mName, mProfileImage, onSuccess = {
             mView.dismissLoadingDialog()
             Log.d("multi_file", "moment create success")
         }, onFailure = {
@@ -55,21 +55,21 @@ class AddMomentPresenterImpl : AddMomentPresenter, AbstractBasedPresenter<AddMom
         dataStore = context.userDataStore
 
         Observable.zip(
-            dataStore?.readFromRxDatastore(FIRE_STORE_REF_PHONE) ?: Observable.just("-"),
+            dataStore?.readFromRxDatastore(FIRE_STORE_REF_ID) ?: Observable.just("-"),
             dataStore?.readFromRxDatastore(FIRE_STORE_REF_NAME) ?: Observable.just("-"),
             dataStore?.readFromRxDatastore(FIRE_STORE_REF_PROFILE_IMAGE) ?: Observable.just("-")
-        ) { phone, name, profile ->
+        ) { id, name, profile ->
             Log.d("rx_read", "$name - $profile")
             return@zip mapOf(
-                FIRE_STORE_REF_PHONE to phone,
+                FIRE_STORE_REF_ID to id,
                 FIRE_STORE_REF_NAME to name,
                 FIRE_STORE_REF_PROFILE_IMAGE to profile
             )
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
+                mId = it[FIRE_STORE_REF_ID].toString()
                 mName = it[FIRE_STORE_REF_NAME].toString()
-                mPhone = it[FIRE_STORE_REF_PHONE].toString()
                 mProfileImage = it[FIRE_STORE_REF_PROFILE_IMAGE].toString()
                 mView.onBindUserData(mName, mProfileImage)
             }, {

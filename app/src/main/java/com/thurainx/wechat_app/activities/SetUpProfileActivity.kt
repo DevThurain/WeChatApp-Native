@@ -12,7 +12,6 @@ import com.thurainx.wechat_app.R
 import com.thurainx.wechat_app.mvp.presenters.SetUpProfilePresenter
 import com.thurainx.wechat_app.mvp.presenters.SetUpProfilePresenterImpl
 import com.thurainx.wechat_app.mvp.views.SetUpProfileView
-import com.thurainx.wechat_app.utils.EXTRA_PHONE
 import com.thurainx.wechat_app.utils.loadBitmapFromUri
 import com.thurainx.wechat_app.utils.scaleToRatio
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -28,9 +27,8 @@ class SetUpProfileActivity : BaseActivity(), SetUpProfileView {
 
 
     companion object {
-        fun getIntent(context: Context, phone: String): Intent {
+        fun getIntent(context: Context): Intent {
             val intent = Intent(context, SetUpProfileActivity::class.java)
-            intent.putExtra(EXTRA_PHONE, phone)
             return intent
         }
     }
@@ -51,10 +49,7 @@ class SetUpProfileActivity : BaseActivity(), SetUpProfileView {
 
     private fun setUpListener() {
         btnUploadProfile.setOnClickListener {
-            mPresenter.uploadPicture(
-                intent.getStringExtra(EXTRA_PHONE) ?: "",
-                mChosenImageBitmap
-            )
+            mPresenter.uploadPicture(mChosenImageBitmap)
         }
 
         ivProfile.setOnClickListener {

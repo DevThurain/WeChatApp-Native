@@ -6,6 +6,7 @@ import com.thurainx.wechat_app.data.vos.MomentVO
 
 interface CloudFireStoreApi {
     fun registerUser(
+        id: String,
         name: String,
         phone: String,
         password: String,
@@ -16,14 +17,14 @@ interface CloudFireStoreApi {
     )
 
     fun loginUser(
-        phone: String,
+        id: String,
         password: String,
-        onSuccess: (name: String,phone: String, dob: String, gender: String, profileImage: String) -> Unit,
+        onSuccess: (name: String, phone: String, dob: String, gender: String, profileImage: String) -> Unit,
         onFailure: (String) -> Unit
     )
 
     fun uploadProfilePicture(
-        phone: String,
+        id: String,
         bitmap: Bitmap?, onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit
     )
@@ -31,7 +32,7 @@ interface CloudFireStoreApi {
     fun uploadMoment(
         text: String,
         fileList: List<FileVO>,
-        phone: String,
+        id: String,
         name: String,
         profileImage: String,
         onSuccess: () -> Unit,
@@ -39,7 +40,7 @@ interface CloudFireStoreApi {
     )
 
     fun getMoments(
-        phone: String,
+        id: String,
         onSuccess: (List<MomentVO>) -> Unit,
         onFailure: (String) -> Unit
     )
@@ -47,7 +48,7 @@ interface CloudFireStoreApi {
     fun likeMoment(
         like: Boolean,
         momentMillis: String,
-        phone: String,
+        id: String,
         totalLike: Int,
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit

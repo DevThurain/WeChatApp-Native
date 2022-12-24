@@ -1,5 +1,17 @@
 package com.thurainx.wechat_app.network.auth
 
 interface AuthManager {
-    fun registerUser(name: String, password: String, dob: String, gender: String)
+    fun registerUser(
+        phone: String,
+        password: String,
+        onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit
+    )
+
+    fun loginUser(
+        phone: String,
+        password: String,
+        onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit
+    )
 }

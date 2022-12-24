@@ -11,6 +11,7 @@ interface WeChatModel {
     var mRealTimeDatabaseApi: RealTimeDatabaseApi
 
     fun registerUser(
+        id: String,
         name: String,
         phone: String,
         password: String,
@@ -21,14 +22,14 @@ interface WeChatModel {
     )
 
     fun loginUser(
-        phone: String,
+        id: String,
         password: String,
-        onSuccess: (name: String,phone: String, dob: String, gender: String, profileImage: String) -> Unit,
+        onSuccess: (name: String, phone: String, dob: String, gender: String, profileImage: String) -> Unit,
         onFailure: (String) -> Unit
     )
 
     fun updateProfile(
-        phone: String,
+        id: String,
         bitmap: Bitmap?,
         onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit
@@ -37,7 +38,7 @@ interface WeChatModel {
     fun uploadMoment(
         text : String,
         fileList: List<FileVO>,
-        phone: String,
+        id: String,
         name: String,
         profileImage: String,
         onSuccess: () -> Unit,
@@ -45,7 +46,7 @@ interface WeChatModel {
     )
 
     fun getMoments(
-        phone: String,
+        id: String,
         onSuccess: (List<MomentVO>) -> Unit,
         onFailure: (String) -> Unit
     )
@@ -53,7 +54,7 @@ interface WeChatModel {
     fun likeMoment(
         like: Boolean,
         momentMillis: String,
-        phone: String,
+        id: String,
         totalLike: Int,
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit

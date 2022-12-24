@@ -14,6 +14,7 @@ object WeChatModelImpl : WeChatModel{
 
 
     override fun registerUser(
+        id: String,
         name: String,
         phone: String,
         password: String,
@@ -22,52 +23,52 @@ object WeChatModelImpl : WeChatModel{
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit
     ) {
-        mCloudFireStoreApi.registerUser(name, phone, password, dob, gender, onSuccess, onFailure)
+        mCloudFireStoreApi.registerUser(id, name, phone, password, dob, gender, onSuccess, onFailure)
     }
 
     override fun loginUser(
-        phone: String,
+        id: String,
         password: String,
         onSuccess: (name: String,phone: String, dob: String, gender: String, profileImage: String) -> Unit,
         onFailure: (String) -> Unit
     ) {
-        mCloudFireStoreApi.loginUser(phone, password, onSuccess, onFailure)
+        mCloudFireStoreApi.loginUser(id, password, onSuccess, onFailure)
     }
 
     override fun updateProfile(
-        phone: String,
+        id: String,
         bitmap: Bitmap?,
         onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit
     ) {
-        mCloudFireStoreApi.uploadProfilePicture(phone,bitmap,onSuccess,onFailure)
+        mCloudFireStoreApi.uploadProfilePicture(id,bitmap,onSuccess,onFailure)
     }
 
     override fun uploadMoment(
         text: String,
         fileList: List<FileVO>,
-        phone: String,
+        id: String,
         name: String,
         profileImage: String,
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit
     ) {
-        mCloudFireStoreApi.uploadMoment(text,fileList,phone, name, profileImage, onSuccess, onFailure)
+        mCloudFireStoreApi.uploadMoment(text,fileList,id, name, profileImage, onSuccess, onFailure)
     }
 
-    override fun getMoments(phone: String,onSuccess: (List<MomentVO>) -> Unit, onFailure: (String) -> Unit) {
-        mCloudFireStoreApi.getMoments(phone,onSuccess, onFailure)
+    override fun getMoments(id: String,onSuccess: (List<MomentVO>) -> Unit, onFailure: (String) -> Unit) {
+        mCloudFireStoreApi.getMoments(id,onSuccess, onFailure)
     }
 
     override fun likeMoment(
         like: Boolean,
         momentMillis: String,
-        phone: String,
+        id: String,
         totalLike: Int,
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit
     ) {
-        mCloudFireStoreApi.likeMoment(like,momentMillis, phone, totalLike,onSuccess, onFailure)
+        mCloudFireStoreApi.likeMoment(like,momentMillis, id, totalLike,onSuccess, onFailure)
     }
 
 }

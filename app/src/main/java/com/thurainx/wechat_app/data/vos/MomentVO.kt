@@ -6,7 +6,7 @@ data class MomentVO(
     val photoList: List<String>,
     val videoLink: String,
     val name: String,
-    val phone: String,
+    val id: String,
     val profileImage: String,
     var isLike: Boolean,
     var totalLike: Int = 0,

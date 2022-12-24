@@ -26,6 +26,7 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
     private val storageReference = storage.reference
 
     override fun registerUser(
+        id: String,
         name: String,
         phone: String,
         password: String,
@@ -40,7 +41,7 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
             .get()
             .addOnSuccessListener { result ->
                 if (!result.exists()) {
-                    insertUser(name, phone, password, dob, gender, onSuccess, onFailure)
+                    insertUser(id, name, phone, password, dob, gender, onSuccess, onFailure)
                 } else {
                     onFailure("User already exist.")
                 }
@@ -51,13 +52,13 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
     }
 
     override fun loginUser(
-        phone: String,
+        id: String,
         password: String,
         onSuccess: (name: String, phone: String, dob: String, gender: String, profileImage: String) -> Unit,
         onFailure: (String) -> Unit
     ) {
         db.collection("users")
-            .document(phone)
+            .document(id)
             .get()
             .addOnSuccessListener { result ->
                 if (result.exists()) {
@@ -83,7 +84,7 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
     }
 
     override fun uploadProfilePicture(
-        phone: String,
+        id: String,
         bitmap: Bitmap?,
         onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit
@@ -104,30 +105,30 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
             val urlTask = uploadTask.continueWithTask {
                 return@continueWithTask imageRef.downloadUrl
             }.addOnCompleteListener { task ->
-                Log.d("navigation","upload user choice profile")
+                Log.d("navigation", "upload user choice profile")
 
                 val imageUrl = task.result?.toString()
-                updateProfile(phone, imageUrl.toString(), onSuccess, onFailure)
+                updateProfile(id, imageUrl.toString(), onSuccess, onFailure)
             }
         }
 
-        if(bitmap == null){
-            Log.d("navigation","upload default profile")
+        if (bitmap == null) {
+            Log.d("navigation", "upload default profile")
 
-            updateProfile(phone, DEFAULT_PROFILE_IMAGE, onSuccess, onFailure)
+            updateProfile(id, DEFAULT_PROFILE_IMAGE, onSuccess, onFailure)
         }
     }
 
     override fun uploadMoment(
         text: String,
         fileList: List<FileVO>,
-        phone: String,
+        id: String,
         name: String,
         profileImage: String,
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit
     ) {
-        var uploadedLinkList: ArrayList<String> = arrayListOf()
+        val uploadedLinkList: ArrayList<String> = arrayListOf()
 
         if (fileList.isNotEmpty()) {
             uploadMultiFile(
@@ -140,7 +141,7 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
                             text,
                             uploadedLinkList,
                             fileList.first().realPath.isNotEmpty(),
-                            name, phone, profileImage, onSuccess, onFailure
+                            name, id, profileImage, onSuccess, onFailure
                         )
                     }
                 },
@@ -153,7 +154,7 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
                 text,
                 uploadedLinkList,
                 false,
-                name, phone, profileImage, onSuccess, onFailure
+                name, id, profileImage, onSuccess, onFailure
             )
         }
 
@@ -161,22 +162,22 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
     }
 
     override fun getMoments(
-        phone: String,
+        id: String,
         onSuccess: (List<MomentVO>) -> Unit,
         onFailure: (String) -> Unit
     ) {
         db.collectionGroup(FIRE_STORE_REF_LIKE)
-            .whereEqualTo(FIRE_STORE_REF_PHONE, phone)
+            .whereEqualTo(FIRE_STORE_REF_ID, id)
             .get()
             .addOnCompleteListener {
                 val documents = it.result?.documents ?: listOf()
-                val likeMoments : ArrayList<String> = arrayListOf()
+                val likeMoments: ArrayList<String> = arrayListOf()
 
-                documents.forEach{ document ->
+                documents.forEach { document ->
                     val data = document.data
                     likeMoments.add(data?.get(FIRE_STORE_REF_MILLIS) as String)
                 }
-                Log.d("moments",likeMoments.toString())
+                Log.d("moments", likeMoments.toString())
 
 //                db.collection("moments")
 //
@@ -222,11 +223,13 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
                                 millis = data[FIRE_STORE_REF_MILLIS] as Long,
                                 name = data[FIRE_STORE_REF_NAME] as String,
                                 profileImage = data[FIRE_STORE_REF_PROFILE_IMAGE] as String,
-                                phone = data[FIRE_STORE_REF_PHONE] as String,
+                                id = data[FIRE_STORE_REF_ID] as String,
                                 photoList = data[FIRE_STORE_REF_PHOTO_LIST] as List<String>,
                                 videoLink = data[FIRE_STORE_REF_VIDEO_LINK] as String,
                                 isLike = likeMoments.contains(data[FIRE_STORE_REF_MILLIS].toString()),
-                                totalLike = Math.toIntExact((data[FIRE_STORE_REF_LIKE_COUNT] ?: 0L) as Long),
+                                totalLike = Math.toIntExact(
+                                    (data[FIRE_STORE_REF_LIKE_COUNT] ?: 0L) as Long
+                                ),
                             )
                             momentList.add(moment)
                         }
@@ -241,21 +244,21 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
     override fun likeMoment(
         like: Boolean,
         momentMillis: String,
-        phone: String,
+        id: String,
         totalLike: Int,
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit
     ) {
         val userMap = mapOf<String, Any>(
             FIRE_STORE_REF_MILLIS to momentMillis,
-            FIRE_STORE_REF_PHONE to phone,
+            FIRE_STORE_REF_ID to id,
         )
 
-        if(like){
+        if (like) {
             db.collection("moments")
                 .document(momentMillis)
                 .collection(FIRE_STORE_REF_LIKE)
-                .document(phone)
+                .document(id)
                 .set(userMap)
                 .addOnCompleteListener {
                     updateLikeCount(totalLike + 1, momentMillis, onSuccess, onFailure)
@@ -263,11 +266,11 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
                 .addOnFailureListener {
                     onFailure(it.message ?: "like reaction failed.")
                 }
-        }else{
+        } else {
             db.collection("moments")
                 .document(momentMillis)
                 .collection(FIRE_STORE_REF_LIKE)
-                .document(phone)
+                .document(id)
                 .delete()
                 .addOnCompleteListener {
                     updateLikeCount(totalLike - 1, momentMillis, onSuccess, onFailure)
@@ -285,10 +288,10 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
         momentMillis: String,
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit
-    ){
+    ) {
         db.collection("moments")
             .document(momentMillis)
-            .update(FIRE_STORE_REF_LIKE_COUNT,totalLike)
+            .update(FIRE_STORE_REF_LIKE_COUNT, totalLike)
             .addOnCompleteListener {
                 onSuccess()
             }.addOnFailureListener {
@@ -298,6 +301,7 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
 
 
     private fun insertUser(
+        id: String,
         name: String,
         phone: String,
         password: String,
@@ -307,6 +311,7 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
         onFailure: (String) -> Unit
     ) {
         val userMap = hashMapOf(
+            FIRE_STORE_REF_ID to id,
             FIRE_STORE_REF_NAME to name,
             FIRE_STORE_REF_PHONE to phone,
             FIRE_STORE_REF_PASSWORD to password,
@@ -316,7 +321,7 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
         )
 
         db.collection("users")
-            .document(phone)
+            .document(id)
             .set(userMap)
             .addOnSuccessListener {
                 onSuccess()
@@ -329,16 +334,16 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
     }
 
     private fun updateProfile(
-        phone: String,
+        id: String,
         profileImage: String,
         onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit
     ) {
         db.collection("users")
-            .document(phone)
+            .document(id)
             .update("profileImage", profileImage)
             .addOnSuccessListener {
-                Log.d("navigation","profile updated")
+                Log.d("navigation", "profile updated")
                 onSuccess(profileImage)
             }.addOnFailureListener {
                 onFailure(it.message ?: "Update to fire store failed.")
@@ -400,7 +405,7 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
         uploadedLinkList: List<String>,
         isMovie: Boolean,
         name: String,
-        phone: String,
+        id: String,
         profileImage: String,
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit
@@ -422,7 +427,7 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
             FIRE_STORE_REF_VIDEO_LINK to movieLink,
             FIRE_STORE_REF_PHOTO_LIST to photoList,
             FIRE_STORE_REF_NAME to name,
-            FIRE_STORE_REF_PHONE to phone,
+            FIRE_STORE_REF_ID to id,
             FIRE_STORE_REF_PROFILE_IMAGE to profileImage
         )
 
