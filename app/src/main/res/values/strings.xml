@@ -44,4 +44,7 @@
     <string name="lbl_moments">Moments</string>
     <string name="lbl_chats">Chats</string>
     <string name="lbl_active_now">Active Now</string>
+    <string name="lbl_bookmarked_moments">Bookmarked Moments</string>
+    <string name="lbl_close">Close</string>
+    <string name="lbl_phone">Phone</string>
 </resources>

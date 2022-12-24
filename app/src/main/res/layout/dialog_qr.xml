@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_loading_dialog"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        >
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/default_qr"
+            />
+
+        <Button
+            android:id="@+id/btnQrClose"
+            android:layout_width="120dp"
+            android:layout_height="45dp"
+            android:layout_below="@id/tvLoginForgerPassword"
+            android:layout_centerHorizontal="true"
+            android:layout_marginVertical="@dimen/margin_large"
+            android:background="@drawable/background_filled_button"
+            android:text="@string/lbl_close"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

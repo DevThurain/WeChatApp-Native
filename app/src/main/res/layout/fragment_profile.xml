@@ -1,14 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/based_white">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/lbl_me"
+                    android:textColor="@color/primary_color"
+                    android:textSize="@dimen/text_heading_1x"
+                    android:textStyle="bold" />
+
+
+                <ImageButton
+                    android:id="@+id/btnProfileEdit"
+                    android:layout_width="@dimen/width_add_moment"
+                    android:layout_height="@dimen/width_add_moment"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/margin_medium_2"
+                    android:background="@drawable/background_filled_button"
+                    android:gravity="end"
+                    android:src="@drawable/ic_edit"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Profile Fragment" />
+        android:layout_marginTop="?actionBarSize">
 
-</FrameLayout>
+        <RelativeLayout
+            android:id="@+id/layoutProfileData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium_2"
+            android:layout_marginHorizontal="@dimen/margin_medium_2"
+            android:background="@drawable/background_profile">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivProfileImage"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginVertical="@dimen/margin_medium_2"
+                android:layout_marginStart="@dimen/margin_medium_2"
+                app:srcCompat="@drawable/avatar1"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+                android:scaleType="centerCrop"
+                />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivProfileQr"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignEnd="@id/ivProfileImage"
+                app:srcCompat="@drawable/default_qr"
+                android:layout_alignBottom="@id/ivProfileImage"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvProfileName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thurain Bo Win"
+                android:layout_toEndOf="@id/ivProfileImage"
+                android:layout_alignTop="@id/ivProfileImage"
+                android:layout_marginStart="@dimen/margin_medium_2"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_regular_2x"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@id/tvProfileName"
+                android:layout_below="@id/tvProfileName"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/margin_large"
+                        android:layout_height="@dimen/margin_large"
+                        app:srcCompat="@drawable/ic_phone"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvProfilePhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="09111111"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_regular"
+                        android:gravity="center_vertical"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/margin_large"
+                        android:layout_height="@dimen/margin_large"
+                        app:srcCompat="@drawable/ic_calendar"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvProfileDob"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="11/12/2000"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_regular"
+                        android:gravity="center_vertical"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/margin_large"
+                        android:layout_height="@dimen/margin_large"
+                        app:srcCompat="@drawable/ic_gender"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvProfileGender"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Male"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_regular"
+                        android:gravity="center_vertical"
+                        />
+                </LinearLayout>
+
+
+
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/lblBookMarkMoment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layoutProfileData"
+            android:layout_marginTop="@dimen/margin_medium_2"
+            android:layout_marginStart="@dimen/margin_medium_2"
+            android:textColor="@color/primary_color"
+            android:textSize="@dimen/text_regular_2x"
+            android:text="@string/lbl_bookmarked_moments"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_below="@id/lblBookMarkMoment"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            tools:listitem="@layout/view_holder_moment"
+            tools:itemCount="2"
+            />
+    </RelativeLayout>
+
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

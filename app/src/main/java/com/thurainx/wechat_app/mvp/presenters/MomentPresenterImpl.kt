@@ -51,15 +51,15 @@ class MomentPresenterImpl : MomentPresenter, AbstractBasedPresenter<MomentView>(
         }
         dataStore?.readQuick(FIRE_STORE_REF_ID) {
             mId = it
-            mWeChatModel.getMoments(
-                id = mId,
-                onSuccess = {
-                    mView.bindMoments(it)
-                },
-                onFailure = { error ->
-                    mView.showErrorMessage(error)
-                }
-            )
+//            mWeChatModel.getMoments(
+//                id = mId,
+//                onSuccess = {
+//                    mView.bindMoments(it)
+//                },
+//                onFailure = { error ->
+//                    mView.showErrorMessage(error)
+//                }
+//            )
         }
         dataStore?.readQuick(FIRE_STORE_REF_DOB){
             Log.d("rx_read", it)

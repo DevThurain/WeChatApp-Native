@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.thurainx.wechat_app.R
+import com.thurainx.wechat_app.mvp.views.ProfileView
 
 class ProfileFragment : Fragment() {
 
