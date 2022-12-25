@@ -65,8 +65,8 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivProfileImage"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="105dp"
+                android:layout_height="105dp"
                 android:layout_marginVertical="@dimen/margin_medium_2"
                 android:layout_marginStart="@dimen/margin_medium_2"
                 app:srcCompat="@drawable/avatar1"
@@ -109,8 +109,8 @@
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/margin_large"
-                        android:layout_height="@dimen/margin_large"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         app:srcCompat="@drawable/ic_phone"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -131,8 +131,8 @@
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/margin_large"
-                        android:layout_height="@dimen/margin_large"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         app:srcCompat="@drawable/ic_calendar"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -153,8 +153,8 @@
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/margin_large"
-                        android:layout_height="@dimen/margin_large"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         app:srcCompat="@drawable/ic_gender"/>
 
                     <androidx.appcompat.widget.AppCompatTextView

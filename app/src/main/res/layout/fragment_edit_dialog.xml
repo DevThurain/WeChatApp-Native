@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_edit_dialog"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textFieldEditName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium_2"
+        android:layout_marginHorizontal="@dimen/margin_medium_2"
+        android:textColorHint="@color/grey99"
+        android:hint="@string/lbl_name">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtEditName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/based_white"
+            android:paddingStart="0dp"
+            android:paddingTop="@dimen/margin_xlarge"
+            android:paddingEnd="0dp"
+            android:paddingBottom="@dimen/margin_small"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textFieldEditPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium_2"
+        android:layout_below="@id/textFieldEditName"
+        android:layout_marginHorizontal="@dimen/margin_medium_2"
+        android:textColorHint="@color/grey99"
+        android:hint="@string/lbl_phone">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtEditPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/based_white"
+            android:inputType="number"
+            android:paddingStart="0dp"
+            android:paddingTop="@dimen/margin_xlarge"
+            android:paddingEnd="0dp"
+            android:paddingBottom="@dimen/margin_small"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvEditDob"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textFieldEditPhone"
+        android:layout_marginHorizontal="@dimen/margin_medium_2"
+        android:layout_marginTop="@dimen/margin_xlarge"
+        android:text="@string/lbl_date_of_birth"
+        android:textColor="@color/grey88"
+        android:textSize="@dimen/text_regular" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spEditDay"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/tvEditDob"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:background="@drawable/shadow_month"
+        android:entries="@array/day"
+        android:paddingStart="@dimen/margin_medium_2"
+        android:dropDownHeight="100dp"
+        android:textAlignment="textStart" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/spEditDay"
+        android:layout_alignEnd="@id/spEditDay"
+        android:layout_alignBottom="@id/spEditDay"
+        android:layout_marginEnd="@dimen/margin_medium_2"
+        app:srcCompat="@drawable/ic_dropdown_icon" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spEditMonth"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@id/tvEditDob"
+        android:layout_marginHorizontal="@dimen/margin_medium_2"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_toStartOf="@id/spEditYear"
+        android:layout_toEndOf="@id/spEditDay"
+        android:background="@drawable/shadow_month"
+        android:entries="@array/day"
+        android:paddingStart="@dimen/margin_medium_2"
+        android:textAlignment="textStart" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/spEditMonth"
+        android:layout_alignEnd="@id/spEditMonth"
+        android:layout_alignBottom="@id/spEditMonth"
+        android:layout_marginEnd="@dimen/margin_medium_2"
+        app:srcCompat="@drawable/ic_dropdown_icon" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spEditYear"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/tvEditDob"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium_2"
+        android:background="@drawable/shadow_month"
+        android:entries="@array/day"
+        android:paddingStart="@dimen/margin_medium_2"
+        android:textAlignment="textStart" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/spEditYear"
+        android:layout_alignEnd="@id/spEditYear"
+        android:layout_alignBottom="@id/spEditYear"
+        android:layout_marginEnd="@dimen/margin_medium_2"
+        app:srcCompat="@drawable/ic_dropdown_icon" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvEditGender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spEditDay"
+        android:layout_marginHorizontal="@dimen/margin_medium_2"
+        android:layout_marginTop="@dimen/margin_xlarge"
+        android:text="@string/lbl_gender"
+        android:textColor="@color/grey88"
+        android:textSize="@dimen/text_regular" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupGender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvEditGender"
+        android:layout_marginHorizontal="@dimen/margin_medium_2"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:orientation="horizontal">
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/rbEditMale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Male"
+            app:buttonTint="@color/primary_color"
+
+            />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/rbEditFemale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium_3"
+            android:text="Female"
+            app:buttonTint="@color/primary_color" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/rbEditOther"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium_3"
+            android:text="Other"
+            app:buttonTint="@color/primary_color" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginVertical="@dimen/margin_xlarge"
+        android:layout_marginHorizontal="@dimen/margin_xxlarge"
+        android:layout_below="@id/radioGroupGender"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnGreetingRegister"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_outline_button"
+            android:text="@string/lbl_sign_up"
+            android:textAllCaps="false"
+            android:textColor="@color/primary_color"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="@dimen/margin_medium_3"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btnGreetingLogin"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_filled_button"
+            android:text="@string/lbl_login"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

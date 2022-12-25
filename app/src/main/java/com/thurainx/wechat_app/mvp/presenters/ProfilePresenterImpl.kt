@@ -20,14 +20,18 @@ class ProfilePresenterImpl: AbstractBasedPresenter<ProfileView>(), ProfilePresen
     val mWeChatModel = WeChatModelImpl
     var dataStore: RxDataStore<Preferences>? = null
     var mId = ""
+    var mName = ""
+    var mPhone = ""
+    var mDob = ""
+    var mGender = ""
 
 
     override fun onTapQr() {
-        mView.showQrDialog("")
+        mView.showQrDialog(mId)
     }
 
     override fun onTapEditProfile() {
-
+        mView.showEditDialog(name = mName, phone = mPhone, dob = mDob, gender = mGender)
     }
 
     override fun onUiReady(context: Context, owner: LifecycleOwner) {
