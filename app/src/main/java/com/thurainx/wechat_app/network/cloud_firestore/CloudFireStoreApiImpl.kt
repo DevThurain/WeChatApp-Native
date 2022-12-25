@@ -10,6 +10,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.type.DateTime
 import com.thurainx.wechat_app.data.models.WeChatModelImpl.updateProfile
+import com.thurainx.wechat_app.data.vos.ContactVO
 import com.thurainx.wechat_app.data.vos.FileVO
 import com.thurainx.wechat_app.data.vos.MomentVO
 import com.thurainx.wechat_app.utils.*
@@ -283,6 +284,94 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
 
     }
 
+    override fun addContacts(
+        selfId: String,
+        friendId: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        var selfInsertSuccess = false
+        var friendInsertSuccess = false
+
+        db.collection("users")
+            .document(friendId)
+            .get()
+            .addOnCompleteListener {
+                val map = it.result.data
+                insertUserToContact(
+                    selfId = selfId,
+                    contactId = friendId,
+                    contactName = map?.get(FIRE_STORE_REF_NAME) as String,
+                    contactPhone = map[FIRE_STORE_REF_PHONE] as String,
+                    contactDob = map[FIRE_STORE_REF_DOB] as String,
+                    contactGender = map[FIRE_STORE_REF_GENDER] as String,
+                    contactProfile = map[FIRE_STORE_REF_PROFILE_IMAGE] as String,
+                    onSuccess = {
+                        selfInsertSuccess = true
+                        if (selfInsertSuccess && friendInsertSuccess) {
+                            onSuccess()
+                        }
+                    }, onFailure
+                )
+            }.addOnFailureListener {
+                onFailure(it.message ?: "self insert failed.")
+            }
+
+        db.collection("users")
+            .document(selfId)
+            .get()
+            .addOnCompleteListener {
+                val map = it.result.data
+                insertUserToContact(
+                    selfId = friendId,
+                    contactId = selfId,
+                    contactName = map?.get(FIRE_STORE_REF_NAME) as String,
+                    contactPhone = map[FIRE_STORE_REF_PHONE] as String,
+                    contactDob = map[FIRE_STORE_REF_DOB] as String,
+                    contactGender = map[FIRE_STORE_REF_GENDER] as String,
+                    contactProfile = map[FIRE_STORE_REF_PROFILE_IMAGE] as String,
+                    onSuccess = {
+                        friendInsertSuccess = true
+                        if (selfInsertSuccess && friendInsertSuccess) {
+                            onSuccess()
+                        }
+                    }, onFailure
+                )
+            }.addOnFailureListener {
+                onFailure(it.message ?: "self insert failed.")
+            }
+    }
+
+    override fun getContacts(
+        id: String,
+        onSuccess: (List<ContactVO>) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        db.collection("users")
+            .document(id)
+            .collection("contacts")
+            .get()
+            .addOnCompleteListener {
+                val documents = it.result.documents ?: listOf()
+                val contactList = arrayListOf<ContactVO>()
+
+                documents.forEach {
+                    val data = it.data
+                    contactList.add(
+                        ContactVO(
+                            id = data?.get(FIRE_STORE_REF_ID) as String,
+                            name = data[FIRE_STORE_REF_NAME] as String,
+                            photoUrl = data[FIRE_STORE_REF_PROFILE_IMAGE] as String
+                        )
+                    )
+                }
+                onSuccess(contactList)
+            }
+            .addOnFailureListener {
+                onFailure(it.message ?: "fail to get contacts.")
+            }
+    }
+
     private fun updateLikeCount(
         totalLike: Int,
         momentMillis: String,
@@ -322,6 +411,41 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
 
         db.collection("users")
             .document(id)
+            .set(userMap)
+            .addOnSuccessListener {
+                onSuccess()
+                Log.d("Success", "Successfully added user")
+            }
+            .addOnFailureListener {
+                onFailure(it.message ?: "Failed to add user to fire store.")
+                Log.d("Failure", "Failed to add user")
+            }
+    }
+
+    private fun insertUserToContact(
+        selfId: String,
+        contactId: String,
+        contactName: String,
+        contactPhone: String,
+        contactDob: String,
+        contactGender: String,
+        contactProfile: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        val userMap = hashMapOf(
+            FIRE_STORE_REF_ID to contactId,
+            FIRE_STORE_REF_NAME to contactName,
+            FIRE_STORE_REF_PHONE to contactPhone,
+            FIRE_STORE_REF_DOB to contactDob,
+            FIRE_STORE_REF_GENDER to contactGender,
+            FIRE_STORE_REF_PROFILE_IMAGE to contactProfile
+        )
+
+        db.collection("users")
+            .document(selfId)
+            .collection("contacts")
+            .document(contactId)
             .set(userMap)
             .addOnSuccessListener {
                 onSuccess()

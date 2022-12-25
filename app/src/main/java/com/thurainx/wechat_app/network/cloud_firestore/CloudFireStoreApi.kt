@@ -1,6 +1,7 @@
 package com.thurainx.wechat_app.network.cloud_firestore
 
 import android.graphics.Bitmap
+import com.thurainx.wechat_app.data.vos.ContactVO
 import com.thurainx.wechat_app.data.vos.FileVO
 import com.thurainx.wechat_app.data.vos.MomentVO
 
@@ -51,6 +52,19 @@ interface CloudFireStoreApi {
         id: String,
         totalLike: Int,
         onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    )
+
+    fun addContacts(
+        selfId: String,
+        friendId: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    )
+
+    fun getContacts(
+        id: String,
+        onSuccess: (List<ContactVO>) -> Unit,
         onFailure: (String) -> Unit
     )
 

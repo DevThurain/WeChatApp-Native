@@ -26,6 +26,8 @@ abstract class BaseActivity : AppCompatActivity() {
             pickImageFromGallery()
     }
 
+
+
     protected fun showSnackBar(message: String) {
         Snackbar.make(window.decorView, message, Snackbar.LENGTH_LONG).show()
     }

@@ -1,6 +1,7 @@
 package com.thurainx.wechat_app.data.models
 
 import android.graphics.Bitmap
+import com.thurainx.wechat_app.data.vos.ContactVO
 import com.thurainx.wechat_app.data.vos.FileVO
 import com.thurainx.wechat_app.data.vos.MomentVO
 import com.thurainx.wechat_app.network.cloud_firestore.CloudFireStoreApi
@@ -69,6 +70,23 @@ object WeChatModelImpl : WeChatModel{
         onFailure: (String) -> Unit
     ) {
         mCloudFireStoreApi.likeMoment(like,momentMillis, id, totalLike,onSuccess, onFailure)
+    }
+
+    override fun addContacts(
+        selfId: String,
+        friendId: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mCloudFireStoreApi.addContacts(selfId, friendId, onSuccess, onFailure)
+    }
+
+    override fun getContacts(
+        id: String,
+        onSuccess: (List<ContactVO>) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mCloudFireStoreApi.getContacts(id, onSuccess, onFailure)
     }
 
 }

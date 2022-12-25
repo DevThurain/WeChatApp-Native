@@ -1,6 +1,8 @@
 package com.thurainx.wechat_app.utils
 
 import com.thurainx.wechat_app.R
+import com.thurainx.wechat_app.data.vos.ContactGroupVO
+import com.thurainx.wechat_app.data.vos.ContactVO
 import com.thurainx.wechat_app.data.vos.ContentVO
 
 const val DEFAULT_PROFILE_IMAGE = "https://firebasestorage.googleapis.com/v0/b/wechatapp---padc.appspot.com/o/profiles%2Fb9e5775c-04f4-4ef9-85ff-2c6671d626c6?alt=media&token=f9f0d161-7940-40e0-9be3-17f1c417e5fe"
@@ -23,6 +25,7 @@ const val EXTRA_NAME = "EXTRA_NAME"
 const val EXTRA_PASSWORD = "EXTRA_PASSWORD"
 const val EXTRA_DOB = "EXTRA_DOB"
 const val EXTRA_GENDER = "EXTRA_GENDER"
+const val EXTRA_QR = "EXTRA_QR"
 
 
 
@@ -55,4 +58,32 @@ val DEFAULT_CONTENT = listOf<ContentVO>(
         image = R.drawable.ic_voice,
         isSelected = false
     )
+)
+
+val TEMP_CONTACT_LIST = listOf<ContactVO>(
+    ContactVO(
+        id = "1",
+        name = "Aung Aung",
+        photoUrl = DEFAULT_PROFILE_IMAGE
+    ),
+    ContactVO(
+        id = "2",
+        name = "Aye Aye",
+        photoUrl = DEFAULT_PROFILE_IMAGE
+    ),
+    ContactVO(
+        id = "3",
+        name = "Bo Bo",
+        photoUrl = DEFAULT_PROFILE_IMAGE
+    ),
+    ContactVO(
+        id = "4",
+        name = "Yamin",
+        photoUrl = DEFAULT_PROFILE_IMAGE
+    ),
+    ContactVO(
+        id = "5",
+        name = "Yarwar",
+        photoUrl = DEFAULT_PROFILE_IMAGE
+    ),
 )

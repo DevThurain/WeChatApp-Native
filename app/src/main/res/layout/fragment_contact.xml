@@ -32,7 +32,7 @@
 
 
                 <ImageButton
-                    android:id="@+id/btnProfileEdit"
+                    android:id="@+id/btnAddContact"
                     android:layout_width="@dimen/width_add_moment"
                     android:layout_height="@dimen/width_add_moment"
                     android:layout_alignParentEnd="true"
@@ -126,7 +126,6 @@
                     android:id="@+id/rvFavouriteContact"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium_2"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="1"
                     tools:listitem="@layout/view_holder_contact_group" />
