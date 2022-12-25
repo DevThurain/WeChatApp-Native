@@ -4,6 +4,10 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="ShapeAppearanceOverlay.App.CornerSizeMarginMedium" parent="">
+        <item name="cornerSize">@dimen/margin_medium</item>
+    </style>
+
     <style name="ShapeAppearanceOverlay.App.CornerSizeMarginMedium2" parent="">
         <item name="cornerSize">@dimen/margin_medium_2</item>
     </style>
