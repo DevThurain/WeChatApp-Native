@@ -104,13 +104,29 @@
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?actionBarSize">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMessage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/layoutChatRoomContent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            tools:listitem="@layout/view_holder_other_message"
+            tools:itemCount="1"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/margin_medium_2"
+            />
+
+
 
         <RelativeLayout
+            android:id="@+id/layoutChatRoomContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/based_white"

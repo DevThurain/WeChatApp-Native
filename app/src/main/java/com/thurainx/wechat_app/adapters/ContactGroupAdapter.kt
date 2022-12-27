@@ -5,13 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.thurainx.wechat_app.R
 import com.thurainx.wechat_app.data.vos.ContactGroupVO
+import com.thurainx.wechat_app.delegate.ContactDelegate
 import com.thurainx.wechat_app.views.view_holders.ContactGroupViewHolder
 
-class ContactGroupAdapter() : RecyclerView.Adapter<ContactGroupViewHolder>() {
+class ContactGroupAdapter(val delegate: ContactDelegate) : RecyclerView.Adapter<ContactGroupViewHolder>() {
     var mDataList = listOf<ContactGroupVO>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactGroupViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_contact_group, parent,false)
-        return ContactGroupViewHolder(view)
+        return ContactGroupViewHolder(view, delegate)
     }
 
     override fun onBindViewHolder(holder: ContactGroupViewHolder, position: Int) {

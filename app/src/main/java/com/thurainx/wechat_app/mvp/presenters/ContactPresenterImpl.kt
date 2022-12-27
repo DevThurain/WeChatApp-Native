@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.rxjava3.RxDataStore
 import androidx.lifecycle.LifecycleOwner
 import com.thurainx.wechat_app.data.models.WeChatModelImpl
+import com.thurainx.wechat_app.data.vos.ContactVO
 import com.thurainx.wechat_app.mvp.views.ContactView
 import com.thurainx.wechat_app.utils.DataStoreUtils.readQuick
 import com.thurainx.wechat_app.utils.DataStoreUtils.userDataStore
@@ -43,6 +44,10 @@ class ContactPresenterImpl : AbstractBasedPresenter<ContactView>(), ContactPrese
             mId = it
             getContacts(mId)
         }
+    }
+
+    override fun onTapContact(contactVO: ContactVO) {
+        mView.navigateToChatRoomScreen(contactVO)
     }
 
     private fun getContacts(id: String){

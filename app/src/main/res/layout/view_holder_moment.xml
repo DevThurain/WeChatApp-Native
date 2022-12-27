@@ -64,14 +64,13 @@
         android:id="@+id/layoutUserContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_medium_2"
         android:layout_below="@id/tvMomentText"
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvMomentPhoto"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="196dp"
             android:clipToPadding="false"
             android:orientation="horizontal"
             android:paddingEnd="@dimen/margin_medium_2"
@@ -82,7 +81,9 @@
         <com.google.android.exoplayer2.ui.PlayerView
             android:id="@+id/playerMoment"
             android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/margin_medium_2"
             android:layout_height="280dp"
+            android:visibility="visible"
             android:layout_below="@id/tvMomentText"
             app:resize_mode="fixed_width" />
 
