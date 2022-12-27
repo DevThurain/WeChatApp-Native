@@ -11,6 +11,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -28,6 +29,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_add_moment.*
+import kotlinx.android.synthetic.main.activity_chat_room.*
 import java.io.File
 
 class AddMomentActivity : BaseActivity(), AddMomentView {
@@ -79,7 +81,7 @@ class AddMomentActivity : BaseActivity(), AddMomentView {
     }
 
     private fun setUpFileRecyclerView(){
-        mFileAdapter = FileAdapter()
+        mFileAdapter = FileAdapter(mPresenter)
         rvFile.adapter = mFileAdapter
     }
 
@@ -107,6 +109,11 @@ class AddMomentActivity : BaseActivity(), AddMomentView {
         setResult(Activity.RESULT_OK)
         loadingDialog.dismiss()
         mPresenter.onTapBack()
+    }
+
+    override fun onFileRemove(fileVO: FileVO) {
+        selectedFileList.remove(fileVO)
+        mFileAdapter.setNewData(selectedFileList)
     }
 
     override fun showErrorMessage(message: String) {

@@ -3,6 +3,7 @@ package com.thurainx.wechat_app.data.models
 import android.graphics.Bitmap
 import com.thurainx.wechat_app.data.vos.ContactVO
 import com.thurainx.wechat_app.data.vos.FileVO
+import com.thurainx.wechat_app.data.vos.MessageVO
 import com.thurainx.wechat_app.data.vos.MomentVO
 import com.thurainx.wechat_app.network.cloud_firestore.CloudFireStoreApi
 import com.thurainx.wechat_app.network.realtime_database.RealTimeDatabaseApi
@@ -72,6 +73,19 @@ interface WeChatModel {
         id: String,
         onSuccess: (List<ContactVO>) -> Unit,
         onFailure: (String) -> Unit
+    )
+
+    fun addMessage(
+        otherId: String,
+        messageVO: MessageVO,
+//        fileVO: FileVO
+    )
+
+    fun getMessagesForChatRoom(
+        ownId: String,
+        otherId: String,
+        onSuccess: (List<MessageVO>) -> Unit,
+        onFail: (String) -> Unit
     )
 
 }

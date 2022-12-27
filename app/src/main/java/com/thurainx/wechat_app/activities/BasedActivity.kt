@@ -14,6 +14,7 @@ abstract class BaseActivity : AppCompatActivity() {
     companion object {
         const val PERMISSION_REQUEST_CODE_READ_EXTERNAL_STORAGE = 1111
         const val INTENT_TYPE_IMAGE = "image/*"
+        const val INTENT_TYPE_VIDEO = "video/*"
         const val INTENT_TYPE_FILE = "*/*"
         const val INTENT_REQUEST_CODE_SELECT_IMAGE_FROM_GALLERY = 2222
     }

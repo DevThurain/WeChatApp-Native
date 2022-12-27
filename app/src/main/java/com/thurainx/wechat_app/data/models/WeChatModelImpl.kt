@@ -3,6 +3,7 @@ package com.thurainx.wechat_app.data.models
 import android.graphics.Bitmap
 import com.thurainx.wechat_app.data.vos.ContactVO
 import com.thurainx.wechat_app.data.vos.FileVO
+import com.thurainx.wechat_app.data.vos.MessageVO
 import com.thurainx.wechat_app.data.vos.MomentVO
 import com.thurainx.wechat_app.network.cloud_firestore.CloudFireStoreApi
 import com.thurainx.wechat_app.network.cloud_firestore.CloudFireStoreApiImpl
@@ -87,6 +88,19 @@ object WeChatModelImpl : WeChatModel{
         onFailure: (String) -> Unit
     ) {
         mCloudFireStoreApi.getContacts(id, onSuccess, onFailure)
+    }
+
+    override fun addMessage(otherId: String, messageVO: MessageVO) {
+        mRealTimeDatabaseApi.addMessage(otherId, messageVO)
+    }
+
+    override fun getMessagesForChatRoom(
+        ownId: String,
+        otherId: String,
+        onSuccess: (List<MessageVO>) -> Unit,
+        onFail: (String) -> Unit
+    ) {
+        mRealTimeDatabaseApi.getMessagesForChatRoom(ownId, otherId, onSuccess, onFail)
     }
 
 }

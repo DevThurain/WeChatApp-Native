@@ -1,5 +1,6 @@
 package com.thurainx.wechat_app.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +47,7 @@ class MessageAdapter() : RecyclerView.Adapter<MessageViewHolder>() {
     }
 
     override fun getItemViewType(position: Int): Int {
-         if(ownId == mDataList[position].id){
+        if(ownId == mDataList[position].id.trim()){
              return VIEW_TYPE_OWN_MESSAGE
          }else{
              return VIEW_TYPE_OTHER_MESSAGE

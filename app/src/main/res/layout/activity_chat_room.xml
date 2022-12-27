@@ -167,6 +167,18 @@
                 tools:listitem="@layout/view_holder_content"
                 tools:itemCount="5"/>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvChatFiles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rvContent"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="6"
+                android:paddingBottom="@dimen/margin_medium_2"
+                tools:listitem="@layout/view_holder_file" />
+
 
         </RelativeLayout>
 

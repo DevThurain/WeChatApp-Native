@@ -5,13 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.thurainx.wechat_app.R
 import com.thurainx.wechat_app.data.vos.FileVO
+import com.thurainx.wechat_app.delegate.FileDelegate
 import com.thurainx.wechat_app.views.view_holders.FileViewHolder
 
-class FileAdapter() : RecyclerView.Adapter<FileViewHolder>() {
+class FileAdapter(val fileDelegate: FileDelegate) : RecyclerView.Adapter<FileViewHolder>() {
     private var mDataList = listOf<FileVO>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_file, parent,false)
-        return FileViewHolder(view)
+        return FileViewHolder(view, fileDelegate)
     }
 
     override fun onBindViewHolder(holder: FileViewHolder, position: Int) {

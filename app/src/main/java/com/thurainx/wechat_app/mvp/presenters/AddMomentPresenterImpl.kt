@@ -79,7 +79,9 @@ class AddMomentPresenterImpl : AddMomentPresenter, AbstractBasedPresenter<AddMom
 
     }
 
-
+    override fun onTapDelete(fileVO: FileVO) {
+        mView.onFileRemove(fileVO)
+    }
 
 
 }
