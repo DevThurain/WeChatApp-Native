@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.rxjava3.RxDataStore
 import androidx.lifecycle.LifecycleOwner
 import com.thurainx.wechat_app.data.models.WeChatModelImpl
+import com.thurainx.wechat_app.data.vos.ContactVO
 import com.thurainx.wechat_app.data.vos.FileVO
 import com.thurainx.wechat_app.data.vos.MessageVO
 import com.thurainx.wechat_app.mvp.views.ChatRoomView
@@ -17,14 +18,14 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class ChatRoomPresenterImpl: ChatRoomPresenter, AbstractBasedPresenter<ChatRoomView>() {
+class ChatRoomPresenterImpl : ChatRoomPresenter, AbstractBasedPresenter<ChatRoomView>() {
     var dataStore: RxDataStore<Preferences>? = null
     val mWeChatModel = WeChatModelImpl
     var mId: String = ""
     var mName: String = ""
     var mPhotoUrl: String = ""
 
-    override fun onUiReadyWithId(context: Context, owner: LifecycleOwner,otherId: String) {
+    override fun onUiReadyWithId(context: Context, owner: LifecycleOwner, otherId: String) {
         dataStore = context.userDataStore
 
         dataStore?.readQuick(FIRE_STORE_REF_ID) {
@@ -43,10 +44,12 @@ class ChatRoomPresenterImpl: ChatRoomPresenter, AbstractBasedPresenter<ChatRoomV
         getUserData()
     }
 
-    override fun sentMessage(otherId: String, fileList: List<FileVO>, message: MessageVO) {
-        Log.d("firebase","call sent message")
+    override fun sentMessage(
+        contactVO: ContactVO, fileList: List<FileVO>, message: MessageVO
+    ) {
+        Log.d("firebase", "call sent message")
         mWeChatModel.addMessage(
-            otherId = otherId,
+            contactVO = contactVO,
             messageVO = MessageVO(
                 text = message.text,
                 millis = message.millis,
@@ -86,7 +89,7 @@ class ChatRoomPresenterImpl: ChatRoomPresenter, AbstractBasedPresenter<ChatRoomV
         mView.onFileRemove(fileVO)
     }
 
-    private fun getUserData(){
+    private fun getUserData() {
         Observable.zip(
             dataStore?.readFromRxDatastore(FIRE_STORE_REF_NAME) ?: Observable.just("-"),
             dataStore?.readFromRxDatastore(FIRE_STORE_REF_PHONE) ?: Observable.just("-"),

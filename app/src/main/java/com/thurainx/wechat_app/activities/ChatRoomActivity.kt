@@ -88,7 +88,7 @@ class ChatRoomActivity : BaseActivity(), ChatRoomView {
         btnChatSent.setOnClickListener {
             mContact?.let { contact ->
                 mPresenter.sentMessage(
-                    otherId = contact.id,
+                   contactVO = contact,
                     fileList = selectedFileList,
                     message = MessageVO(
                         text = edtChatText.text.toString(),

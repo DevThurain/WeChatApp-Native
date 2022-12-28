@@ -112,10 +112,11 @@ object WeChatModelImpl : WeChatModel {
     }
 
     override fun addMessage(
-        otherId: String, messageVO: MessageVO, fileList: List<FileVO>, onSuccess: () -> Unit,
+        contactVO: ContactVO,
+        messageVO: MessageVO, fileList: List<FileVO>, onSuccess: () -> Unit,
         onFailure: (String) -> Unit
     ) {
-        mRealTimeDatabaseApi.addMessage(otherId, messageVO, fileList, onSuccess, onFailure)
+        mRealTimeDatabaseApi.addMessage(contactVO, messageVO, fileList, onSuccess, onFailure)
     }
 
     override fun getMessagesForChatRoom(
@@ -125,6 +126,14 @@ object WeChatModelImpl : WeChatModel {
         onFail: (String) -> Unit
     ) {
         mRealTimeDatabaseApi.getMessagesForChatRoom(ownId, otherId, onSuccess, onFail)
+    }
+
+    override fun getLastMessage(
+        ownId: String,
+        onSuccess: (List<ContactVO>) -> Unit,
+        onFail: (String) -> Unit
+    ) {
+        mRealTimeDatabaseApi.getLastMessage(ownId,onSuccess, onFail)
     }
 
 }

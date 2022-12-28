@@ -1,13 +1,14 @@
 package com.thurainx.wechat_app.network.realtime_database
 
 import com.google.android.gms.tasks.OnFailureListener
+import com.thurainx.wechat_app.data.vos.ContactVO
 import com.thurainx.wechat_app.data.vos.FileVO
 import com.thurainx.wechat_app.data.vos.MessageVO
 
 interface RealTimeDatabaseApi {
 
     fun addMessage(
-        otherId: String,
+        contactVO: ContactVO,
         messageVO: MessageVO,
         fileList: List<FileVO>,
         onSuccess: () -> Unit,
@@ -18,6 +19,12 @@ interface RealTimeDatabaseApi {
         ownId: String,
         otherId: String,
         onSuccess: (List<MessageVO>) -> Unit,
+        onFail: (String) -> Unit
+    )
+
+    fun getLastMessage(
+        ownId: String,
+        onSuccess: (List<ContactVO>) -> Unit,
         onFail: (String) -> Unit
     )
 }

@@ -11,10 +11,10 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.thurainx.wechat_app.data.vos.ContactVO
 import com.thurainx.wechat_app.data.vos.FileVO
 import com.thurainx.wechat_app.data.vos.MessageVO
-import com.thurainx.wechat_app.network.cloud_firestore.CloudFireStoreApiImpl
-import com.thurainx.wechat_app.utils.*
+import com.thurainx.wechat_app.network.realtime_database.RealTimeDatabaseApiImpl.database
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.*
@@ -27,7 +27,7 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
 
 
     override fun addMessage(
-        otherId: String,
+        contactVO: ContactVO,
         messageVO: MessageVO,
         fileList: List<FileVO>,
         onSuccess: () -> Unit,
@@ -45,7 +45,7 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
                     Log.d("multi_file_link", it)
                     if (uploadedLinkList.size == fileList.size) {
                         insertMessages(
-                            otherId = otherId,
+                            contactVO = contactVO,
                             uploadedLinkList = uploadedLinkList,
                             isMovie = fileList.first().realPath.isNotEmpty(),
                             messageVO = messageVO,
@@ -59,7 +59,7 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
             )
         } else {
             insertMessages(
-                otherId = otherId,
+                contactVO = contactVO,
                 uploadedLinkList = uploadedLinkList,
                 isMovie = false,
                 messageVO = messageVO,
@@ -77,6 +77,7 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
         database.child("contactsAndMessages")
             .child(ownId)
             .child(otherId)
+            .child("messages")
             .addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
                     onFail(error.message)
@@ -95,6 +96,56 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
                         Log.d("firebase", dataSnapShot.toString())
                     }
                     onSuccess(messageList)
+                }
+            })
+    }
+
+    override fun getLastMessage(
+        ownId: String,
+        onSuccess: (List<ContactVO>) -> Unit,
+        onFail: (String) -> Unit
+    ) {
+        database.child("contactsAndMessages")
+            .child(ownId)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    onFail(error.message)
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val contactList = arrayListOf<ContactVO>()
+                    snapshot.children.forEach { dataSnapShot ->
+                        val map = dataSnapShot.value as Map<String, *>
+                        Log.d("snap_shot_list", (map["contact"].toString()))
+
+                        if(map["contact"].toString() != "null"){
+                            val contactMap = map["contact"] as Map<String, *>
+                            val messageMap = map["messages"] as Map<String, *>
+                            val lastKey = messageMap.toSortedMap(compareBy<String> { it.length }.thenBy { it }).lastKey()
+                            val latestMessageMap = messageMap[lastKey] as Map<String, *>
+                            var latestMessage = ""
+
+                            if(latestMessageMap["text"].toString().isNotEmpty()){
+                                latestMessage = latestMessageMap["text"].toString()
+                            }else if(latestMessageMap["photoList"].toString() != "null"){
+                                latestMessage = "sent a photo."
+                            }else if(latestMessageMap["videoLink"].toString().isNotEmpty()){
+                                latestMessage = "sent a video"
+                            }
+                            Log.d("snap_shot_list", latestMessage)
+
+                            val contact = ContactVO(
+                                id = contactMap["id"].toString(),
+                                name = contactMap["name"].toString(),
+                                photoUrl = contactMap["photoUrl"].toString(),
+                                lastMessage = latestMessage
+                            )
+
+                            contactList.add(contact)
+                        }
+
+                    }
+                    onSuccess(contactList)
                 }
             })
     }
@@ -152,7 +203,7 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
 
 
     private fun insertMessages(
-        otherId: String,
+        contactVO: ContactVO,
         uploadedLinkList: List<String>,
         isMovie: Boolean,
         messageVO: MessageVO,
@@ -178,14 +229,16 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
 
         var ownMessageSuccess = false
         var otherMessageSuccess = false
+        var insertContactSuccess = false
 
         database.child("contactsAndMessages").child(messageVO.id)
-            .child(otherId)
+            .child(contactVO.id)
+            .child("messages")
             .child(message.millis.toString())
             .setValue(message)
             .addOnCompleteListener {
                 ownMessageSuccess = true
-                if (ownMessageSuccess && otherMessageSuccess) {
+                if (insertContactSuccess && otherMessageSuccess) {
                     onSuccess()
                 }
 
@@ -195,13 +248,14 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
                 Log.d("firebase", it.message ?: "unknown")
             }
 
-        database.child("contactsAndMessages").child(otherId)
+        database.child("contactsAndMessages").child(contactVO.id)
             .child(message.id)
+            .child("messages")
             .child(message.millis.toString())
             .setValue(message)
             .addOnCompleteListener {
                 otherMessageSuccess = true
-                if (ownMessageSuccess && otherMessageSuccess) {
+                if (ownMessageSuccess && insertContactSuccess) {
                     onSuccess()
                 }
             }
@@ -210,6 +264,67 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
                 Log.d("firebase", it.message ?: "unknown")
             }
 
+        val selfContact = ContactVO(
+            name = message.name,
+            id = message.id,
+            photoUrl = message.profileImage,
+        )
+
+        insertContact(
+            selfContact = selfContact,
+            otherContact = contactVO,
+            onSuccess = {
+                insertContactSuccess = true
+                if(ownMessageSuccess && otherMessageSuccess){
+                    onSuccess()
+                }
+            },
+            onFailure = {
+                onFailure(it)
+            }
+        )
+
+
+    }
+
+    private fun insertContact(
+        selfContact: ContactVO, otherContact: ContactVO, onSuccess: () -> Unit,
+        onFailure: (String) -> Unit,
+    ) {
+
+        var selfContactSuccess = false
+        var otherContactSuccess = false
+
+
+        database.child("contactsAndMessages").child(selfContact.id)
+            .child(otherContact.id)
+            .child("contact")
+            .setValue(otherContact)
+            .addOnCompleteListener {
+                selfContactSuccess = true
+                if(otherContactSuccess){
+                    onSuccess()
+                }
+            }
+            .addOnFailureListener {
+                onFailure(it.message ?: "insert contact failed")
+                Log.d("firebase", it.message ?: "insert contact failed")
+            }
+
+        database.child("contactsAndMessages").child(otherContact.id)
+            .child(selfContact.id)
+            .child("contact")
+            .setValue(selfContact)
+            .addOnCompleteListener {
+                otherContactSuccess = true
+                if(selfContactSuccess){
+                    onSuccess()
+                }
+            }
+            .addOnFailureListener {
+                onFailure(it.message ?: "insert contact failed")
+                Log.d("firebase", it.message ?: "insert contact failed")
+            }
 
     }
 

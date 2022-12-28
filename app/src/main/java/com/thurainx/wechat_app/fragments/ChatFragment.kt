@@ -1,6 +1,7 @@
 package com.thurainx.wechat_app.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import com.thurainx.wechat_app.R
 import com.thurainx.wechat_app.activities.ChatRoomActivity
 import com.thurainx.wechat_app.adapters.ActiveChatAdapter
 import com.thurainx.wechat_app.adapters.ActiveUserAdapter
+import com.thurainx.wechat_app.data.vos.ContactVO
 import com.thurainx.wechat_app.mvp.presenters.ChatPresenter
 import com.thurainx.wechat_app.mvp.presenters.ChatPresenterImpl
 import com.thurainx.wechat_app.mvp.views.ChatView
@@ -54,8 +56,19 @@ class ChatFragment : Fragment(), ChatView {
         view?.rvActiveChat?.adapter = mActiveChatAdapter
     }
 
-    override fun navigateToChatRoomScreen() {
+    override fun bindContacts(contactList: List<ContactVO>) {
+        Log.d("contactList",contactList.toString())
+        mActiveUserAdapter.setNewData(contactList)
+    }
+
+    override fun bindLastMessage(contactList: List<ContactVO>) {
+        Log.d("latestMessageList",contactList.toString())
+        mActiveChatAdapter.setNewData(contactList)
+    }
+
+    override fun navigateToChatRoomScreen(contactVO: ContactVO) {
         val intent = ChatRoomActivity.getIntent(requireContext())
+        ChatRoomActivity.mContact = contactVO
         startActivity(intent)
     }
 

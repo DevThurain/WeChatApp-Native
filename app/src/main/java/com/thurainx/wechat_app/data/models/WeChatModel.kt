@@ -76,7 +76,7 @@ interface WeChatModel {
     )
 
     fun addMessage(
-        otherId: String,
+        contactVO: ContactVO,
         messageVO: MessageVO,
         fileList: List<FileVO>,
         onSuccess: () -> Unit,
@@ -87,6 +87,12 @@ interface WeChatModel {
         ownId: String,
         otherId: String,
         onSuccess: (List<MessageVO>) -> Unit,
+        onFail: (String) -> Unit
+    )
+
+    fun getLastMessage(
+        ownId: String,
+        onSuccess: (List<ContactVO>) -> Unit,
         onFail: (String) -> Unit
     )
 
