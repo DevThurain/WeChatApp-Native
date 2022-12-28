@@ -55,7 +55,14 @@ class ChatRoomPresenterImpl: ChatRoomPresenter, AbstractBasedPresenter<ChatRoomV
                 name = mName,
                 id = mId,
                 profileImage = mPhotoUrl
-            )
+            ),
+            fileList = fileList,
+            onSuccess = {
+
+            },
+            onFailure = {
+                mView.showErrorMessage(it)
+            }
         )
     }
 

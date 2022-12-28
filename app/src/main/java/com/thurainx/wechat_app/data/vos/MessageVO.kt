@@ -5,7 +5,7 @@ import com.google.firebase.database.IgnoreExtraProperties
 data class MessageVO(
     val text: String = "",
     val millis: Long = 0,
-    val photoList: List<String> = listOf(),
+    val photoList: ArrayList<String> = arrayListOf(),
     val videoLink: String = "",
     val name: String = "",
     val id: String = "",

@@ -89,11 +89,11 @@ class ChatRoomActivity : BaseActivity(), ChatRoomView {
             mContact?.let { contact ->
                 mPresenter.sentMessage(
                     otherId = contact.id,
-                    fileList = listOf(),
+                    fileList = selectedFileList,
                     message = MessageVO(
                         text = edtChatText.text.toString(),
                         millis = System.currentTimeMillis(),
-                        photoList = listOf(),
+                        photoList = arrayListOf(),
                         videoLink = "",
                         name = "",
                         id = "",
@@ -102,6 +102,9 @@ class ChatRoomActivity : BaseActivity(), ChatRoomView {
                 )
 
                 edtChatText.text.clear()
+                mFileAdapter.setNewData(listOf())
+                rvChatFiles.visibility = View.GONE
+
             }
         }
     }
@@ -143,6 +146,10 @@ class ChatRoomActivity : BaseActivity(), ChatRoomView {
         if(messageList.isNotEmpty()){
             rvMessage.smoothScrollToPosition(messageList.size - 1)
         }
+        selectedFileList.clear()
+        mFileAdapter.setNewData(selectedFileList)
+        rvChatFiles.visibility = View.GONE
+
     }
 
     override fun navigateBack() {
@@ -256,12 +263,38 @@ class ChatRoomActivity : BaseActivity(), ChatRoomView {
     private val intentLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                Log.d("bitmap_data_reach_ok", result.data?.getStringExtra(EXTRA_BITMAP) ?: "")
-                val bitmap = result.data?.getStringExtra(EXTRA_BITMAP) as Bitmap
+                Log.d("uri_data_reach_ok", result.data?.getStringExtra(EXTRA_URI) ?: "")
+                val uri = Uri.parse(result.data?.getStringExtra(EXTRA_URI))
 //                val fileVO = FileVO(
 //                    bitmap = bitmap as Bitmap,
 //
 //                )
+                Observable.just(uri)
+                    .map { Pair<Uri, Bitmap>(it,it.loadBitmapFromUri(this)) }
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe {
+                        selectedFileList.clear()
+                        if(it.first.toString().contains("video")){
+                            val realPath = getRealPathFromURI(this,it.first).toString()
+                            selectedFileList.add(
+                                FileVO(uri = it.first, bitmap = it.second, isMovie = it.first.toString().contains("video"), realPath = realPath)
+                            )
+                        }else{
+                            selectedFileList.add(
+                                FileVO(uri = it.first, bitmap = it.second, isMovie = it.first.toString().contains("video"))
+                            )
+                        }
+
+//                            mPhotoAdapter.setNewData(listOf(it))
+                        mFileAdapter.setNewData(selectedFileList)
+                        if(selectedFileList.isNotEmpty()){
+                            rvChatFiles.visibility = View.VISIBLE
+                        }else{
+                            rvChatFiles.visibility = View.GONE
+                        }
+
+                    }
             }
         }
 

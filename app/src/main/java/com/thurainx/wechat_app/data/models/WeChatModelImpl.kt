@@ -10,7 +10,7 @@ import com.thurainx.wechat_app.network.cloud_firestore.CloudFireStoreApiImpl
 import com.thurainx.wechat_app.network.realtime_database.RealTimeDatabaseApi
 import com.thurainx.wechat_app.network.realtime_database.RealTimeDatabaseApiImpl
 
-object WeChatModelImpl : WeChatModel{
+object WeChatModelImpl : WeChatModel {
     override var mCloudFireStoreApi: CloudFireStoreApi = CloudFireStoreApiImpl
     override var mRealTimeDatabaseApi: RealTimeDatabaseApi = RealTimeDatabaseApiImpl
 
@@ -25,13 +25,22 @@ object WeChatModelImpl : WeChatModel{
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit
     ) {
-        mCloudFireStoreApi.registerUser(id, name, phone, password, dob, gender, onSuccess, onFailure)
+        mCloudFireStoreApi.registerUser(
+            id,
+            name,
+            phone,
+            password,
+            dob,
+            gender,
+            onSuccess,
+            onFailure
+        )
     }
 
     override fun loginUser(
         id: String,
         password: String,
-        onSuccess: (name: String,phone: String, dob: String, gender: String, profileImage: String) -> Unit,
+        onSuccess: (name: String, phone: String, dob: String, gender: String, profileImage: String) -> Unit,
         onFailure: (String) -> Unit
     ) {
         mCloudFireStoreApi.loginUser(id, password, onSuccess, onFailure)
@@ -43,7 +52,7 @@ object WeChatModelImpl : WeChatModel{
         onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit
     ) {
-        mCloudFireStoreApi.uploadProfilePicture(id,bitmap,onSuccess,onFailure)
+        mCloudFireStoreApi.uploadProfilePicture(id, bitmap, onSuccess, onFailure)
     }
 
     override fun uploadMoment(
@@ -55,11 +64,23 @@ object WeChatModelImpl : WeChatModel{
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit
     ) {
-        mCloudFireStoreApi.uploadMoment(text,fileList,id, name, profileImage, onSuccess, onFailure)
+        mCloudFireStoreApi.uploadMoment(
+            text,
+            fileList,
+            id,
+            name,
+            profileImage,
+            onSuccess,
+            onFailure
+        )
     }
 
-    override fun getMoments(id: String,onSuccess: (List<MomentVO>) -> Unit, onFailure: (String) -> Unit) {
-        mCloudFireStoreApi.getMoments(id,onSuccess, onFailure)
+    override fun getMoments(
+        id: String,
+        onSuccess: (List<MomentVO>) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mCloudFireStoreApi.getMoments(id, onSuccess, onFailure)
     }
 
     override fun likeMoment(
@@ -70,7 +91,7 @@ object WeChatModelImpl : WeChatModel{
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit
     ) {
-        mCloudFireStoreApi.likeMoment(like,momentMillis, id, totalLike,onSuccess, onFailure)
+        mCloudFireStoreApi.likeMoment(like, momentMillis, id, totalLike, onSuccess, onFailure)
     }
 
     override fun addContacts(
@@ -90,8 +111,11 @@ object WeChatModelImpl : WeChatModel{
         mCloudFireStoreApi.getContacts(id, onSuccess, onFailure)
     }
 
-    override fun addMessage(otherId: String, messageVO: MessageVO) {
-        mRealTimeDatabaseApi.addMessage(otherId, messageVO)
+    override fun addMessage(
+        otherId: String, messageVO: MessageVO, fileList: List<FileVO>, onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mRealTimeDatabaseApi.addMessage(otherId, messageVO, fileList, onSuccess, onFailure)
     }
 
     override fun getMessagesForChatRoom(

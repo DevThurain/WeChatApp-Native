@@ -1,7 +1,9 @@
 package com.thurainx.wechat_app.views.view_holders
 
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
@@ -39,9 +41,14 @@ class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             itemView.rvMessagePhoto.visibility = View.VISIBLE
             itemView.rvMessagePhoto.adapter = mSmartImageAdapter
             mSmartImageAdapter.setNewData(messageVO.photoList)
+            Log.d("photoListttt",messageVO.photoList.toString())
         } else {
             itemView.rvMessagePhoto.visibility = View.GONE
         }
+
+        Glide.with(itemView.context)
+            .load(messageVO.profileImage)
+            .into(itemView.ivMessageProfile)
 
     }
 

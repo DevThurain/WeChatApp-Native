@@ -78,7 +78,9 @@ interface WeChatModel {
     fun addMessage(
         otherId: String,
         messageVO: MessageVO,
-//        fileVO: FileVO
+        fileList: List<FileVO>,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
     )
 
     fun getMessagesForChatRoom(

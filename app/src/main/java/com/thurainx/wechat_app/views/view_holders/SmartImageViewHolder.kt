@@ -1,6 +1,7 @@
 package com.thurainx.wechat_app.views.view_holders
 
 import android.graphics.Bitmap
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +22,7 @@ class SmartImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 //            .into(itemView.ivSmartImage)
 
 
-
+        Log.d("my_photo_list",image)
 
         Glide.with(itemView.context)
             .asBitmap()
