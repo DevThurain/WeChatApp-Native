@@ -16,6 +16,8 @@ class ChatPresenterImpl: ChatPresenter, AbstractBasedPresenter<ChatView>() {
     val mWeChatModel = WeChatModelImpl
     var dataStore: RxDataStore<Preferences>? = null
     var mId: String = ""
+    var normalContactList: ArrayList<ContactVO> = arrayListOf()
+    var groupContactList: ArrayList<ContactVO> = arrayListOf()
 
     override fun onUiReady(context: Context, owner: LifecycleOwner) {
         dataStore = context.userDataStore
@@ -43,15 +45,32 @@ class ChatPresenterImpl: ChatPresenter, AbstractBasedPresenter<ChatView>() {
                 mView.showErrorMessage(it)
             }
         )
+
     }
 
     private fun getLatestMessage(id: String){
         mWeChatModel.getLastMessage(
             ownId = id,
             onSuccess = {
-                        mView.bindLastMessage(it)
+                normalContactList = ArrayList(it)
+                normalContactList.addAll(groupContactList)
+                        mView.bindLastMessage(normalContactList)
             },
-            onFail = {}
+            onFail = {
+                mView.showErrorMessage(it)
+            }
+        )
+
+        mWeChatModel.getGroupLastMessage(
+            ownId = id,
+            onSuccess = {
+                groupContactList = ArrayList(it)
+                groupContactList.addAll(normalContactList)
+                mView.bindLastMessage(groupContactList)
+            },
+            onFail = {
+                mView.showErrorMessage(it)
+            }
         )
     }
 

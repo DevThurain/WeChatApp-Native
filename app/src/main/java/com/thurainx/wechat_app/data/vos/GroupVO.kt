@@ -8,6 +8,7 @@ data class GroupVO(
     val name: String = "",
     val photo: String = "",
     val members: List<ContactVO> = listOf(),
+    val messages: Map<String, Any> = mapOf()
 ){
-    constructor(): this("","", "", listOf())
+    constructor(): this("","", "", listOf(), mapOf())
 }

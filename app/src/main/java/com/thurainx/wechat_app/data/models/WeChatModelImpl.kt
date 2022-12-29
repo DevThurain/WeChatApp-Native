@@ -133,6 +133,14 @@ object WeChatModelImpl : WeChatModel {
         mRealTimeDatabaseApi.getLastMessage(ownId,onSuccess, onFail)
     }
 
+    override fun getGroupLastMessage(
+        ownId: String,
+        onSuccess: (List<ContactVO>) -> Unit,
+        onFail: (String) -> Unit
+    ) {
+        mRealTimeDatabaseApi.getGroupLastMessage(ownId, onSuccess, onFail)
+    }
+
     override fun createGroup(
         name: String,
         bitmap: Bitmap,

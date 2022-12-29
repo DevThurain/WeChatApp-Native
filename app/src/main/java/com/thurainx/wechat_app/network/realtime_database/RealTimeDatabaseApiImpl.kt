@@ -15,6 +15,7 @@ import com.thurainx.wechat_app.data.vos.ContactVO
 import com.thurainx.wechat_app.data.vos.FileVO
 import com.thurainx.wechat_app.data.vos.GroupVO
 import com.thurainx.wechat_app.data.vos.MessageVO
+import com.thurainx.wechat_app.network.realtime_database.RealTimeDatabaseApiImpl.database
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.*
@@ -152,6 +153,99 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
             })
     }
 
+    override fun getGroupLastMessage(
+        ownId: String,
+        onSuccess: (List<ContactVO>) -> Unit,
+        onFail: (String) -> Unit
+    ) {
+        database.child("groups")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    onFail(error.message)
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+//                    val contactList = arrayListOf<ContactVO>()
+//                    snapshot.children.forEach { dataSnapShot ->
+//                        val map = dataSnapShot.value as Map<String, *>
+//                        Log.d("snap_shot_list", (map["contact"].toString()))
+//
+//                        if (map["contact"].toString() != "null") {
+//                            val contactMap = map["contact"] as Map<String, *>
+//                            val messageMap = map["messages"] as Map<String, *>
+//                            val lastKey =
+//                                messageMap.toSortedMap(compareBy<String> { it.length }.thenBy { it })
+//                                    .lastKey()
+//                            val latestMessageMap = messageMap[lastKey] as Map<String, *>
+//                            var latestMessage = ""
+//
+//                            if (latestMessageMap["text"].toString().isNotEmpty()) {
+//                                latestMessage = latestMessageMap["text"].toString()
+//                            } else if (latestMessageMap["photoList"].toString() != "null") {
+//                                latestMessage = "sent a photo."
+//                            } else if (latestMessageMap["videoLink"].toString().isNotEmpty()) {
+//                                latestMessage = "sent a video"
+//                            }
+//                            Log.d("snap_shot_list", latestMessage)
+//
+//                            val contact = ContactVO(
+//                                id = contactMap["id"].toString(),
+//                                name = contactMap["name"].toString(),
+//                                photoUrl = contactMap["photoUrl"].toString(),
+//                                lastMessage = latestMessage
+//                            )
+//
+//                            contactList.add(contact)
+//                        }
+
+//                    }
+//                    onSuccess(contactList)
+
+                    val contactList = arrayListOf<ContactVO>()
+                    val groupList = arrayListOf<GroupVO>()
+                    snapshot.children.forEach { dataSnapShot ->
+                        val map = dataSnapShot.value as Map<String, *>
+                        dataSnapShot.getValue(GroupVO::class.java)?.let {
+                            if (it.members.any { contact -> contact.id == ownId }) {
+                                groupList.add(it)
+                            }
+                        }
+                    }
+                    Log.d("group_history",groupList.toString())
+
+                    groupList.forEach {
+                        if (it.messages.isNotEmpty()) {
+                            val lastKey =
+                                it.messages.toSortedMap(compareBy<String> { it.length }.thenBy { it })
+                                    .lastKey()
+                            val latestMessageMap = it.messages[lastKey] as Map<String, *>
+                            var latestMessage = ""
+
+                            if (latestMessageMap["text"].toString().isNotEmpty()) {
+                                latestMessage = latestMessageMap["text"].toString()
+                            } else if (latestMessageMap["photoList"].toString() != "null") {
+                                latestMessage = "sent a photo."
+                            } else if (latestMessageMap["videoLink"].toString().isNotEmpty()) {
+                                latestMessage = "sent a video"
+                            }
+                            Log.d("snap_shot_list", latestMessage)
+
+                            val contact = ContactVO(
+                                id = it.id,
+                                name = it.name,
+                                photoUrl = it.photo,
+                                lastMessage = latestMessage,
+                                isGroup = true
+                            )
+                            contactList.add(contact)
+                        }
+                    }
+
+                    onSuccess(contactList)
+                }
+            })
+    }
+
     override fun createGroup(
         name: String,
         bitmap: Bitmap,
@@ -174,7 +268,11 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
         )
     }
 
-    override fun getGroups(selfId: String, onSuccess: (List<GroupVO>) -> Unit, onFail: (String) -> Unit) {
+    override fun getGroups(
+        selfId: String,
+        onSuccess: (List<GroupVO>) -> Unit,
+        onFail: (String) -> Unit
+    ) {
         database.child("groups")
             .addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
@@ -185,7 +283,7 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
                     val groupList = arrayListOf<GroupVO>()
                     snapshot.children.forEach { dataSnapShot ->
                         dataSnapShot.getValue(GroupVO::class.java)?.let {
-                            if(it.members.any{ contact -> contact.id == selfId }){
+                            if (it.members.any { contact -> contact.id == selfId }) {
                                 groupList.add(it)
                             }
                         }

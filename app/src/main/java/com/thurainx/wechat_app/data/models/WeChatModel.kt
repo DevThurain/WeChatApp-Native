@@ -93,6 +93,12 @@ interface WeChatModel {
         onFail: (String) -> Unit
     )
 
+    fun getGroupLastMessage(
+        ownId: String,
+        onSuccess: (List<ContactVO>) -> Unit,
+        onFail: (String) -> Unit
+    )
+
     fun createGroup(
         name: String,
         bitmap: Bitmap,

@@ -69,7 +69,7 @@ class ChatFragment : Fragment(), ChatView {
     override fun navigateToChatRoomScreen(contactVO: ContactVO) {
         val intent = ChatRoomActivity.getIntent(requireContext())
         ChatRoomActivity.mContact = contactVO
-        ChatRoomActivity.isGroup = false
+        ChatRoomActivity.isGroup = contactVO.isGroup
         startActivity(intent)
     }
 

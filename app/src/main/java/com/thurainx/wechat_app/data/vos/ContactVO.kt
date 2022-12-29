@@ -8,4 +8,5 @@ data class ContactVO(
     val name: String = "",
     val photoUrl: String = "",
     var lastMessage: String = "",
+    var isGroup: Boolean = false
 )
