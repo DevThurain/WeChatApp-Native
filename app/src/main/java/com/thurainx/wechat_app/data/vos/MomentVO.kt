@@ -9,5 +9,6 @@ data class MomentVO(
     val id: String,
     val profileImage: String,
     var isLike: Boolean,
+    var isBookmark: Boolean,
     var totalLike: Int = 0,
 )

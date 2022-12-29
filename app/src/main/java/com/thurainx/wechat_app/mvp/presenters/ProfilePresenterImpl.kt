@@ -37,6 +37,72 @@ class ProfilePresenterImpl: AbstractBasedPresenter<ProfileView>(), ProfilePresen
     override fun onUiReady(context: Context, owner: LifecycleOwner) {
         dataStore = context.userDataStore
 
+        getUserData()
+        dataStore?.readQuick(FIRE_STORE_REF_ID) {
+            mId = it
+            mWeChatModel.getBookMarkMoments(
+                id = mId,
+                onSuccess = {
+                    mView.bindMoments(it)
+                },
+                onFailure = { error ->
+                    mView.showErrorMessage(error)
+                }
+            )
+        }
+
+    }
+
+    private fun refreshMoment(){
+        dataStore?.readQuick(FIRE_STORE_REF_ID) {
+            mId = it
+            mWeChatModel.getBookMarkMoments(
+                id = mId,
+                onSuccess = {
+                    mView.bindMoments(it)
+                },
+                onFailure = { error ->
+                    mView.showErrorMessage(error)
+                }
+            )
+        }
+    }
+
+    override fun onTapLike(momentMillis: String, totalLike: Int,isLike: Boolean,onSuccess: () -> Unit) {
+        mWeChatModel.likeMoment(
+            like = isLike,
+            id = mId,
+            totalLike = totalLike,
+            momentMillis = momentMillis,
+            onSuccess = {
+                Log.d("reaction", "reaction success")
+                onSuccess()
+
+            },
+            onFailure = {
+                mView.showErrorMessage(it)
+            },
+        )
+
+    }
+
+    override fun onTapBookmark(momentMillis: String, isBookmark: Boolean, onSuccess: () -> Unit) {
+        mWeChatModel.bookMarkMoment(
+            isBookMark = isBookmark,
+            id = mId,
+            momentMillis = momentMillis,
+            onSuccess = {
+                Log.d("reaction", "reaction success")
+                onSuccess()
+                refreshMoment()
+            },
+            onFailure = {
+                mView.showErrorMessage(it)
+            },
+        )
+    }
+
+    private fun getUserData(){
         Observable.zip(
             dataStore?.readFromRxDatastore(FIRE_STORE_REF_ID) ?: Observable.just("-"),
             dataStore?.readFromRxDatastore(FIRE_STORE_REF_NAME) ?: Observable.just("-"),
@@ -69,6 +135,5 @@ class ProfilePresenterImpl: AbstractBasedPresenter<ProfileView>(), ProfilePresen
             }, {
                 Log.d("rx", it.message.toString())
             })
-
     }
 }

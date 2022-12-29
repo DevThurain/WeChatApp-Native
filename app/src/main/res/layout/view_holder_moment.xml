@@ -162,10 +162,10 @@
 
             <CheckBox
                 android:id="@+id/cbMomentBookmark"
-                android:layout_width="22dp"
+                android:theme="@style/MyCheckBox"
+                android:layout_width="24dp"
                 android:layout_height="22dp"
-                android:gravity="center"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="5dp"
                 android:button="@drawable/background_bookmark"
                 />
 

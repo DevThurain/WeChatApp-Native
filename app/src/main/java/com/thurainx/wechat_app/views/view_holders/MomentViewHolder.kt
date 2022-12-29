@@ -40,10 +40,12 @@ class MomentViewHolder(itemView: View, delegate: MomentDelegate) :
 
         }
 
-
         itemView.cbMomentBookmark.setOnClickListener {
             mMoment?.let {
-                delegate.onTapBookmark(it.millis.toString(), itemView.cbMomentBookmark.isChecked)
+                if(ready)
+                delegate.onTapBookmark(it.millis.toString(), itemView.cbMomentBookmark.isChecked, onSuccess = {
+
+                })
             }
         }
     }
@@ -85,6 +87,7 @@ class MomentViewHolder(itemView: View, delegate: MomentDelegate) :
 
 
         itemView.cbMomentHeart.isChecked = momentVO.isLike
+        itemView.cbMomentBookmark.isChecked = momentVO.isBookmark
         ready = true
 
 

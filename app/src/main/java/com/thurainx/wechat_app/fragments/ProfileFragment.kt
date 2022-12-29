@@ -11,11 +11,14 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import com.thurainx.wechat_app.R
+import com.thurainx.wechat_app.adapters.MomentAdapter
+import com.thurainx.wechat_app.data.vos.MomentVO
 import com.thurainx.wechat_app.mvp.presenters.ProfilePresenter
 import com.thurainx.wechat_app.mvp.presenters.ProfilePresenterImpl
 import com.thurainx.wechat_app.mvp.views.ProfileView
@@ -27,6 +30,8 @@ class ProfileFragment : Fragment(), ProfileView{
     lateinit var mPresenter: ProfilePresenter
     lateinit var qrDialog: Dialog
     lateinit var editDialog: DialogFragment
+    lateinit var mMomentAdapter: MomentAdapter
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +52,7 @@ class ProfileFragment : Fragment(), ProfileView{
 
         setUpPresenter()
         setUpListeners()
+        setUpRecyclerview()
 
         mPresenter.onUiReady(requireContext(),requireActivity())
     }
@@ -65,6 +71,11 @@ class ProfileFragment : Fragment(), ProfileView{
             mPresenter.onTapEditProfile()
         }
 
+    }
+
+    private fun setUpRecyclerview(){
+        mMomentAdapter = MomentAdapter(mPresenter)
+        rvBookMarkMoment.adapter = mMomentAdapter
     }
 
     override fun bindProfileData(name: String, phone: String, dob: String, gender: String, profile: String) {
@@ -108,7 +119,12 @@ class ProfileFragment : Fragment(), ProfileView{
         qrDialog.show()
     }
 
+    override fun bindMoments(momentList: List<MomentVO>) {
+        mMomentAdapter.setNewData(momentList)
+    }
+
     override fun showErrorMessage(message: String) {
+        Snackbar.make(requireView(),message,Snackbar.LENGTH_SHORT).show()
     }
 
 }

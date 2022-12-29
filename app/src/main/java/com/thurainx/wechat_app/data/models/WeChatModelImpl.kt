@@ -91,6 +91,16 @@ object WeChatModelImpl : WeChatModel {
         mCloudFireStoreApi.likeMoment(like, momentMillis, id, totalLike, onSuccess, onFailure)
     }
 
+    override fun bookMarkMoment(
+        isBookMark: Boolean,
+        momentMillis: String,
+        id: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mCloudFireStoreApi.bookMarkMoment(isBookMark, momentMillis, id, onSuccess, onFailure)
+    }
+
     override fun addContacts(
         selfId: String,
         friendId: String,
@@ -175,6 +185,14 @@ object WeChatModelImpl : WeChatModel {
         onFailure: (String) -> Unit
     ) {
        mRealTimeDatabaseApi.addMessageToGroup(groupId, messageVO, fileList, onSuccess, onFailure)
+    }
+
+    override fun getBookMarkMoments(
+        id: String,
+        onSuccess: (List<MomentVO>) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mCloudFireStoreApi.getBookMarkMoments(id, onSuccess, onFailure)
     }
 
 }

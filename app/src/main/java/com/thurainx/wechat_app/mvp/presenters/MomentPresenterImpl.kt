@@ -94,9 +94,22 @@ class MomentPresenterImpl : MomentPresenter, AbstractBasedPresenter<MomentView>(
 
     }
 
-    override fun onTapBookmark(momentMillis: String, isBookmark: Boolean) {
-
+    override fun onTapBookmark(momentMillis: String, isBookmark: Boolean, onSuccess: () -> Unit) {
+        mWeChatModel.bookMarkMoment(
+            isBookMark = isBookmark,
+            id = mId,
+            momentMillis = momentMillis,
+            onSuccess = {
+                Log.d("reaction", "reaction success")
+                onSuccess()
+            },
+            onFailure = {
+                mView.showErrorMessage(it)
+            },
+        )
     }
+
+
 
 
 }

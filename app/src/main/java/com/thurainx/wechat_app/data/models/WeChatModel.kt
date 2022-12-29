@@ -59,6 +59,14 @@ interface WeChatModel {
         onFailure: (String) -> Unit
     )
 
+    fun bookMarkMoment(
+        isBookMark: Boolean,
+        momentMillis: String,
+        id: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    )
+
     fun addContacts(
         selfId: String,
         friendId: String,
@@ -124,6 +132,12 @@ interface WeChatModel {
         messageVO: MessageVO,
         fileList: List<FileVO>,
         onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    )
+
+    fun getBookMarkMoments(
+        id: String,
+        onSuccess: (List<MomentVO>) -> Unit,
         onFailure: (String) -> Unit
     )
 

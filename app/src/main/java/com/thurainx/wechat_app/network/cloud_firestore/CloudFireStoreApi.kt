@@ -46,11 +46,25 @@ interface CloudFireStoreApi {
         onFailure: (String) -> Unit
     )
 
+    fun getBookMarkMoments(
+        id: String,
+        onSuccess: (List<MomentVO>) -> Unit,
+        onFailure: (String) -> Unit
+    )
+
     fun likeMoment(
         like: Boolean,
         momentMillis: String,
         id: String,
         totalLike: Int,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    )
+
+    fun bookMarkMoment(
+        isBookMark: Boolean,
+        momentMillis: String,
+        id: String,
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit
     )

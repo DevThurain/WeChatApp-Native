@@ -23,6 +23,8 @@ const val FIRE_STORE_REF_VIDEO_LINK = "videoLink"
 const val FIRE_STORE_REF_MILLIS = "millis"
 const val FIRE_STORE_REF_LIKE_COUNT = "likeCount"
 const val FIRE_STORE_REF_LIKE = "like"
+const val FIRE_STORE_REF_BOOK_MARK = "bookMark"
+
 
 const val EXTRA_NAME = "EXTRA_NAME"
 const val EXTRA_PASSWORD = "EXTRA_PASSWORD"

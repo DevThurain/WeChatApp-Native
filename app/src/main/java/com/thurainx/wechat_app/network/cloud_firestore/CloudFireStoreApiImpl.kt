@@ -9,7 +9,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.type.DateTime
-import com.thurainx.wechat_app.data.models.WeChatModelImpl.updateProfile
 import com.thurainx.wechat_app.data.vos.ContactVO
 import com.thurainx.wechat_app.data.vos.FileVO
 import com.thurainx.wechat_app.data.vos.MomentVO
@@ -167,78 +166,143 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
         onSuccess: (List<MomentVO>) -> Unit,
         onFailure: (String) -> Unit
     ) {
-        db.collectionGroup(FIRE_STORE_REF_LIKE)
+
+        db.collectionGroup(FIRE_STORE_REF_BOOK_MARK)
             .whereEqualTo(FIRE_STORE_REF_ID, id)
             .get()
             .addOnCompleteListener {
-                val documents = it.result?.documents ?: listOf()
-                val likeMoments: ArrayList<String> = arrayListOf()
+                val bmDocuments = it.result?.documents ?: listOf()
+                val bookMarkMoments: ArrayList<String> = arrayListOf()
 
-                documents.forEach { document ->
+                bmDocuments.forEach { document ->
                     val data = document.data
-                    likeMoments.add(data?.get(FIRE_STORE_REF_MILLIS) as String)
+                    bookMarkMoments.add(data?.get(FIRE_STORE_REF_MILLIS) as String)
                 }
-                Log.d("moments", likeMoments.toString())
+                Log.d("moments", bookMarkMoments.toString())
 
-//                db.collection("moments")
-//
-//                    .addSnapshotListener { value, error ->
-//                        error?.let {
-//                            onFailure(it.message ?: "Please check connection")
-//                        } ?: run {
-//                            val momentList: MutableList<MomentVO> = arrayListOf()
-//
-//                            val result = value?.documents ?: arrayListOf()
-//
-//                            for (document in result) {
-//                                val data = document.data
-//                                val moment = MomentVO(
-//                                    text = data?.get(FIRE_STORE_REF_TEXT) as String,
-//                                    millis = data[FIRE_STORE_REF_MILLIS] as Long,
-//                                    name = data[FIRE_STORE_REF_NAME] as String,
-//                                    profileImage = data[FIRE_STORE_REF_PROFILE_IMAGE] as String,
-//                                    phone = data[FIRE_STORE_REF_PHONE] as String,
-//                                    photoList = data[FIRE_STORE_REF_PHOTO_LIST] as List<String>,
-//                                    videoLink = data[FIRE_STORE_REF_VIDEO_LINK] as String,
-//                                    isLike = momentList.contains(data[FIRE_STORE_REF_MILLIS]),
-//                                    totalLike = 0,
-//                                )
-//                                momentList.add(moment)
-//                            }
-//                            onSuccess(momentList)
-//                        }
-//                    }
-
-                db.collection("moments")
+                db.collectionGroup(FIRE_STORE_REF_LIKE)
+                    .whereEqualTo(FIRE_STORE_REF_ID, id)
                     .get()
                     .addOnCompleteListener {
+                        val documents = it.result?.documents ?: listOf()
+                        val likeMoments: ArrayList<String> = arrayListOf()
 
-                        val momentList: MutableList<MomentVO> = arrayListOf()
-
-                        val result = it.result?.documents ?: arrayListOf()
-
-                        for (document in result) {
+                        documents.forEach { document ->
                             val data = document.data
-                            val moment = MomentVO(
-                                text = data?.get(FIRE_STORE_REF_TEXT) as String,
-                                millis = data[FIRE_STORE_REF_MILLIS] as Long,
-                                name = data[FIRE_STORE_REF_NAME] as String,
-                                profileImage = data[FIRE_STORE_REF_PROFILE_IMAGE] as String,
-                                id = data[FIRE_STORE_REF_ID] as String,
-                                photoList = data[FIRE_STORE_REF_PHOTO_LIST] as List<String>,
-                                videoLink = data[FIRE_STORE_REF_VIDEO_LINK] as String,
-                                isLike = likeMoments.contains(data[FIRE_STORE_REF_MILLIS].toString()),
-                                totalLike = Math.toIntExact(
-                                    (data[FIRE_STORE_REF_LIKE_COUNT] ?: 0L) as Long
-                                ),
-                            )
-                            momentList.add(moment)
+                            likeMoments.add(data?.get(FIRE_STORE_REF_MILLIS) as String)
                         }
-                        onSuccess(momentList.reversed())
-                    }.addOnFailureListener { error ->
-                        onFailure(error.message ?: "moments fetch failed.")
+                        Log.d("moments", likeMoments.toString())
+
+                        db.collection("moments")
+                            .get()
+                            .addOnCompleteListener {
+
+                                val momentList: MutableList<MomentVO> = arrayListOf()
+
+                                val result = it.result?.documents ?: arrayListOf()
+
+                                for (document in result) {
+                                    val data = document.data
+                                    val moment = MomentVO(
+                                        text = data?.get(FIRE_STORE_REF_TEXT) as String,
+                                        millis = data[FIRE_STORE_REF_MILLIS] as Long,
+                                        name = data[FIRE_STORE_REF_NAME] as String,
+                                        profileImage = data[FIRE_STORE_REF_PROFILE_IMAGE] as String,
+                                        id = data[FIRE_STORE_REF_ID] as String,
+                                        photoList = data[FIRE_STORE_REF_PHOTO_LIST] as List<String>,
+                                        videoLink = data[FIRE_STORE_REF_VIDEO_LINK] as String,
+                                        isLike = likeMoments.contains(data[FIRE_STORE_REF_MILLIS].toString()),
+                                        totalLike = Math.toIntExact(
+                                            (data[FIRE_STORE_REF_LIKE_COUNT] ?: 0L) as Long
+                                        ),
+                                        isBookmark = bookMarkMoments.contains(data[FIRE_STORE_REF_MILLIS].toString())
+                                    )
+                                    momentList.add(moment)
+                                }
+                                onSuccess(momentList.reversed())
+                            }.addOnFailureListener { error ->
+                                onFailure(error.message ?: "moments fetch failed.")
+                            }
                     }
+
+
             }
+
+
+
+
+    }
+
+    override fun getBookMarkMoments(
+        id: String,
+        onSuccess: (List<MomentVO>) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        db.collectionGroup(FIRE_STORE_REF_BOOK_MARK)
+            .whereEqualTo(FIRE_STORE_REF_ID, id)
+            .get()
+            .addOnCompleteListener {
+                val bmDocuments = it.result?.documents ?: listOf()
+                val bookMarkMoments: ArrayList<String> = arrayListOf()
+
+                bmDocuments.forEach { document ->
+                    val data = document.data
+                    bookMarkMoments.add(data?.get(FIRE_STORE_REF_MILLIS) as String)
+                }
+                Log.d("moments", bookMarkMoments.toString())
+
+                db.collectionGroup(FIRE_STORE_REF_LIKE)
+                    .whereEqualTo(FIRE_STORE_REF_ID, id)
+                    .get()
+                    .addOnCompleteListener {
+                        val documents = it.result?.documents ?: listOf()
+                        val likeMoments: ArrayList<String> = arrayListOf()
+
+                        documents.forEach { document ->
+                            val data = document.data
+                            likeMoments.add(data?.get(FIRE_STORE_REF_MILLIS) as String)
+                        }
+                        Log.d("moments", likeMoments.toString())
+
+                        db.collection("moments")
+                            .get()
+                            .addOnCompleteListener {
+
+                                val momentList: MutableList<MomentVO> = arrayListOf()
+
+                                val result = it.result?.documents ?: arrayListOf()
+
+                                for (document in result) {
+                                    val data = document.data
+                                    val moment = MomentVO(
+                                        text = data?.get(FIRE_STORE_REF_TEXT) as String,
+                                        millis = data[FIRE_STORE_REF_MILLIS] as Long,
+                                        name = data[FIRE_STORE_REF_NAME] as String,
+                                        profileImage = data[FIRE_STORE_REF_PROFILE_IMAGE] as String,
+                                        id = data[FIRE_STORE_REF_ID] as String,
+                                        photoList = data[FIRE_STORE_REF_PHOTO_LIST] as List<String>,
+                                        videoLink = data[FIRE_STORE_REF_VIDEO_LINK] as String,
+                                        isLike = likeMoments.contains(data[FIRE_STORE_REF_MILLIS].toString()),
+                                        totalLike = Math.toIntExact(
+                                            (data[FIRE_STORE_REF_LIKE_COUNT] ?: 0L) as Long
+                                        ),
+                                        isBookmark = bookMarkMoments.contains(data[FIRE_STORE_REF_MILLIS].toString())
+                                    )
+                                    if(moment.isBookmark){
+                                        momentList.add(moment)
+                                    }
+                                }
+                                onSuccess(momentList.reversed())
+                            }.addOnFailureListener { error ->
+                                onFailure(error.message ?: "moments fetch failed.")
+                            }
+                    }
+
+
+            }
+
+
+
 
     }
 
@@ -278,6 +342,47 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
                 }
                 .addOnFailureListener {
                     onFailure(it.message ?: "like reaction failed.")
+                }
+        }
+
+
+    }
+
+    override fun bookMarkMoment(
+        isBookMark: Boolean,
+        momentMillis: String,
+        id: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        val userMap = mapOf<String, Any>(
+            FIRE_STORE_REF_MILLIS to momentMillis,
+            FIRE_STORE_REF_ID to id,
+        )
+
+        if (isBookMark) {
+            db.collection("moments")
+                .document(momentMillis)
+                .collection(FIRE_STORE_REF_BOOK_MARK)
+                .document(id)
+                .set(userMap)
+                .addOnCompleteListener {
+                    onSuccess()
+                }
+                .addOnFailureListener {
+                    onFailure(it.message ?: "bookmark failed.")
+                }
+        } else {
+            db.collection("moments")
+                .document(momentMillis)
+                .collection(FIRE_STORE_REF_BOOK_MARK)
+                .document(id)
+                .delete()
+                .addOnCompleteListener {
+                    onSuccess()
+                }
+                .addOnFailureListener {
+                    onFailure(it.message ?: "bookmark failed.")
                 }
         }
 
