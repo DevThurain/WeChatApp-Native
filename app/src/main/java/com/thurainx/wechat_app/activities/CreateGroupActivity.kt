@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.lifecycle.ViewModelProvider
@@ -16,21 +17,21 @@ import com.thurainx.wechat_app.data.vos.ContactVO
 import com.thurainx.wechat_app.mvp.presenters.CreateGroupPresenter
 import com.thurainx.wechat_app.mvp.presenters.CreateGroupPresenterImpl
 import com.thurainx.wechat_app.mvp.views.CreateGroupView
-import com.thurainx.wechat_app.utils.VIEW_TYPE_SELECT
-import com.thurainx.wechat_app.utils.loadBitmapFromUri
-import com.thurainx.wechat_app.utils.scaleToRatio
-import com.thurainx.wechat_app.utils.toContactGroupList
+import com.thurainx.wechat_app.utils.*
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_create_group.*
 import kotlinx.android.synthetic.main.activity_set_up_profile.*
+import kotlinx.android.synthetic.main.fragment_contact.*
 import org.checkerframework.checker.units.qual.s
 
 class CreateGroupActivity : BaseActivity(), CreateGroupView {
     lateinit var mPresenter: CreateGroupPresenter
     lateinit var mContactGroupAdapter: ContactGroupAdapter
     private var mChosenImageBitmap: Bitmap? = null
+    private var allContacts: ArrayList<ContactVO> = arrayListOf()
+
 
     companion object {
         fun getIntent(context: Context): Intent {
@@ -77,9 +78,32 @@ class CreateGroupActivity : BaseActivity(), CreateGroupView {
         ivCreateGroupBack.setOnClickListener {
             mPresenter.onTapBack()
         }
+
+        edtCreateGroupSearch.afterTextChanged {
+            if (it.isEmpty()) {
+                mContactGroupAdapter.setNewData(allContacts.toContactGroupList())
+                layoutCreateGroupEmpty.visibility = View.GONE
+            } else {
+
+                val contactSearchList = allContacts.filter { contactVO ->
+                    contactVO.name.lowercase().startsWith(it.lowercase())
+                }.toContactGroupList()
+
+                mContactGroupAdapter.setNewData(contactSearchList)
+
+
+                if(contactSearchList.isEmpty()){
+                    layoutCreateGroupEmpty.visibility = View.VISIBLE
+                }else{
+                    layoutCreateGroupEmpty.visibility = View.GONE
+                }
+            }
+        }
     }
 
     override fun bindContacts(contactList: List<ContactVO>) {
+        allContacts.clear()
+        allContacts.addAll(contactList)
         mContactGroupAdapter.setNewData(contactList.toContactGroupList())
     }
 

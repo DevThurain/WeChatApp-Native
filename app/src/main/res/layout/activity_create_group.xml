@@ -116,4 +116,15 @@
         tools:itemCount="1"
         />
 
+    <include
+        android:id="@+id/layoutCreateGroupEmpty"
+        layout="@layout/view_empty_contact"
+        android:layout_below="@id/ivGroupPhoto"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
 </RelativeLayout>
