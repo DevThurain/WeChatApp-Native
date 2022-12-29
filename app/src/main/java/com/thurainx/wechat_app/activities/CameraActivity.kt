@@ -17,7 +17,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContentProviderCompat.requireContext
 import com.thurainx.wechat_app.R
-import com.thurainx.wechat_app.utils.EXTRA_BITMAP
 import com.thurainx.wechat_app.utils.EXTRA_QR
 import com.thurainx.wechat_app.utils.EXTRA_URI
 

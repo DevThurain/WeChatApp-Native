@@ -10,7 +10,7 @@ import com.thurainx.wechat_app.delegate.FileDelegate
 import com.thurainx.wechat_app.mvp.views.ChatRoomView
 
 interface ChatRoomPresenter : BasedPresenter<ChatRoomView>, ContentDelegate, FileDelegate {
-    fun onUiReadyWithId(context: Context, owner: LifecycleOwner, otherId: String)
+    fun onUiReadyWithId(context: Context, owner: LifecycleOwner, otherId: String, isGroup: Boolean)
     fun sentMessage(contactVO: ContactVO, fileList: List<FileVO>, message: MessageVO)
 
     fun onTapBack()

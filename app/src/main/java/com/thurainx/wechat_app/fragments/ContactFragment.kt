@@ -101,12 +101,20 @@ class ContactFragment : Fragment(), ContactView {
     }
 
     override fun navigateToGroupChatScreen(groupVO: GroupVO) {
-
+        val intent = ChatRoomActivity.getIntent(requireContext())
+        ChatRoomActivity.mContact = ContactVO(
+            id = groupVO.id.toString(),
+            name = groupVO.name.toString(),
+            photoUrl = groupVO.photo.toString(),
+        )
+        ChatRoomActivity.isGroup = true
+        startActivity(intent)
     }
 
     override fun navigateToChatRoomScreen(contactVO: ContactVO) {
         val intent = ChatRoomActivity.getIntent(requireContext())
         ChatRoomActivity.mContact = contactVO
+        ChatRoomActivity.isGroup = false
         startActivity(intent)
     }
 
@@ -119,7 +127,9 @@ class ContactFragment : Fragment(), ContactView {
             if (result.resultCode == Activity.RESULT_OK) {
                 Log.d("qr_data_reach_ok", result.data?.getStringExtra(EXTRA_QR) ?: "")
                 val id = result.data?.getStringExtra(EXTRA_QR) ?: ""
-                mPresenter.addContact(id)
+                if(id.isNotEmpty()){
+                    mPresenter.addContact(id)
+                }
             }
         }
 

@@ -151,4 +151,22 @@ object WeChatModelImpl : WeChatModel {
         mRealTimeDatabaseApi.getGroups(selfId, onSuccess, onFail)
     }
 
+    override fun getGroupMessages(
+        groupId: String,
+        onSuccess: (List<MessageVO>) -> Unit,
+        onFail: (String) -> Unit
+    ) {
+        mRealTimeDatabaseApi.getGroupMessages(groupId, onSuccess, onFail)
+    }
+
+    override fun addMessageToGroup(
+        groupId: String,
+        messageVO: MessageVO,
+        fileList: List<FileVO>,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+       mRealTimeDatabaseApi.addMessageToGroup(groupId, messageVO, fileList, onSuccess, onFailure)
+    }
+
 }

@@ -19,10 +19,7 @@ import com.thurainx.wechat_app.R
 import com.thurainx.wechat_app.adapters.ContentAdapter
 import com.thurainx.wechat_app.adapters.FileAdapter
 import com.thurainx.wechat_app.adapters.MessageAdapter
-import com.thurainx.wechat_app.data.vos.ContactVO
-import com.thurainx.wechat_app.data.vos.ContentVO
-import com.thurainx.wechat_app.data.vos.FileVO
-import com.thurainx.wechat_app.data.vos.MessageVO
+import com.thurainx.wechat_app.data.vos.*
 import com.thurainx.wechat_app.mvp.presenters.ChatRoomPresenter
 import com.thurainx.wechat_app.mvp.presenters.ChatRoomPresenterImpl
 import com.thurainx.wechat_app.mvp.views.ChatRoomView
@@ -44,6 +41,7 @@ class ChatRoomActivity : BaseActivity(), ChatRoomView {
 
     companion object {
         var mContact : ContactVO? = null
+        var isGroup: Boolean = false
         fun getIntent(context: Context): Intent {
             val intent = Intent(context, ChatRoomActivity::class.java)
             return intent
@@ -59,7 +57,7 @@ class ChatRoomActivity : BaseActivity(), ChatRoomView {
         bindData()
 
         mContact?.let {
-            mPresenter.onUiReadyWithId(this, this, it.id)
+            mPresenter.onUiReadyWithId(this, this, it.id, isGroup)
         }
     }
 

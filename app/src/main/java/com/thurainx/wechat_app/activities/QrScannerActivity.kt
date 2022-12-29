@@ -28,14 +28,16 @@ class QrScannerActivity : BaseActivity() {
 
     private val scanQrCodeLauncher = registerForActivityResult(ScanQRCode()) { result ->
         val data = Intent()
-//        if(result is QRResult.QRSuccess){
-//        }else{
-//            data.putExtra(EXTRA_QR, "")
-//        }
-        val qrCode = result as QRResult.QRSuccess
-        Log.d("qr_code_raw", qrCode.content.rawValue)
-        data.putExtra(EXTRA_QR, qrCode.content.rawValue)
-        finish()
+        if(result is QRResult.QRSuccess){
+            val qrCode = result as QRResult.QRSuccess
+            Log.d("qr_code_raw", qrCode.content.rawValue)
+            data.putExtra(EXTRA_QR, qrCode.content.rawValue)
+            finish()
+        }else{
+            data.putExtra(EXTRA_QR, "")
+            finish()
+        }
+
 
     }
 

@@ -43,4 +43,18 @@ interface RealTimeDatabaseApi {
         onSuccess: (List<GroupVO>) -> Unit,
         onFail: (String) -> Unit
     )
+
+    fun getGroupMessages(
+        groupId: String,
+        onSuccess: (List<MessageVO>) -> Unit,
+        onFail: (String) -> Unit
+    )
+
+    fun addMessageToGroup(
+        groupId: String,
+        messageVO: MessageVO,
+        fileList: List<FileVO>,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    )
 }

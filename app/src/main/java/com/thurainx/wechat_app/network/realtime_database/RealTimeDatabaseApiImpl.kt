@@ -2,6 +2,7 @@ package com.thurainx.wechat_app.network.realtime_database
 
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build.VERSION_CODES.S
 import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -184,7 +185,7 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
                     val groupList = arrayListOf<GroupVO>()
                     snapshot.children.forEach { dataSnapShot ->
                         dataSnapShot.getValue(GroupVO::class.java)?.let {
-                            if(it.members?.any{ contact -> contact.id == selfId } == true){
+                            if(it.members.any{ contact -> contact.id == selfId }){
                                 groupList.add(it)
                             }
                         }
@@ -199,6 +200,79 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
             })
     }
 
+    override fun getGroupMessages(
+        groupId: String,
+        onSuccess: (List<MessageVO>) -> Unit,
+        onFail: (String) -> Unit
+    ) {
+        database.child("groups")
+            .child(groupId)
+            .child("messages")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    onFail(error.message)
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val messageList = arrayListOf<MessageVO>()
+                    snapshot.children.forEach { dataSnapShot ->
+                        dataSnapShot.getValue(MessageVO::class.java)?.let {
+                            messageList.add(it)
+                        }
+//                        val message = MessageVO(
+//                            text =
+//                        )
+
+                        Log.d("firebase", dataSnapShot.toString())
+                    }
+                    onSuccess(messageList)
+                }
+            })
+    }
+
+    override fun addMessageToGroup(
+        groupId: String,
+        messageVO: MessageVO,
+        fileList: List<FileVO>,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+
+        val uploadedLinkList: ArrayList<String> = arrayListOf()
+
+        if (fileList.isNotEmpty()) {
+            uploadMultiFile(
+                fileList = fileList,
+                onSuccess = {
+                    uploadedLinkList.add(it)
+                    Log.d("multi_file_link", it)
+                    if (uploadedLinkList.size == fileList.size) {
+                        insertGroupMessage(
+                            groupId = groupId,
+                            uploadedLinkList = uploadedLinkList,
+                            isMovie = fileList.first().realPath.isNotEmpty(),
+                            messageVO = messageVO,
+                            onSuccess, onFailure
+                        )
+                    }
+                },
+                onFailure = {
+                    onFailure(it)
+                }
+            )
+        } else {
+            insertGroupMessage(
+                groupId = groupId,
+                uploadedLinkList = uploadedLinkList,
+                isMovie = false,
+                messageVO = messageVO,
+                onSuccess, onFailure
+            )
+        }
+
+    }
+
+
     private fun insertGroup(
         name: String,
         imageLink: String,
@@ -207,12 +281,12 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
         onFailure: (String) -> Unit
     ) {
         val groupVO = GroupVO(
+            id = System.currentTimeMillis().toString(),
             name = name,
             photo = imageLink,
             members = contactList,
-            messages = listOf()
         )
-        database.child("groups").child(System.currentTimeMillis().toString())
+        database.child("groups").child(groupVO.id.toString())
             .setValue(groupVO)
             .addOnCompleteListener {
                 onSuccess()
@@ -399,6 +473,48 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
                 onFailure(it.message ?: "insert contact failed")
                 Log.d("firebase", it.message ?: "insert contact failed")
             }
+
+    }
+
+    private fun insertGroupMessage(
+        groupId: String,
+        uploadedLinkList: List<String>,
+        isMovie: Boolean,
+        messageVO: MessageVO,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit,
+    ) {
+
+        var photoList: List<String> = listOf()
+        var movieLink: String = ""
+
+        if (isMovie) {
+            movieLink = uploadedLinkList.firstOrNull() ?: ""
+        } else {
+            photoList = uploadedLinkList
+        }
+
+        val message = messageVO.copy(
+            videoLink = movieLink,
+            photoList = ArrayList(photoList)
+        )
+
+        Log.d("message", message.toString())
+
+
+        database.child("groups")
+            .child(groupId)
+            .child("messages")
+            .child(System.currentTimeMillis().toString())
+            .setValue(message)
+            .addOnCompleteListener {
+                onSuccess()
+            }
+            .addOnFailureListener {
+                onFailure(it.message ?: "message insert error.")
+                Log.d("firebase", it.message ?: "unknown")
+            }
+
 
     }
 

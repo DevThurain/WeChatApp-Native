@@ -29,7 +29,7 @@ const val EXTRA_PASSWORD = "EXTRA_PASSWORD"
 const val EXTRA_DOB = "EXTRA_DOB"
 const val EXTRA_GENDER = "EXTRA_GENDER"
 const val EXTRA_QR = "EXTRA_QR"
-const val EXTRA_BITMAP = "EXTRA_BITMAP"
+const val EXTRA_GROUP = "EXTRA_GROUP"
 const val EXTRA_URI = "EXTRA_URI"
 
 

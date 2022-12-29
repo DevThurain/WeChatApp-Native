@@ -24,22 +24,37 @@ class ChatRoomPresenterImpl : ChatRoomPresenter, AbstractBasedPresenter<ChatRoom
     var mId: String = ""
     var mName: String = ""
     var mPhotoUrl: String = ""
+    var mIsGroup: Boolean = false
 
-    override fun onUiReadyWithId(context: Context, owner: LifecycleOwner, otherId: String) {
+    override fun onUiReadyWithId(context: Context, owner: LifecycleOwner, otherId: String, isGroup: Boolean) {
         dataStore = context.userDataStore
+        mIsGroup = isGroup
 
         dataStore?.readQuick(FIRE_STORE_REF_ID) {
             mId = it
-            mWeChatModel.getMessagesForChatRoom(
-                ownId = mId,
-                otherId = otherId,
-                onSuccess = { messages ->
-                    mView.bindMessages(ownId = mId, messageList = messages)
-                },
-                onFail = { error ->
-                    mView.showErrorMessage(error)
-                }
-            )
+            if(!isGroup){
+                mWeChatModel.getMessagesForChatRoom(
+                    ownId = mId,
+                    otherId = otherId,
+                    onSuccess = { messages ->
+                        mView.bindMessages(ownId = mId, messageList = messages)
+                    },
+                    onFail = { error ->
+                        mView.showErrorMessage(error)
+                    }
+                )
+            }else{
+                mWeChatModel.getGroupMessages(
+                    groupId = otherId,
+                    onSuccess = { messages ->
+                        mView.bindMessages(ownId = mId, messageList = messages)
+                    },
+                    onFail = { error ->
+                        mView.showErrorMessage(error)
+                    }
+                )
+            }
+
         }
         getUserData()
     }
@@ -48,25 +63,49 @@ class ChatRoomPresenterImpl : ChatRoomPresenter, AbstractBasedPresenter<ChatRoom
         contactVO: ContactVO, fileList: List<FileVO>, message: MessageVO
     ) {
         Log.d("firebase", "call sent message")
-        mWeChatModel.addMessage(
-            contactVO = contactVO,
-            messageVO = MessageVO(
-                text = message.text,
-                millis = message.millis,
-                photoList = message.photoList,
-                videoLink = message.videoLink,
-                name = mName,
-                id = mId,
-                profileImage = mPhotoUrl
-            ),
-            fileList = fileList,
-            onSuccess = {
+        if(!mIsGroup){
+            mWeChatModel.addMessage(
+                contactVO = contactVO,
+                messageVO = MessageVO(
+                    text = message.text,
+                    millis = message.millis,
+                    photoList = message.photoList,
+                    videoLink = message.videoLink,
+                    name = mName,
+                    id = mId,
+                    profileImage = mPhotoUrl
+                ),
+                fileList = fileList,
+                onSuccess = {
 
-            },
-            onFailure = {
-                mView.showErrorMessage(it)
-            }
-        )
+                },
+                onFailure = {
+                    mView.showErrorMessage(it)
+                }
+            )
+        }else{
+            mWeChatModel.addMessageToGroup(
+                groupId = contactVO.id,
+                messageVO = MessageVO(
+                    text = message.text,
+                    millis = message.millis,
+                    photoList = message.photoList,
+                    videoLink = message.videoLink,
+                    name = mName,
+                    id = mId,
+                    profileImage = mPhotoUrl
+                ),
+                fileList = fileList,
+                onSuccess = {
+
+                },
+                onFailure = {
+                    mView.showErrorMessage(it)
+                }
+            )
+
+        }
+
     }
 
     override fun onTapBack() {
