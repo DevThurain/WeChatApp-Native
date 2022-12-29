@@ -77,5 +77,4 @@ class ChatFragment : Fragment(), ChatView {
         Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
     }
 
-
 }

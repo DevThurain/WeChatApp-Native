@@ -76,7 +76,7 @@
                 app:startIconDrawable="@drawable/ic_search">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtEditContactSearch"
+                    android:id="@+id/edtContactSearch"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:hint="Search"
@@ -144,6 +144,18 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="1"
                 tools:listitem="@layout/view_holder_contact_group" />
+
+            <include
+                android:id="@+id/layoutEmptyContact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                layout="@layout/view_empty_contact"
+                android:visibility="gone"
+                android:layout_below="@id/textFieldContactSearch"
+                />
 
 
         </RelativeLayout>
