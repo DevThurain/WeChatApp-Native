@@ -4,14 +4,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.thurainx.wechat_app.R
-import com.thurainx.wechat_app.data.vos.ChatGroupVO
+import com.thurainx.wechat_app.data.vos.GroupVO
+import com.thurainx.wechat_app.delegate.GroupDelegate
 import com.thurainx.wechat_app.views.view_holders.ChatGroupViewHolder
 
-class ChatGroupAdapter() : RecyclerView.Adapter<ChatGroupViewHolder>() {
-    var mDataList = listOf<ChatGroupVO>()
+class ChatGroupAdapter(val groupDelegate: GroupDelegate) : RecyclerView.Adapter<ChatGroupViewHolder>() {
+    var mDataList = listOf<GroupVO>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatGroupViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_chat_group, parent,false)
-        return ChatGroupViewHolder(view)
+        return ChatGroupViewHolder(view, groupDelegate)
     }
 
     override fun onBindViewHolder(holder: ChatGroupViewHolder, position: Int) {
@@ -22,7 +23,7 @@ class ChatGroupAdapter() : RecyclerView.Adapter<ChatGroupViewHolder>() {
         return mDataList.size
     }
 
-    fun setNewData(dataList: List<ChatGroupVO>){
+    fun setNewData(dataList: List<GroupVO>){
         mDataList = dataList
         notifyDataSetChanged()
     }

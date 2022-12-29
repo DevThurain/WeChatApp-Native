@@ -102,13 +102,16 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_marginStart="@dimen/margin_medium_2"
+                        android:layout_marginVertical="10dp"
                         android:background="@drawable/background_add_group"
                         android:src="@drawable/ic_add_group" />
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
+                        android:layout_gravity="center_vertical"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/view_holder_chat_group"
 

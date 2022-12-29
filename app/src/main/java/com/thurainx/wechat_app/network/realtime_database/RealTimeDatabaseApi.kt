@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import com.google.android.gms.tasks.OnFailureListener
 import com.thurainx.wechat_app.data.vos.ContactVO
 import com.thurainx.wechat_app.data.vos.FileVO
+import com.thurainx.wechat_app.data.vos.GroupVO
 import com.thurainx.wechat_app.data.vos.MessageVO
 
 interface RealTimeDatabaseApi {
@@ -34,6 +35,12 @@ interface RealTimeDatabaseApi {
         bitmap: Bitmap,
         contactList: List<ContactVO>,
         onSuccess: () -> Unit,
+        onFail: (String) -> Unit
+    )
+
+    fun getGroups(
+        selfId: String,
+        onSuccess: (List<GroupVO>) -> Unit,
         onFail: (String) -> Unit
     )
 }

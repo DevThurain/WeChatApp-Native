@@ -7,6 +7,7 @@ import androidx.datastore.rxjava3.RxDataStore
 import androidx.lifecycle.LifecycleOwner
 import com.thurainx.wechat_app.data.models.WeChatModelImpl
 import com.thurainx.wechat_app.data.vos.ContactVO
+import com.thurainx.wechat_app.data.vos.GroupVO
 import com.thurainx.wechat_app.mvp.views.ContactView
 import com.thurainx.wechat_app.utils.DataStoreUtils.readQuick
 import com.thurainx.wechat_app.utils.DataStoreUtils.userDataStore
@@ -25,6 +26,10 @@ class ContactPresenterImpl : AbstractBasedPresenter<ContactView>(), ContactPrese
 
     override fun onTapCreateGroup() {
         mView.navigateToCreateGroupScreen()
+    }
+
+    override fun refreshGroupList() {
+        getGroups(mId)
     }
 
 
@@ -47,6 +52,7 @@ class ContactPresenterImpl : AbstractBasedPresenter<ContactView>(), ContactPrese
         dataStore?.readQuick(FIRE_STORE_REF_ID) {
             mId = it
             getContacts(mId)
+            getGroups(mId)
         }
     }
 
@@ -56,6 +62,10 @@ class ContactPresenterImpl : AbstractBasedPresenter<ContactView>(), ContactPrese
 
     override fun onSelectContact(isSelect: Boolean, contactVO: ContactVO) {
 
+    }
+
+    override fun onTapGroup(groupVO: GroupVO) {
+        mView.navigateToGroupChatScreen(groupVO)
     }
 
     private fun getContacts(id: String){
@@ -69,4 +79,16 @@ class ContactPresenterImpl : AbstractBasedPresenter<ContactView>(), ContactPrese
             }
         )
     }
+    private fun getGroups(id: String){
+        mWeChatModel.getGroups(
+            selfId = mId,
+            onSuccess = {
+                mView.bindGroups(it)
+            },
+            onFail = {
+                mView.showErrorMessage(it)
+            }
+        )
+    }
+
 }

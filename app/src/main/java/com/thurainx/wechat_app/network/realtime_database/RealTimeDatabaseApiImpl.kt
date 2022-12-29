@@ -173,6 +173,32 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
         )
     }
 
+    override fun getGroups(selfId: String, onSuccess: (List<GroupVO>) -> Unit, onFail: (String) -> Unit) {
+        database.child("groups")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    onFail(error.message)
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val groupList = arrayListOf<GroupVO>()
+                    snapshot.children.forEach { dataSnapShot ->
+                        dataSnapShot.getValue(GroupVO::class.java)?.let {
+                            if(it.members?.any{ contact -> contact.id == selfId } == true){
+                                groupList.add(it)
+                            }
+                        }
+//                        val message = MessageVO(
+//                            text =
+//                        )
+
+                        Log.d("firebase", dataSnapShot.toString())
+                    }
+                    onSuccess(groupList)
+                }
+            })
+    }
+
     private fun insertGroup(
         name: String,
         imageLink: String,

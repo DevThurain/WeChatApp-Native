@@ -17,8 +17,10 @@ import com.thurainx.wechat_app.R
 import com.thurainx.wechat_app.activities.ChatRoomActivity
 import com.thurainx.wechat_app.activities.CreateGroupActivity
 import com.thurainx.wechat_app.activities.QrScannerActivity
+import com.thurainx.wechat_app.adapters.ChatGroupAdapter
 import com.thurainx.wechat_app.adapters.ContactGroupAdapter
 import com.thurainx.wechat_app.data.vos.ContactVO
+import com.thurainx.wechat_app.data.vos.GroupVO
 import com.thurainx.wechat_app.mvp.presenters.ContactPresenter
 import com.thurainx.wechat_app.mvp.presenters.ContactPresenterImpl
 import com.thurainx.wechat_app.mvp.views.ContactView
@@ -31,6 +33,7 @@ import kotlinx.android.synthetic.main.fragment_contact.*
 
 class ContactFragment : Fragment(), ContactView {
     lateinit var mContactGroupAdapter: ContactGroupAdapter
+    lateinit var mChatGroupAdapter: ChatGroupAdapter
     lateinit var mPresenter: ContactPresenter
 
 
@@ -64,6 +67,9 @@ class ContactFragment : Fragment(), ContactView {
     private fun setUpRecyclerView(){
         mContactGroupAdapter = ContactGroupAdapter(VIEW_TYPE_NORMAL,mPresenter,mPresenter)
         rvNormalContact.adapter = mContactGroupAdapter
+
+        mChatGroupAdapter = ChatGroupAdapter(mPresenter)
+        rvGroup.adapter = mChatGroupAdapter
     }
 
     private fun setUpListeners(){
@@ -90,6 +96,14 @@ class ContactFragment : Fragment(), ContactView {
         mContactGroupAdapter.setNewData(contactList.toContactGroupList())
     }
 
+    override fun bindGroups(groupList: List<GroupVO>) {
+        mChatGroupAdapter.setNewData(groupList)
+    }
+
+    override fun navigateToGroupChatScreen(groupVO: GroupVO) {
+
+    }
+
     override fun navigateToChatRoomScreen(contactVO: ContactVO) {
         val intent = ChatRoomActivity.getIntent(requireContext())
         ChatRoomActivity.mContact = contactVO
@@ -112,7 +126,7 @@ class ContactFragment : Fragment(), ContactView {
     private val createGroupLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-
+                    mPresenter.refreshGroupList()
             }
         }
 
