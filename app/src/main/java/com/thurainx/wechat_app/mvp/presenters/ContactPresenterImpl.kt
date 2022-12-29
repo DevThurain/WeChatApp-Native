@@ -23,6 +23,10 @@ class ContactPresenterImpl : AbstractBasedPresenter<ContactView>(), ContactPrese
         mView.navigateToQrScannerScreen()
     }
 
+    override fun onTapCreateGroup() {
+        mView.navigateToCreateGroupScreen()
+    }
+
 
     override fun addContact(friendId: String) {
         mWeChatModel.addContacts(
@@ -48,6 +52,10 @@ class ContactPresenterImpl : AbstractBasedPresenter<ContactView>(), ContactPrese
 
     override fun onTapContact(contactVO: ContactVO) {
         mView.navigateToChatRoomScreen(contactVO)
+    }
+
+    override fun onSelectContact(isSelect: Boolean, contactVO: ContactVO) {
+
     }
 
     private fun getContacts(id: String){

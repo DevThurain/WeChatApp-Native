@@ -1,5 +1,6 @@
 package com.thurainx.wechat_app.network.realtime_database
 
+import android.graphics.Bitmap
 import com.google.android.gms.tasks.OnFailureListener
 import com.thurainx.wechat_app.data.vos.ContactVO
 import com.thurainx.wechat_app.data.vos.FileVO
@@ -25,6 +26,14 @@ interface RealTimeDatabaseApi {
     fun getLastMessage(
         ownId: String,
         onSuccess: (List<ContactVO>) -> Unit,
+        onFail: (String) -> Unit
+    )
+
+    fun createGroup(
+        name: String,
+        bitmap: Bitmap,
+        contactList: List<ContactVO>,
+        onSuccess: () -> Unit,
         onFail: (String) -> Unit
     )
 }

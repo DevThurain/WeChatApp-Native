@@ -96,4 +96,12 @@ interface WeChatModel {
         onFail: (String) -> Unit
     )
 
+    fun createGroup(
+        name: String,
+        bitmap: Bitmap,
+        contactList: List<ContactVO>,
+        onSuccess: () -> Unit,
+        onFail: (String) -> Unit
+    )
+
 }

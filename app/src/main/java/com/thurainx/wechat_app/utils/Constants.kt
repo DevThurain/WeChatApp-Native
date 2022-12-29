@@ -36,8 +36,8 @@ const val EXTRA_URI = "EXTRA_URI"
 const val VIEW_TYPE_OWN_MESSAGE = 1
 const val VIEW_TYPE_OTHER_MESSAGE = 2
 
-
-
+const val VIEW_TYPE_SELECT = 1
+const val VIEW_TYPE_NORMAL = 2
 
 
 enum class CONTENT{

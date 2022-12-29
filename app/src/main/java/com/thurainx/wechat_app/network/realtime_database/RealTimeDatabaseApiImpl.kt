@@ -8,13 +8,12 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.thurainx.wechat_app.data.vos.ContactVO
 import com.thurainx.wechat_app.data.vos.FileVO
+import com.thurainx.wechat_app.data.vos.GroupVO
 import com.thurainx.wechat_app.data.vos.MessageVO
-import com.thurainx.wechat_app.network.realtime_database.RealTimeDatabaseApiImpl.database
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.*
@@ -118,18 +117,20 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
                         val map = dataSnapShot.value as Map<String, *>
                         Log.d("snap_shot_list", (map["contact"].toString()))
 
-                        if(map["contact"].toString() != "null"){
+                        if (map["contact"].toString() != "null") {
                             val contactMap = map["contact"] as Map<String, *>
                             val messageMap = map["messages"] as Map<String, *>
-                            val lastKey = messageMap.toSortedMap(compareBy<String> { it.length }.thenBy { it }).lastKey()
+                            val lastKey =
+                                messageMap.toSortedMap(compareBy<String> { it.length }.thenBy { it })
+                                    .lastKey()
                             val latestMessageMap = messageMap[lastKey] as Map<String, *>
                             var latestMessage = ""
 
-                            if(latestMessageMap["text"].toString().isNotEmpty()){
+                            if (latestMessageMap["text"].toString().isNotEmpty()) {
                                 latestMessage = latestMessageMap["text"].toString()
-                            }else if(latestMessageMap["photoList"].toString() != "null"){
+                            } else if (latestMessageMap["photoList"].toString() != "null") {
                                 latestMessage = "sent a photo."
-                            }else if(latestMessageMap["videoLink"].toString().isNotEmpty()){
+                            } else if (latestMessageMap["videoLink"].toString().isNotEmpty()) {
                                 latestMessage = "sent a video"
                             }
                             Log.d("snap_shot_list", latestMessage)
@@ -148,6 +149,53 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
                     onSuccess(contactList)
                 }
             })
+    }
+
+    override fun createGroup(
+        name: String,
+        bitmap: Bitmap,
+        contactList: List<ContactVO>,
+        onSuccess: () -> Unit,
+        onFail: (String) -> Unit
+    ) {
+        uploadMultiFile(
+            fileList = listOf(FileVO(bitmap = bitmap, isMovie = false, uri = Uri.EMPTY)),
+            onSuccess = { groupImageLink ->
+                insertGroup(
+                    name = name,
+                    imageLink = groupImageLink,
+                    contactList = contactList,
+                    onSuccess = onSuccess,
+                    onFailure = onFail
+                )
+            },
+            onFailure = onFail
+        )
+    }
+
+    private fun insertGroup(
+        name: String,
+        imageLink: String,
+        contactList: List<ContactVO>,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        val groupVO = GroupVO(
+            name = name,
+            photo = imageLink,
+            members = contactList,
+            messages = listOf()
+        )
+        database.child("groups").child(System.currentTimeMillis().toString())
+            .setValue(groupVO)
+            .addOnCompleteListener {
+                onSuccess()
+            }
+            .addOnFailureListener {
+                onFailure(it.message ?: "create group error.")
+                Log.d("firebase", it.message ?: "unknown")
+            }
+
     }
 
 
@@ -275,7 +323,7 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
             otherContact = contactVO,
             onSuccess = {
                 insertContactSuccess = true
-                if(ownMessageSuccess && otherMessageSuccess){
+                if (ownMessageSuccess && otherMessageSuccess) {
                     onSuccess()
                 }
             },
@@ -302,7 +350,7 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
             .setValue(otherContact)
             .addOnCompleteListener {
                 selfContactSuccess = true
-                if(otherContactSuccess){
+                if (otherContactSuccess) {
                     onSuccess()
                 }
             }
@@ -317,7 +365,7 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
             .setValue(selfContact)
             .addOnCompleteListener {
                 otherContactSuccess = true
-                if(selfContactSuccess){
+                if (selfContactSuccess) {
                     onSuccess()
                 }
             }

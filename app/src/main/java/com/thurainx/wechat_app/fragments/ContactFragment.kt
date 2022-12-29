@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.thurainx.wechat_app.R
 import com.thurainx.wechat_app.activities.ChatRoomActivity
+import com.thurainx.wechat_app.activities.CreateGroupActivity
 import com.thurainx.wechat_app.activities.QrScannerActivity
 import com.thurainx.wechat_app.adapters.ContactGroupAdapter
 import com.thurainx.wechat_app.data.vos.ContactVO
@@ -23,7 +24,9 @@ import com.thurainx.wechat_app.mvp.presenters.ContactPresenterImpl
 import com.thurainx.wechat_app.mvp.views.ContactView
 import com.thurainx.wechat_app.utils.EXTRA_QR
 import com.thurainx.wechat_app.utils.TEMP_CONTACT_LIST
+import com.thurainx.wechat_app.utils.VIEW_TYPE_NORMAL
 import com.thurainx.wechat_app.utils.toContactGroupList
+import kotlinx.android.synthetic.main.activity_create_group.*
 import kotlinx.android.synthetic.main.fragment_contact.*
 
 class ContactFragment : Fragment(), ContactView {
@@ -48,7 +51,7 @@ class ContactFragment : Fragment(), ContactView {
         super.onViewCreated(view, savedInstanceState)
 
         setUpPresenter()
-        setUpRecyclerView(view)
+        setUpRecyclerView()
         setUpListeners()
         mPresenter.onUiReady(requireContext(),requireActivity())
     }
@@ -58,8 +61,8 @@ class ContactFragment : Fragment(), ContactView {
         mPresenter.initView(this)
     }
 
-    private fun setUpRecyclerView(view: View){
-        mContactGroupAdapter = ContactGroupAdapter(mPresenter)
+    private fun setUpRecyclerView(){
+        mContactGroupAdapter = ContactGroupAdapter(VIEW_TYPE_NORMAL,mPresenter,mPresenter)
         rvNormalContact.adapter = mContactGroupAdapter
     }
 
@@ -67,11 +70,20 @@ class ContactFragment : Fragment(), ContactView {
         btnAddContact.setOnClickListener{
             mPresenter.onTapAddContact()
         }
+
+        btnAddGroup.setOnClickListener {
+            mPresenter.onTapCreateGroup()
+        }
     }
 
     override fun navigateToQrScannerScreen() {
         val intent = QrScannerActivity.getIntent(requireContext())
         intentLauncher.launch(intent)
+    }
+
+    override fun navigateToCreateGroupScreen() {
+        val intent = CreateGroupActivity.getIntent(requireContext())
+        createGroupLauncher.launch(intent)
     }
 
     override fun bindContacts(contactList: List<ContactVO>) {
@@ -94,6 +106,13 @@ class ContactFragment : Fragment(), ContactView {
                 Log.d("qr_data_reach_ok", result.data?.getStringExtra(EXTRA_QR) ?: "")
                 val id = result.data?.getStringExtra(EXTRA_QR) ?: ""
                 mPresenter.addContact(id)
+            }
+        }
+
+    private val createGroupLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+
             }
         }
 
