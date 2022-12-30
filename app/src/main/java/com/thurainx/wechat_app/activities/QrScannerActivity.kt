@@ -32,11 +32,14 @@ class QrScannerActivity : BaseActivity() {
             val qrCode = result as QRResult.QRSuccess
             Log.d("qr_code_raw", qrCode.content.rawValue)
             data.putExtra(EXTRA_QR, qrCode.content.rawValue)
+            setResult(RESULT_OK, data)
             finish()
+
         }else{
             data.putExtra(EXTRA_QR, "")
             finish()
         }
+
 
 
     }

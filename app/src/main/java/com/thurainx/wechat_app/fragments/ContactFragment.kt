@@ -160,9 +160,9 @@ class ContactFragment : Fragment(), ContactView {
     private val intentLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                Log.d("qr_data_reach_ok", result.data?.getStringExtra(EXTRA_QR) ?: "")
-                val id = result.data?.getStringExtra(EXTRA_QR) ?: ""
-                if (id.isNotEmpty()) {
+                Log.d("qr_data_reach_ok", result.data?.getStringExtra(EXTRA_QR) ?: "-")
+                val id = result.data?.getStringExtra(EXTRA_QR) ?: "-"
+                if (id != "-") {
                     mPresenter.addContact(id)
                 }
             }
