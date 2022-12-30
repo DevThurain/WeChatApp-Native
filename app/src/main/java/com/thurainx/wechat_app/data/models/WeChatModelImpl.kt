@@ -195,4 +195,19 @@ object WeChatModelImpl : WeChatModel {
         mCloudFireStoreApi.getBookMarkMoments(id, onSuccess, onFailure)
     }
 
+    override fun updateUser(
+        id: String,
+        name: String,
+        phone: String,
+        password: String,
+        dob: String,
+        gender: String,
+        profileImage: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mCloudFireStoreApi.updateUser(id, name, phone, password, dob, gender, profileImage,onSuccess, onFailure)
+    }
+
+
 }

@@ -14,4 +14,14 @@ interface AuthManager {
         onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit
     )
+
+    fun updateUser(
+        phone: String,
+        password: String,
+        onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit
+    )
+
+
+    fun logoutUser()
 }

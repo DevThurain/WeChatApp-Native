@@ -15,6 +15,7 @@ import com.thurainx.wechat_app.utils.DataStoreUtils.readQuick
 import com.thurainx.wechat_app.utils.DataStoreUtils.userDataStore
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class CreateGroupPresenterImpl : AbstractBasedPresenter<CreateGroupView>(), CreateGroupPresenter {
@@ -92,12 +93,12 @@ class CreateGroupPresenterImpl : AbstractBasedPresenter<CreateGroupView>(), Crea
     }
 
     private fun getUserData() {
-        Observable.zip(
-            dataStore?.readFromRxDatastore(FIRE_STORE_REF_NAME) ?: Observable.just("-"),
-            dataStore?.readFromRxDatastore(FIRE_STORE_REF_PHONE) ?: Observable.just("-"),
-            dataStore?.readFromRxDatastore(FIRE_STORE_REF_DOB) ?: Observable.just("-"),
-            dataStore?.readFromRxDatastore(FIRE_STORE_REF_GENDER) ?: Observable.just("-"),
-            dataStore?.readFromRxDatastore(FIRE_STORE_REF_PROFILE_IMAGE) ?: Observable.just("-")
+        Single.zip(
+            dataStore?.readFromRxDatastore(FIRE_STORE_REF_NAME) ?.first("-") ?: Single.just("-"),
+            dataStore?.readFromRxDatastore(FIRE_STORE_REF_PHONE)?.first("-") ?: Single.just("-"),
+            dataStore?.readFromRxDatastore(FIRE_STORE_REF_DOB) ?.first("-") ?: Single.just("-"),
+            dataStore?.readFromRxDatastore(FIRE_STORE_REF_GENDER)?.first("-") ?: Single.just("-"),
+            dataStore?.readFromRxDatastore(FIRE_STORE_REF_PROFILE_IMAGE) ?.first("-") ?: Single.just("-"),
         ) { name, phone, dob, gender, profile ->
             Log.d("rx_read", "$name - $profile")
             return@zip mapOf(

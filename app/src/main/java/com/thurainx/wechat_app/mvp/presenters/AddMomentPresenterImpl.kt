@@ -19,6 +19,7 @@ import com.thurainx.wechat_app.utils.DataStoreUtils.userDataStore
 import com.thurainx.wechat_app.utils.DataStoreUtils.writeToRxDatastore
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class AddMomentPresenterImpl : AddMomentPresenter, AbstractBasedPresenter<AddMomentView>() {
@@ -54,10 +55,10 @@ class AddMomentPresenterImpl : AddMomentPresenter, AbstractBasedPresenter<AddMom
     override fun onUiReady(context: Context, owner: LifecycleOwner) {
         dataStore = context.userDataStore
 
-        Observable.zip(
-            dataStore?.readFromRxDatastore(FIRE_STORE_REF_ID) ?: Observable.just("-"),
-            dataStore?.readFromRxDatastore(FIRE_STORE_REF_NAME) ?: Observable.just("-"),
-            dataStore?.readFromRxDatastore(FIRE_STORE_REF_PROFILE_IMAGE) ?: Observable.just("-")
+        Single.zip(
+            dataStore?.readFromRxDatastore(FIRE_STORE_REF_ID)?.first("-") ?: Single.just("-"),
+            dataStore?.readFromRxDatastore(FIRE_STORE_REF_NAME) ?.first("-") ?: Single.just("-"),
+            dataStore?.readFromRxDatastore(FIRE_STORE_REF_PROFILE_IMAGE) ?.first("-") ?: Single.just("-"),
         ) { id, name, profile ->
             Log.d("rx_read", "$name - $profile")
             return@zip mapOf(

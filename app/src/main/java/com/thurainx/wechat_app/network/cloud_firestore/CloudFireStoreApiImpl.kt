@@ -477,6 +477,41 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
             }
     }
 
+    override fun updateUser(
+        id: String,
+        name: String,
+        phone: String,
+        password: String,
+        dob: String,
+        gender: String,
+        profileImage: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        val userMap = hashMapOf(
+            FIRE_STORE_REF_ID to id,
+            FIRE_STORE_REF_NAME to name,
+            FIRE_STORE_REF_PHONE to phone,
+            FIRE_STORE_REF_PASSWORD to password,
+            FIRE_STORE_REF_DOB to dob,
+            FIRE_STORE_REF_GENDER to gender,
+            FIRE_STORE_REF_PROFILE_IMAGE to profileImage
+        )
+
+        db.collection("users")
+            .document(id)
+            .set(userMap)
+            .addOnSuccessListener {
+                onSuccess()
+                Log.d("Success", "Successfully added user")
+            }
+            .addOnFailureListener {
+                onFailure(it.message ?: "Failed to add user to fire store.")
+                Log.d("Failure", "Failed to add user")
+            }
+    }
+
+
     private fun updateLikeCount(
         totalLike: Int,
         momentMillis: String,
@@ -492,6 +527,7 @@ object CloudFireStoreApiImpl : CloudFireStoreApi {
                 onFailure(it.message ?: "like count update failed")
             }
     }
+
 
 
     private fun insertUser(

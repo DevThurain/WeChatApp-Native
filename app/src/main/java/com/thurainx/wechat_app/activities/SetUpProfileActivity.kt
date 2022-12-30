@@ -60,6 +60,7 @@ class SetUpProfileActivity : BaseActivity(), SetUpProfileView {
     override fun navigateToNavigationScreen() {
         val intent = NavigationActivity.getIntent(this)
         startActivity(intent)
+        finishAffinity()
     }
 
     override fun showErrorMessage(message: String) {

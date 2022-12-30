@@ -165,7 +165,7 @@
                             android:id="@+id/tvProfileGender"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="Male"
+                            android:text=""
                             android:layout_marginStart="@dimen/margin_medium"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_regular"

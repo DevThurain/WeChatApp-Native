@@ -23,4 +23,17 @@ object AuthModelImpl : AuthModel {
     ) {
         mAuthManager.loginUser(phone, password, onSuccess, onFailure)
     }
+
+    override fun logoutUser() {
+        mAuthManager.logoutUser()
+    }
+
+    override fun updateUser(
+        phone: String,
+        password: String,
+        onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+
+    }
 }

@@ -141,4 +141,18 @@ interface WeChatModel {
         onFailure: (String) -> Unit
     )
 
+    fun updateUser(
+        id: String,
+        name: String,
+        phone: String,
+        password: String,
+        dob: String,
+        gender: String,
+        profileImage: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit
+    )
+
+
+
 }

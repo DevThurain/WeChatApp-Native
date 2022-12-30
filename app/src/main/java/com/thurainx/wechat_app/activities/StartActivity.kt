@@ -29,9 +29,12 @@ class StartActivity : AppCompatActivity() {
     }
 
     private fun checkUserExist(isUserExist: (Boolean) -> Unit){
+        Log.d("blahblah","check user exist")
+
         val dataStore = this.userDataStore
 //        dataStore.clearRxDataStore()
         dataStore.readQuick(FIRE_STORE_REF_PHONE){
+            Log.d("blahblah",it)
             isUserExist(it != "null")
         }
     }

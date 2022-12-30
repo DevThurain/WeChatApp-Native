@@ -18,4 +18,14 @@ interface AuthModel {
         onSuccess: (String) -> Unit,
         onFailure: (String) -> Unit
     )
+
+    fun logoutUser()
+
+    fun updateUser(
+        phone: String,
+        password: String,
+        onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit
+    )
+
 }

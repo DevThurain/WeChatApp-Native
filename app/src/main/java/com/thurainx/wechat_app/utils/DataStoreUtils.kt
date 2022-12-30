@@ -70,6 +70,7 @@ object DataStoreUtils {
         return this.data().map { pref -> pref.get(stringKey).toString() }.toObservable()
     }
 
+
     @OptIn(ExperimentalCoroutinesApi::class)
     fun RxDataStore<Preferences>.clearRxDataStore(): Observable<Preferences>{
         return this.updateDataAsync{ prefsIn ->
@@ -80,12 +81,15 @@ object DataStoreUtils {
     }
 
     fun RxDataStore<Preferences>.readQuick(key: String,onSuccess : (String) -> Unit){
+        Log.d("rx","user")
         this.readFromRxDatastore(key)
+            ?.first("")
             ?.subscribeOn(Schedulers.io())
             ?.observeOn(AndroidSchedulers.mainThread())
             ?.subscribe(
                 {
-                onSuccess(it)
+                    Log.d("rx",it ?: "empty")
+                    onSuccess(it)
                 },
                 {
                     Log.d("rx",it.message ?: "failed to read from datastore")

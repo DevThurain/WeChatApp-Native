@@ -39,7 +39,7 @@ class OtpPresenterImpl : OtpPresenter, AbstractBasedPresenter<OtpView>() {
                     gender = gender,
                     onSuccess = {
                         Log.d("id",id)
-                        saveUserToDatastore(id, name, phone, dob, gender)
+                        saveUserToDatastore(id, name, phone, dob, gender, password)
                         mView.navigateToSetUpProfileScreen()
                     },
                     onFailure = { message ->
@@ -65,13 +65,15 @@ class OtpPresenterImpl : OtpPresenter, AbstractBasedPresenter<OtpView>() {
         name: String,
         phone: String,
         dob: String,
-        gender: String
+        gender: String,
+        password: String
     ) {
         dataStore?.writeToRxDatastore(FIRE_STORE_REF_ID, id)
         dataStore?.writeToRxDatastore(FIRE_STORE_REF_NAME, name)
         dataStore?.writeToRxDatastore(FIRE_STORE_REF_PHONE, phone)
         dataStore?.writeToRxDatastore(FIRE_STORE_REF_DOB, dob)
         dataStore?.writeToRxDatastore(FIRE_STORE_REF_GENDER, gender)
+        dataStore?.writeToRxDatastore(FIRE_STORE_REF_PASSWORD, password)
     }
 
     private fun registerToFireStore(

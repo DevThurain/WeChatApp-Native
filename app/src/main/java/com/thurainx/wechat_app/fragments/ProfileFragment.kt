@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,18 +20,26 @@ import com.journeyapps.barcodescanner.BarcodeEncoder
 import com.thurainx.wechat_app.R
 import com.thurainx.wechat_app.adapters.MomentAdapter
 import com.thurainx.wechat_app.data.vos.MomentVO
+import com.thurainx.wechat_app.delegate.EditDialogDelegate
+import com.thurainx.wechat_app.fragments.EditDialogFragment.Companion.selectedDay
+import com.thurainx.wechat_app.fragments.EditDialogFragment.Companion.selectedGender
+import com.thurainx.wechat_app.fragments.EditDialogFragment.Companion.selectedMonth
+import com.thurainx.wechat_app.fragments.EditDialogFragment.Companion.selectedName
+import com.thurainx.wechat_app.fragments.EditDialogFragment.Companion.selectedPhone
+import com.thurainx.wechat_app.fragments.EditDialogFragment.Companion.selectedYear
 import com.thurainx.wechat_app.mvp.presenters.ProfilePresenter
 import com.thurainx.wechat_app.mvp.presenters.ProfilePresenterImpl
 import com.thurainx.wechat_app.mvp.views.ProfileView
 import kotlinx.android.synthetic.main.dialog_qr.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 
-class ProfileFragment : Fragment(), ProfileView{
+class ProfileFragment : Fragment(), ProfileView {
 
     lateinit var mPresenter: ProfilePresenter
     lateinit var qrDialog: Dialog
     lateinit var editDialog: DialogFragment
     lateinit var mMomentAdapter: MomentAdapter
+
 
 
 
@@ -54,15 +63,15 @@ class ProfileFragment : Fragment(), ProfileView{
         setUpListeners()
         setUpRecyclerview()
 
-        mPresenter.onUiReady(requireContext(),requireActivity())
+        mPresenter.onUiReady(requireContext(), requireActivity())
     }
 
-    private fun setUpPresenter(){
+    private fun setUpPresenter() {
         mPresenter = ViewModelProvider(this)[ProfilePresenterImpl::class.java]
         mPresenter.initView(this)
     }
 
-    private fun setUpListeners(){
+    private fun setUpListeners() {
         ivProfileQr.setOnClickListener {
             mPresenter.onTapQr()
         }
@@ -73,16 +82,24 @@ class ProfileFragment : Fragment(), ProfileView{
 
     }
 
-    private fun setUpRecyclerview(){
+    private fun setUpRecyclerview() {
         mMomentAdapter = MomentAdapter(mPresenter)
         rvBookMarkMoment.adapter = mMomentAdapter
     }
 
-    override fun bindProfileData(name: String, phone: String, dob: String, gender: String, profile: String) {
+    override fun bindProfileData(
+        name: String,
+        phone: String,
+        dob: String,
+        gender: String,
+        profile: String
+    ) {
         tvProfileName.text = name
         tvProfilePhone.text = phone
         tvProfileDob.text = dob
         tvProfileGender.text = gender
+
+
 
         Glide.with(this)
             .load(profile)
@@ -92,8 +109,24 @@ class ProfileFragment : Fragment(), ProfileView{
     override fun showEditDialog(name: String, phone: String, dob: String, gender: String) {
 
 
-        EditDialogFragment().show(
-            childFragmentManager, EditDialogFragment.TAG)
+        selectedName = name
+        selectedPhone = phone
+        selectedGender = gender
+        val dobList = dob.split("/")
+        if (dobList.size == 3) {
+            selectedDay = dobList[0]
+            selectedMonth = dobList[1]
+            selectedYear = dobList[2]
+
+            val dialogFragment = EditDialogFragment()
+            dialogFragment.setDelegate(mPresenter)
+            dialogFragment.show(
+                childFragmentManager, EditDialogFragment.TAG
+            )
+
+        }
+
+
 
 
     }
@@ -124,7 +157,7 @@ class ProfileFragment : Fragment(), ProfileView{
     }
 
     override fun showErrorMessage(message: String) {
-        Snackbar.make(requireView(),message,Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
     }
 
 }

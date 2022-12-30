@@ -144,7 +144,7 @@
         android:textSize="@dimen/text_regular" />
 
     <RadioGroup
-        android:id="@+id/radioGroupGender"
+        android:id="@+id/radioEditGroupGender"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvEditGender"
@@ -183,16 +183,16 @@
         android:layout_height="45dp"
         android:layout_marginVertical="@dimen/margin_xlarge"
         android:layout_marginHorizontal="@dimen/margin_xxlarge"
-        android:layout_below="@id/radioGroupGender"
+        android:layout_below="@id/radioEditGroupGender"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnGreetingRegister"
+            android:id="@+id/btnEditCancel"
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_weight="1"
             android:background="@drawable/background_outline_button"
-            android:text="@string/lbl_sign_up"
+            android:text="@string/lbl_cancel"
             android:textAllCaps="false"
             android:textColor="@color/primary_color"
             android:textStyle="bold" />
@@ -202,12 +202,12 @@
             android:layout_height="wrap_content"/>
 
         <Button
-            android:id="@+id/btnGreetingLogin"
+            android:id="@+id/btnEditSave"
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_weight="1"
             android:background="@drawable/background_filled_button"
-            android:text="@string/lbl_login"
+            android:text="@string/lbl_save"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textStyle="bold" />

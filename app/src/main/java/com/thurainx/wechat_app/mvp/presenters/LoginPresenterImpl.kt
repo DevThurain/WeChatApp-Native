@@ -30,7 +30,7 @@ class LoginPresenterImpl : LoginPresenter, AbstractBasedPresenter<LoginView>() {
         mAuthModel.loginUser(phone, password, onSuccess = { id ->
             loginToFireStore(id, password, onSuccess = { name, _, dob, gender, profileImage ->
                 Log.d("id",id)
-                saveUserToDatastore(id, name, phone, dob, gender, profileImage)
+                saveUserToDatastore(id, name, phone, dob, gender, profileImage, password)
                 mView.navigateToNavigationScreen()
             }, onFailure = { message ->
                 mView.showErrorMessage(message)
@@ -51,7 +51,8 @@ class LoginPresenterImpl : LoginPresenter, AbstractBasedPresenter<LoginView>() {
         phone: String,
         dob: String,
         gender: String,
-        profileImage: String
+        profileImage: String,
+        password: String
     ) {
         dataStore?.writeToRxDatastore(FIRE_STORE_REF_ID, id)
         dataStore?.writeToRxDatastore(FIRE_STORE_REF_NAME, name)
@@ -59,6 +60,8 @@ class LoginPresenterImpl : LoginPresenter, AbstractBasedPresenter<LoginView>() {
         dataStore?.writeToRxDatastore(FIRE_STORE_REF_DOB, dob)
         dataStore?.writeToRxDatastore(FIRE_STORE_REF_GENDER, gender)
         dataStore?.writeToRxDatastore(FIRE_STORE_REF_PROFILE_IMAGE, profileImage)
+        dataStore?.writeToRxDatastore(FIRE_STORE_REF_PASSWORD, password)
+
     }
 
     private fun loginToFireStore(

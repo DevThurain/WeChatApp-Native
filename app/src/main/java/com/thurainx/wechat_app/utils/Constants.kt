@@ -16,6 +16,7 @@ const val FIRE_STORE_REF_PHONE = "phone"
 const val FIRE_STORE_REF_PASSWORD = "password"
 const val FIRE_STORE_REF_DOB = "dob"
 const val FIRE_STORE_REF_GENDER = "gender"
+
 const val FIRE_STORE_REF_PROFILE_IMAGE = "profileImage"
 const val FIRE_STORE_REF_TEXT = "text"
 const val FIRE_STORE_REF_PHOTO_LIST = "photoList"
