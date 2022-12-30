@@ -65,7 +65,7 @@
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/spEditDay"
         style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
-        android:layout_width="80dp"
+        android:layout_width="90dp"
         android:layout_height="50dp"
         android:layout_below="@id/tvEditDob"
         android:layout_marginStart="@dimen/margin_medium"
@@ -112,7 +112,7 @@
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/spEditYear"
         style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_below="@id/tvEditDob"
         android:layout_alignParentEnd="true"
