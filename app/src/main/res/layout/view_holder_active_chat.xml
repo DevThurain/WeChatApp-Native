@@ -49,16 +49,17 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvActiveChatLastText"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_alignStart="@id/tvActiveChatName"
             android:layout_below="@id/tvActiveChatName"
             android:text="You sent a video"
             android:layout_marginTop="@dimen/margin_medium"
-            android:maxLines="2"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textAlignment="textStart"
             android:textColor="@color/grey99"
             android:textSize="@dimen/text_regular"
-            android:gravity="center"
             />
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvActiveChatTime"

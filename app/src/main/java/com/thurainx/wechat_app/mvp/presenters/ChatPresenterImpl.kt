@@ -11,7 +11,7 @@ import com.thurainx.wechat_app.utils.DataStoreUtils.readQuick
 import com.thurainx.wechat_app.utils.DataStoreUtils.userDataStore
 import com.thurainx.wechat_app.utils.FIRE_STORE_REF_ID
 
-class ChatPresenterImpl: ChatPresenter, AbstractBasedPresenter<ChatView>() {
+class ChatPresenterImpl : ChatPresenter, AbstractBasedPresenter<ChatView>() {
 
     val mWeChatModel = WeChatModelImpl
     var dataStore: RxDataStore<Preferences>? = null
@@ -35,7 +35,7 @@ class ChatPresenterImpl: ChatPresenter, AbstractBasedPresenter<ChatView>() {
     }
 
 
-    private fun getContacts(id: String){
+    private fun getContacts(id: String) {
         mWeChatModel.getContacts(
             id = id,
             onSuccess = {
@@ -48,13 +48,13 @@ class ChatPresenterImpl: ChatPresenter, AbstractBasedPresenter<ChatView>() {
 
     }
 
-    private fun getLatestMessage(id: String){
+    private fun getLatestMessage(id: String) {
         mWeChatModel.getLastMessage(
             ownId = id,
             onSuccess = {
+                normalContactList.clear()
                 normalContactList = ArrayList(it)
-                normalContactList.addAll(groupContactList)
-                        mView.bindLastMessage(normalContactList)
+                mView.bindLastMessage(normalContactList.plus(groupContactList))
             },
             onFail = {
                 mView.showErrorMessage(it)
@@ -64,9 +64,9 @@ class ChatPresenterImpl: ChatPresenter, AbstractBasedPresenter<ChatView>() {
         mWeChatModel.getGroupLastMessage(
             ownId = id,
             onSuccess = {
+                groupContactList.clear()
                 groupContactList = ArrayList(it)
-                groupContactList.addAll(normalContactList)
-                mView.bindLastMessage(groupContactList)
+                mView.bindLastMessage(groupContactList.plus(normalContactList))
             },
             onFail = {
                 mView.showErrorMessage(it)
