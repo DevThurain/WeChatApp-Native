@@ -91,4 +91,9 @@ class ContactPresenterImpl : AbstractBasedPresenter<ContactView>(), ContactPrese
         )
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        mWeChatModel.removeGroupListListener(selfId = mId)
+    }
+
 }

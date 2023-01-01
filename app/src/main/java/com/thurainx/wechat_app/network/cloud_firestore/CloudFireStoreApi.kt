@@ -82,6 +82,7 @@ interface CloudFireStoreApi {
         onFailure: (String) -> Unit
     )
 
+
     fun updateUser(
         id: String,
         name: String,

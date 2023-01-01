@@ -156,5 +156,13 @@ interface WeChatModel {
 
     fun removeLatestMessageListener(ownId: String)
 
+    fun removeGroupListListener(selfId: String)
+
+    fun removeChatRoomListener(ownId: String,otherId: String)
+
+    fun removeGroupChatRoomListener(groupId: String)
+
+
+
 
 }

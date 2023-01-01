@@ -214,5 +214,17 @@ object WeChatModelImpl : WeChatModel {
         mRealTimeDatabaseApi.removeLatestMessageListener(ownId)
     }
 
+    override fun removeGroupListListener(selfId: String) {
+        mRealTimeDatabaseApi.removeGroupListListener(selfId)
+    }
+
+    override fun removeChatRoomListener(ownId: String, otherId: String) {
+        mRealTimeDatabaseApi.removeChatRoomListener(ownId, otherId)
+    }
+
+    override fun removeGroupChatRoomListener(groupId: String) {
+        mRealTimeDatabaseApi.removeGroupChatRoomListener(groupId)
+    }
+
 
 }

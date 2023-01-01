@@ -30,6 +30,9 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
 
     private var latestMessageListener: ValueEventListener? = null
     private var latestGroupMessageListener: ValueEventListener? = null
+    private var groupListListener: ValueEventListener? = null
+    private var chatRoomListener: ValueEventListener? = null
+    private var groupChatRoomListener: ValueEventListener? = null
 
 
     override fun addMessage(
@@ -80,7 +83,7 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
         onSuccess: (List<MessageVO>) -> Unit,
         onFail: (String) -> Unit
     ) {
-        database.child("contactsAndMessages")
+        chatRoomListener = database.child("contactsAndMessages")
             .child(ownId)
             .child(otherId)
             .child("messages")
@@ -105,6 +108,17 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
                     onSuccess(messageList)
                 }
             })
+    }
+
+    override fun removeChatRoomListener(ownId: String,otherId: String) {
+        if(chatRoomListener != null){
+            database.child("contactsAndMessages")
+                .child(ownId)
+                .child(otherId)
+                .child("messages").removeEventListener(chatRoomListener!!)
+
+            chatRoomListener = null
+        }
     }
 
     override fun getLastMessage(
@@ -299,7 +313,7 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
         onSuccess: (List<GroupVO>) -> Unit,
         onFail: (String) -> Unit
     ) {
-        database.child("groups")
+       groupListListener = database.child("groups")
             .addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
                     onFail(error.message)
@@ -324,12 +338,19 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
             })
     }
 
+    override fun removeGroupListListener(selfId: String) {
+       if(groupListListener != null){
+           database.child("groups").removeEventListener(groupListListener!!)
+           groupListListener = null
+       }
+    }
+
     override fun getGroupMessages(
         groupId: String,
         onSuccess: (List<MessageVO>) -> Unit,
         onFail: (String) -> Unit
     ) {
-        database.child("groups")
+        groupChatRoomListener = database.child("groups")
             .child(groupId)
             .child("messages")
             .addValueEventListener(object : ValueEventListener {
@@ -352,6 +373,16 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
                     onSuccess(messageList)
                 }
             })
+    }
+
+    override fun removeGroupChatRoomListener(groupId: String) {
+        if(groupChatRoomListener != null){
+            database.child("groups")
+                .child(groupId)
+                .child("messages").removeEventListener(groupChatRoomListener!!)
+
+            groupChatRoomListener = null
+        }
     }
 
     override fun addMessageToGroup(

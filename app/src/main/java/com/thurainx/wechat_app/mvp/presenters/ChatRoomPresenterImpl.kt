@@ -26,10 +26,12 @@ class ChatRoomPresenterImpl : ChatRoomPresenter, AbstractBasedPresenter<ChatRoom
     var mName: String = ""
     var mPhotoUrl: String = ""
     var mIsGroup: Boolean = false
+    var mOtherId: String = ""
 
     override fun onUiReadyWithId(context: Context, owner: LifecycleOwner, otherId: String, isGroup: Boolean) {
         dataStore = context.userDataStore
         mIsGroup = isGroup
+        mOtherId = otherId
 
         dataStore?.readQuick(FIRE_STORE_REF_ID) {
             mId = it
@@ -153,6 +155,15 @@ class ChatRoomPresenterImpl : ChatRoomPresenter, AbstractBasedPresenter<ChatRoom
             }, {
                 Log.d("rx", it.message.toString())
             })
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        if(mIsGroup){
+            mWeChatModel.removeGroupChatRoomListener(groupId = mOtherId)
+        }else{
+            mWeChatModel.removeChatRoomListener(ownId = mId, otherId = mOtherId)
+        }
     }
 
 

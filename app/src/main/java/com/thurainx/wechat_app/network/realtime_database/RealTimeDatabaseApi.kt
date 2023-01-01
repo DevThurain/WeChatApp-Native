@@ -25,20 +25,21 @@ interface RealTimeDatabaseApi {
         onFail: (String) -> Unit
     )
 
+    fun removeChatRoomListener(ownId: String,otherId: String)
+
     fun getLastMessage(
         ownId: String,
         onSuccess: (List<ContactVO>) -> Unit,
         onFail: (String) -> Unit
     )
 
-    fun removeLatestMessageListener(ownId: String)
-
-
     fun getGroupLastMessage(
         ownId: String,
         onSuccess: (List<ContactVO>) -> Unit,
         onFail: (String) -> Unit
     )
+
+    fun removeLatestMessageListener(ownId: String)
 
     fun createGroup(
         name: String,
@@ -54,11 +55,15 @@ interface RealTimeDatabaseApi {
         onFail: (String) -> Unit
     )
 
+    fun removeGroupListListener(selfId: String)
+
     fun getGroupMessages(
         groupId: String,
         onSuccess: (List<MessageVO>) -> Unit,
         onFail: (String) -> Unit
     )
+
+    fun removeGroupChatRoomListener(groupId: String)
 
     fun addMessageToGroup(
         groupId: String,
