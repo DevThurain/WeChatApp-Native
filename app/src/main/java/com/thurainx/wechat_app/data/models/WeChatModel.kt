@@ -1,6 +1,7 @@
 package com.thurainx.wechat_app.data.models
 
 import android.graphics.Bitmap
+import androidx.lifecycle.LiveData
 import com.thurainx.wechat_app.data.vos.*
 import com.thurainx.wechat_app.network.cloud_firestore.CloudFireStoreApi
 import com.thurainx.wechat_app.network.realtime_database.RealTimeDatabaseApi
@@ -35,7 +36,7 @@ interface WeChatModel {
     )
 
     fun uploadMoment(
-        text : String,
+        text: String,
         fileList: List<FileVO>,
         id: String,
         name: String,
@@ -153,6 +154,7 @@ interface WeChatModel {
         onFailure: (String) -> Unit
     )
 
+    fun removeLatestMessageListener(ownId: String)
 
 
 }

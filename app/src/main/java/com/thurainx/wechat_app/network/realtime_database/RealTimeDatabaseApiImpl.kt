@@ -4,6 +4,8 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build.VERSION_CODES.S
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -25,6 +27,9 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
     private val database: DatabaseReference = Firebase.database.reference
     private val storage = FirebaseStorage.getInstance()
     private val storageReference = storage.reference
+
+    private var latestMessageListener: ValueEventListener? = null
+    private var latestGroupMessageListener: ValueEventListener? = null
 
 
     override fun addMessage(
@@ -82,6 +87,7 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
             .addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
                     onFail(error.message)
+                    database.removeEventListener(this)
                 }
 
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -105,12 +111,14 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
         ownId: String,
         onSuccess: (List<ContactVO>) -> Unit,
         onFail: (String) -> Unit
-    ) {
-        database.child("contactsAndMessages")
+    ){
+//        val contactLiveData : MutableLiveData<List<ContactVO>> = MutableLiveData()
+
+         latestMessageListener = database.child("contactsAndMessages")
             .child(ownId)
-            .addValueEventListener(object : ValueEventListener {
+            .addValueEventListener(object : ValueEventListener{
                 override fun onCancelled(error: DatabaseError) {
-                    onFail(error.message)
+                    database.removeEventListener(this)
                 }
 
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -149,19 +157,38 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
 
                     }
                     onSuccess(contactList)
+//                    contactLiveData.postValue(contactList)
+
                 }
             })
+
+//        return contactLiveData
     }
+
+    override fun removeLatestMessageListener(ownId: String) {
+        Log.d("listener","remove listener $ownId")
+        if(latestMessageListener != null){
+            database.child("contactsAndMessages")
+                .child(ownId).removeEventListener(latestMessageListener!!)
+            latestMessageListener = null
+        }
+
+        if(latestGroupMessageListener != null){
+            database.child("groups").removeEventListener(latestGroupMessageListener!!)
+            latestGroupMessageListener = null
+        }
+    }
+
 
     override fun getGroupLastMessage(
         ownId: String,
         onSuccess: (List<ContactVO>) -> Unit,
         onFail: (String) -> Unit
     ) {
-        database.child("groups")
+       latestGroupMessageListener = database.child("groups")
             .addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
-                    onFail(error.message)
+                    database.removeEventListener(this)
                 }
 
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -240,7 +267,6 @@ object RealTimeDatabaseApiImpl : RealTimeDatabaseApi {
                             contactList.add(contact)
                         }
                     }
-
                     onSuccess(contactList)
                 }
             })

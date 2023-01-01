@@ -87,4 +87,7 @@ dependencies {
     // qr-scanner
     implementation("io.github.g00fy2.quickie:quickie-bundled:1.5.2")
 
+    //leaked canary
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
+
 }

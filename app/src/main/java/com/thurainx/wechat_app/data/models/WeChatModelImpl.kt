@@ -1,6 +1,7 @@
 package com.thurainx.wechat_app.data.models
 
 import android.graphics.Bitmap
+import androidx.lifecycle.LiveData
 import com.thurainx.wechat_app.data.vos.*
 import com.thurainx.wechat_app.network.cloud_firestore.CloudFireStoreApi
 import com.thurainx.wechat_app.network.cloud_firestore.CloudFireStoreApiImpl
@@ -207,6 +208,10 @@ object WeChatModelImpl : WeChatModel {
         onFailure: (String) -> Unit
     ) {
         mCloudFireStoreApi.updateUser(id, name, phone, password, dob, gender, profileImage,onSuccess, onFailure)
+    }
+
+    override fun removeLatestMessageListener(ownId: String) {
+        mRealTimeDatabaseApi.removeLatestMessageListener(ownId)
     }
 
 

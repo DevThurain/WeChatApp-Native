@@ -1,6 +1,7 @@
 package com.thurainx.wechat_app.network.realtime_database
 
 import android.graphics.Bitmap
+import androidx.lifecycle.LiveData
 import com.google.android.gms.tasks.OnFailureListener
 import com.thurainx.wechat_app.data.vos.ContactVO
 import com.thurainx.wechat_app.data.vos.FileVO
@@ -29,6 +30,9 @@ interface RealTimeDatabaseApi {
         onSuccess: (List<ContactVO>) -> Unit,
         onFail: (String) -> Unit
     )
+
+    fun removeLatestMessageListener(ownId: String)
+
 
     fun getGroupLastMessage(
         ownId: String,
